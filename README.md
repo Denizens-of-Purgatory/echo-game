@@ -4,14 +4,14 @@ This is the project repository for our 2D story-driven action platformer game. I
 
 ## Project Structure
 
-Project
-├── addons
-├── assets
-│   ├── gfx
-│   └── sfx
-├── obj
-│   └── levels
-└── src
+Project  
+├── addons  
+├── assets  
+│   ├── gfx  
+│   └── sfx  
+├── obj  
+│   └── levels  
+└── src  
 
 ### Assets
 

@@ -1,3 +1,46 @@
 [gd_scene format=3 uid="uid://c2uvpwdoqjqis"]
 
+[ext_resource type="PackedScene" uid="uid://0kumfvklghhg" path="res://obj/actors/test_hero.tscn" id="1_wg718"]
+[ext_resource type="Script" uid="uid://cfsionxyknd42" path="res://src/testing/render_child_collision.gd" id="2_q640r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wg718"]
+size = Vector2(1024, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q640r"]
+size = Vector2(184, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4q0k2"]
+size = Vector2(64, 144)
+
 [node name="Test" type="Node2D" unique_id=1407107177]
+
+[node name="Terrain" type="Node2D" parent="." unique_id=755884943]
+script = ExtResource("2_q640r")
+fill_color = Color(0.3020107, 0.40165856, 0.49168622, 1)
+
+[node name="Ground" type="StaticBody2D" parent="Terrain" unique_id=1863478030]
+position = Vector2(0, 160)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ground" unique_id=829966297]
+shape = SubResource("RectangleShape2D_wg718")
+debug_color = Color(3.5616756e-06, 0.5948607, 0.73052585, 0.41960785)
+
+[node name="Ground2" type="StaticBody2D" parent="Terrain" unique_id=1409945089]
+position = Vector2(224, 112)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ground2" unique_id=775876754]
+position = Vector2(-4, -8)
+shape = SubResource("RectangleShape2D_q640r")
+debug_color = Color(3.5616756e-06, 0.5948607, 0.73052585, 0.41960785)
+
+[node name="Wall" type="StaticBody2D" parent="Terrain" unique_id=653149506]
+position = Vector2(-472, 112)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Wall" unique_id=1746511863]
+position = Vector2(-8, -56)
+shape = SubResource("RectangleShape2D_4q0k2")
+debug_color = Color(3.5616756e-06, 0.5948607, 0.73052585, 0.41960785)
+
+[node name="Camera" type="Camera2D" parent="." unique_id=1127553788]
+
+[node name="Hero" parent="." unique_id=1140576921 instance=ExtResource("1_wg718")]
