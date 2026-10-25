@@ -4,7 +4,7 @@ extends Node
 
 @export var fill_color: Color = Color.WHITE
 @export var outline_color: Color = Color.BLACK
-@export var outline_thickness: float = 1.0
+@export var outline_thickness: float = 2
 
 var collision_shapes: Array[CollisionShape2D] = []
 var _collision_shapes_dirty: bool = true
