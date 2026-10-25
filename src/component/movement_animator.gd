@@ -10,6 +10,9 @@ extends Node
 @export var anim_idle: StringName = "Idle"
 @export var anim_run: StringName = "Run"
 @export var anim_trans_run_idle: StringName = "RunToIdle"
+@export var anim_jump_rise: StringName = "JumpRise"
+@export var anim_fall: StringName = "JumpMid"
+@export var anim_trans_fall_idle: StringName = "Land"
 
 var _anim_locked: bool = false
 
@@ -22,20 +25,32 @@ func _process(_delta: float) -> void:
 	
 	# flip the sprite horizontally based on input
 	if auto_flip:
-		if movement.move_vector.x < 0 && actor.linear_velocity.x < 0:
-			sprite.scale.x = -absf(sprite.scale.x)
-		elif movement.move_vector.x > 0 && actor.linear_velocity.x > 0:
-			sprite.scale.x = absf(sprite.scale.x)
+		if movement.move_vector.x < 0:
+			if not _anim_locked or actor.linear_velocity.x < 0:
+				sprite.scale.x = -absf(sprite.scale.x)
+		elif movement.move_vector.x > 0:
+			if not _anim_locked or actor.linear_velocity.x > 0:
+				sprite.scale.x = absf(sprite.scale.x)
 	
 	# play ground movement animations
-	if ground_detection && ground_detection.is_on_ground():
-		var speed_threshold := movement.max_speed * 0.25
-		if absf(movement.move_vector.x) > 0.25:
-			play_anim(anim_run)
-		elif absf(actor.linear_velocity.x) > speed_threshold:
-			play_anim(anim_trans_run_idle, true)
+	if ground_detection.is_on_ground():
+		if sprite.animation == anim_fall:
+			play_anim(anim_trans_fall_idle, true)
 		else:
-			play_anim(anim_idle)
+			var speed_threshold := movement.max_speed * 0.25
+			if absf(movement.move_vector.x) > 0.25:
+				play_anim(anim_run)
+			elif absf(actor.linear_velocity.x) > speed_threshold:
+				play_anim(anim_trans_run_idle, true)
+			else:
+				play_anim(anim_idle)
+	
+	# play air movement animations
+	else:
+		if absf(actor.linear_velocity.y < 0):
+			play_anim(anim_jump_rise)
+		else:
+			play_anim(anim_fall)
 
 func _on_anim_finish():
 	_anim_locked = false

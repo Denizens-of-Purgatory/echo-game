@@ -26,7 +26,7 @@ shape = SubResource("RectangleShape2D_wg718")
 debug_color = Color(3.5616756e-06, 0.5948607, 0.73052585, 0.41960785)
 
 [node name="Ground2" type="StaticBody2D" parent="Terrain" unique_id=1409945089]
-position = Vector2(224, 112)
+position = Vector2(288, 112)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Ground2" unique_id=775876754]
 position = Vector2(-4, -8)
@@ -34,7 +34,7 @@ shape = SubResource("RectangleShape2D_q640r")
 debug_color = Color(3.5616756e-06, 0.5948607, 0.73052585, 0.41960785)
 
 [node name="Wall" type="StaticBody2D" parent="Terrain" unique_id=653149506]
-position = Vector2(-472, 112)
+position = Vector2(-280, 112)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Wall" unique_id=1746511863]
 position = Vector2(-8, -56)

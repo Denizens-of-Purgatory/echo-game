@@ -1348,7 +1348,7 @@ animations = [{
 "speed": 15.0
 }, {
 "frames": [{
-"duration": 1.4285715,
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_t7ydn")
 }, {
 "duration": 1.0,
@@ -1678,7 +1678,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wscom")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"Land",
 "speed": 10.0
 }, {
@@ -2046,7 +2046,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"Sprint",
-"speed": 13.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2229,7 +2229,7 @@ debug_color = Color(0.861832, 0.00065092026, 0.87249124, 0.41960785)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=124769676]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_6s3e5")
-animation = &"RunToIdle"
+animation = &"Land"
 offset = Vector2(0, -18)
 metadata/_aseprite_wizard_interface_config_ = {
 "animation_section": false,
