@@ -27,7 +27,7 @@ Project
 
 ### Source Code
 
-- `src` all source code files should live in appropriate subfolders of this directory. This includes, godot scripts and shader code
+- `src` all source code files live in appropriate subfolders of this directory. This includes godot scripts and shader code
 
 ## Credit
 
