@@ -12,12 +12,20 @@ config_version=5
 
 config/name="echo-game"
 config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://assets/gfx/icon.svg"
+
+[autoload]
+
+Game="*uid://biq60ms5kjcl1"
 
 [display]
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg")
 
 [physics]
 
