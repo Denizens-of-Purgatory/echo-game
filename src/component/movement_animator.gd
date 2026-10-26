@@ -24,20 +24,18 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	
 	# flip the sprite horizontally based on input
-	if auto_flip:
+	if auto_flip and not _anim_locked:
 		if movement.move_vector.x < 0:
-			if not _anim_locked or actor.linear_velocity.x < 0:
-				sprite.scale.x = -absf(sprite.scale.x)
+			sprite.scale.x = -absf(sprite.scale.x)
 		elif movement.move_vector.x > 0:
-			if not _anim_locked or actor.linear_velocity.x > 0:
-				sprite.scale.x = absf(sprite.scale.x)
+			sprite.scale.x = absf(sprite.scale.x)
 	
 	# play ground movement animations
 	if ground_detection.is_on_ground():
 		if sprite.animation == anim_fall:
 			play_anim(anim_trans_fall_idle, true)
 		else:
-			var speed_threshold := movement.max_speed * 0.25
+			var speed_threshold := movement.max_speed * 0.85
 			if absf(movement.move_vector.x) > 0.25:
 				play_anim(anim_run)
 			elif absf(actor.linear_velocity.x) > speed_threshold:
