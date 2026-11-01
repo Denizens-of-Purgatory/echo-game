@@ -2207,6 +2207,7 @@ metadata/_custom_type_script = "uid://qg13ywutd1oc"
 script = ExtResource("2_t8fna")
 actor = NodePath("..")
 ground_detection = NodePath("../GroundDetection")
+max_air_jumps = 2
 metadata/_custom_type_script = "uid://k0lbiimg07hk"
 
 [node name="GroundDetection" type="Node" parent="." unique_id=136229313 node_paths=PackedStringArray("actor")]
