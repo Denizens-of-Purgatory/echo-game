@@ -2,6 +2,7 @@ class_name InputController
 extends Node
 
 @export var movement: Movement = null
+@export var dash: Dash = null
 
 @export var control_moveRight: StringName = &"move_right"
 @export var control_moveLeft: StringName = &"move_left"
@@ -9,7 +10,9 @@ extends Node
 @export var control_moveUp: StringName = &"move_up"
 @export var control_jump: StringName = &"jump"
 @export var control_melee: StringName = &"melee"
+@export var control_dash: StringName = &"dash"
 
+var last_horizontal_facing_direction: float = 1
 var action_ids: Array[StringName] = []
 var action_pressed_map: Dictionary[StringName, bool] = {}
 
@@ -21,6 +24,7 @@ func _ready() -> void:
 		control_moveUp,
 		control_jump,
 		control_melee,
+		control_dash,
 	]
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -34,18 +38,28 @@ func _process(_delta: float) -> void:
 	if(movement == null): _find_movement()
 	
 	var move_input: Vector2 = Vector2.ZERO
-	if is_action_pressed(control_moveLeft):
-		move_input.x -= 1
-	if is_action_pressed(control_moveRight):
-		move_input.x += 1
-	if is_action_pressed(control_moveDown):
-		move_input.y += 1
-	if is_action_pressed(control_moveUp):
-		move_input.y -= 1
-	movement.move(move_input)
 	
-	if is_action_pressed(control_jump):
+	if not dash or not dash.is_dashing():
+		if is_action_pressed(control_moveLeft):
+			move_input.x -= 1
+		if is_action_pressed(control_moveRight):
+			move_input.x += 1
+		if is_action_pressed(control_moveDown):
+			move_input.y += 1
+		if is_action_pressed(control_moveUp):
+			move_input.y -= 1
+		movement.move(move_input)
+	
+	## store last input direction along the horizontal axis
+	if move_input.x < 0:
+		last_horizontal_facing_direction = -1
+	elif move_input.x > 0:
+		last_horizontal_facing_direction = 1
+	
+	if is_action_pressed(control_jump) and movement is GroundMovement:
 		movement.jump()
+	if dash != null and is_action_pressed(control_dash):
+		dash.dash(last_horizontal_facing_direction)
 
 func _find_movement() -> void:
 	print("getting ground movement for controller..")
