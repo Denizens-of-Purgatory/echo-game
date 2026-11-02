@@ -1,5 +1,7 @@
 # Echo Purgatory Game Project
 
+[**Play the Web Version Here**](https://denizens-of-purgatory.github.io/echo-game/)
+
 This is the project repository for our 2D story-driven action platformer game. It follows the journey of our main protagonist trying to escape a dimension of purgatory while resisting a dark curse in the form of a parasitic plant taking over their body.
 
 ## Project Structure
