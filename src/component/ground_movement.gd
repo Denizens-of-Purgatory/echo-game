@@ -88,7 +88,7 @@ var _ground_friction_applied: bool = false
 #### ------------------- GETTERS/SETTERS ---------------------------------------
 
 func is_moving() -> bool: return absf(move_vector.x) >= 0.1
-
+#
 #### ------------------- SIGNAL RECEIVERS --------------------------------------
 
 func _ready() -> void:
@@ -316,6 +316,7 @@ func move(move_dir: Vector2, clamp_to_one: bool = true) -> void:
 		if move_dir.y > 0 and ground_detection.has_ground_contact():
 			dropthrough.drop_collision()
 	move_horizontal(move_dir.x, clamp_to_one)
+	move_vector.y = move_dir.y
 
 ## move the player in the specified direction. A move_dir of 1 is right, left 
 ## is -1. Absolute value less than 1 will move the actor slower than their 

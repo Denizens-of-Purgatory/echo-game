@@ -4,7 +4,7 @@ extends Node
 ## Returns the first Movement child of the specified parent, or null if none 
 ## found. Does not search nested children
 static func get_from(parent: Node) -> Movement:
-	if parent is Actor: return parent.movement
+	if parent is Actor: return parent.movement[0]
 	for child in parent.get_children():
 		if child is Movement:
 			return child as Movement

@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://0kumfvklghhg" path="res://obj/actors/test_hero.tscn" id="1_wg718"]
 [ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="2_4q0k2"]
 [ext_resource type="Script" uid="uid://csljil2xk7thc" path="res://src/level/ladder.gd" id="3_4q0k2"]
+[ext_resource type="Script" uid="uid://e1f3cpdd4m3s" path="res://src/component/camera_follow.gd" id="3_07uws"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wg718"]
 size = Vector2(1024, 64)
@@ -142,6 +143,12 @@ shape = SubResource("RectangleShape2D_ayf5q")
 debug_color = Color(0.39899087, 0.37668952, 0.07582962, 0.41960785)
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1127553788]
+
+[node name="CameraFollow" type="Node" parent="Camera" unique_id=432718089 node_paths=PackedStringArray("camera", "target")]
+script = ExtResource("3_07uws")
+camera = NodePath("..")
+target = NodePath("../../Hero")
+metadata/_custom_type_script = "uid://e1f3cpdd4m3s"
 
 [node name="Hero" parent="." unique_id=1140576921 instance=ExtResource("1_wg718")]
 position = Vector2(-64, 64)
