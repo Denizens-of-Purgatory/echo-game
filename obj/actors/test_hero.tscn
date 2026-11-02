@@ -2240,13 +2240,14 @@ actor = NodePath("..")
 movement = NodePath("../GroundMovement")
 metadata/_custom_type_script = "uid://nefanyx8s75e"
 
-[node name="MovementAnimator" type="Node" parent="." unique_id=1727272655 node_paths=PackedStringArray("actor", "sprite", "input_controller", "movement", "ground_detection", "dash")]
+[node name="MovementAnimator" type="Node" parent="." unique_id=1727272655 node_paths=PackedStringArray("actor", "sprite", "input_controller", "movement", "ground_detection", "ladder_user", "dash")]
 script = ExtResource("5_1423e")
 actor = NodePath("..")
 sprite = NodePath("../AnimatedSprite2D")
 input_controller = NodePath("../InputController")
 movement = NodePath("../GroundMovement")
 ground_detection = NodePath("../GroundDetection")
+ladder_user = NodePath("../LadderUser")
 dash = NodePath("../Dash")
 metadata/_custom_type_script = "uid://n7kixcd52vn7"
 
@@ -2276,7 +2277,7 @@ debug_color = Color(0.861832, 0.00065092026, 0.87249124, 0.41960785)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=124769676]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_kxeyb")
-animation = &"ClimbIdle"
+animation = &"FrontFlip"
 offset = Vector2(0, -18)
 metadata/_aseprite_wizard_interface_config_ = {
 "animation_section": false,

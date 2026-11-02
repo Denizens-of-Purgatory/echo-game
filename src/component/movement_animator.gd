@@ -6,6 +6,7 @@ extends Node
 @export var input_controller: InputController = null
 @export var movement: Movement = null
 @export var ground_detection: GroundDetection = null
+@export var ladder_user: LadderUser = null
 @export var dash: Dash = null
 
 @export var auto_flip: bool = true
@@ -17,6 +18,8 @@ extends Node
 @export var anim_trans_fall_idle: StringName = "Land"
 @export var anim_dash_end: StringName = "DashEnd"
 @export var anim_dash_loop: StringName = "DashLoop"
+@export var anim_climb_idle: StringName = "ClimbIdle"
+@export var anim_climbing: StringName = "LadderClimb"
 
 var _anim_locked: bool = false
 
@@ -40,8 +43,15 @@ func _process(_delta: float) -> void:
 		elif horizontal_orientation > 0:
 			sprite.scale.x = absf(sprite.scale.x)
 	
-	if dash.is_dashing():
+	if dash and dash.is_dashing():
 		play_anim(anim_dash_loop, false, true)
+		return
+	
+	if ladder_user and ladder_user.is_climbing():
+		if absf(ladder_user._climb_dir) < 0.1:
+			play_anim(anim_climb_idle)
+		else:
+			play_anim(anim_climbing)
 		return
 	
 	# play ground movement animations
