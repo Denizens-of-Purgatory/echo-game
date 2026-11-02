@@ -3,6 +3,7 @@ extends Node
 
 @export var movement: Movement = null
 @export var dash: Dash = null
+@export var ladder_user: LadderUser = null
 
 @export var control_moveRight: StringName = &"move_right"
 @export var control_moveLeft: StringName = &"move_left"

@@ -24,6 +24,9 @@ enum SlopeSlipResistMode {
 ## component to detect whether actor is on ground or not
 @export var ground_detection: GroundDetection = null
 
+## component that grants the ability to climb ladders which affects movement
+@export var ladder_user: LadderUser = null
+
 ## component that grants an actor the dash ability which can affect movement
 @export var dash: Dash = null
 
@@ -159,11 +162,16 @@ func _actor_integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 #### ------------------- PRIVATE IMPLEMENTATION --------------------------------
 
 func _handle_jump_state(state: PhysicsDirectBodyState2D) -> void:
-	# make actor jump if jump input received and on ground
-	if ground_detection.is_on_ground() or (_air_jumps_used < max_air_jumps and is_falling(state)):
+	# make actor jump if jump input received and on ground (or climbing)
+	if (
+		(ground_detection.is_on_ground() or (ladder_user and ladder_user.is_climbing())) or 
+		(_air_jumps_used < max_air_jumps and is_falling(state))
+	):
 		if (_is_jumping && !_was_jumping) or _jump_queued:
-			if not ground_detection.is_on_ground():
+			if not (ground_detection.is_on_ground() or (ladder_user and ladder_user.is_climbing())):
 				_air_jumps_used += 1
+			if ladder_user and ladder_user.is_climbing():
+				ladder_user.stop_climbing()
 			_handle_jump(state)
 	elif _is_jumping:
 		_handle_jump_sustain(state)
@@ -298,6 +306,8 @@ func _apply_ground_friction(state: PhysicsDirectBodyState2D) -> void:
 #### ------------------- PUBLIC IMPLEMENTATION ---------------------------------
 
 func move(move_dir: Vector2, clamp_to_one: bool = true) -> void:
+	if ladder_user:
+		ladder_user.climb(move_dir.y)
 	move_horizontal(move_dir.x, clamp_to_one)
 
 ## move the player in the specified direction. A move_dir of 1 is right, left 
