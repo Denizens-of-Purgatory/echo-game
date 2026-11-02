@@ -10,11 +10,14 @@ size = Vector2(1024, 64)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q640r"]
 size = Vector2(88, 48)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dasvw"]
+size = Vector2(32, 368)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3i6cy"]
-size = Vector2(40, 232)
+size = Vector2(32, 512)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4q0k2"]
-size = Vector2(64, 144)
+size = Vector2(72, 144)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ta6hp"]
 size = Vector2(168, 40)
@@ -54,12 +57,17 @@ shape = SubResource("RectangleShape2D_q640r")
 debug_color = Color(3.5616756e-06, 0.5948607, 0.73052585, 0.41960785)
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="Terrain/Ground" unique_id=725610582]
-position = Vector2(300, -148)
+position = Vector2(-296, -360)
+shape = SubResource("RectangleShape2D_dasvw")
+debug_color = Color(3.5616756e-06, 0.5948607, 0.73052585, 0.41960785)
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Terrain/Ground" unique_id=1849446304]
+position = Vector2(296, -288)
 shape = SubResource("RectangleShape2D_3i6cy")
 debug_color = Color(3.5616756e-06, 0.5948607, 0.73052585, 0.41960785)
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="Terrain/Ground" unique_id=1746511863]
-position = Vector2(-288, -104)
+position = Vector2(-292, -104)
 shape = SubResource("RectangleShape2D_4q0k2")
 debug_color = Color(3.5616756e-06, 0.5948607, 0.73052585, 0.41960785)
 
@@ -87,7 +95,7 @@ fill_color = Color(0.47160023, 0.33184403, 0.23294911, 1)
 metadata/_custom_type_script = "uid://bnkw38y6lklqh"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/Platform" unique_id=1074562559]
-position = Vector2(-208, 56)
+position = Vector2(-208, 64)
 shape = SubResource("RectangleShape2D_07uws")
 one_way_collision = true
 debug_color = Color(0.60043633, 0.37415928, 4.813075e-07, 0.41960785)

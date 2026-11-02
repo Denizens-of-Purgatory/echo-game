@@ -93,7 +93,7 @@ dash={
 [physics]
 
 3d/physics_engine="Jolt Physics"
-2d/default_gravity=2000.0
+2d/default_gravity=1000.0
 common/physics_interpolation=true
 
 [rendering]
