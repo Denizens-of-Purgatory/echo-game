@@ -59,7 +59,9 @@ func _process(_delta: float) -> void:
 	
 	if is_action_pressed(control_jump) and movement is GroundMovement:
 		movement.jump()
-	if dash != null and is_action_pressed(control_dash):
+	if dash and is_action_pressed(control_dash):
+		if ladder_user and ladder_user.is_climbing():
+			ladder_user.stop_climbing()
 		dash.dash(last_horizontal_facing_direction)
 
 func _find_movement() -> void:
