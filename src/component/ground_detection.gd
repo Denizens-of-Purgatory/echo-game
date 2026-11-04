@@ -107,7 +107,7 @@ func _handle_ground_detection(state: PhysicsDirectBodyState2D) -> void:
 	var contact_ct := state.get_contact_count()
 	_ground_collider = null
 	for i in range(0, contact_ct):
-		var obj: CollisionObject2D = state.get_contact_collider_object(i)
+		var obj: Object = state.get_contact_collider_object(i)
 		if obj is CollisionObject2D:
 			var col_intersect: int = actor.collision_mask & obj.collision_layer
 			if col_intersect == 0:
