@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://0kumfvklghhg"]
 
 [ext_resource type="Script" uid="uid://5x2nutm2sa1c" path="res://src/actor/hero.gd" id="1_el60q"]
+[ext_resource type="Script" uid="uid://bld701r3fcq2d" path="res://src/component/health.gd" id="2_m1uvq"]
 [ext_resource type="Script" uid="uid://k0lbiimg07hk" path="res://src/component/ground_movement.gd" id="2_t8fna"]
 [ext_resource type="Script" uid="uid://8tidub3buupu" path="res://src/component/ground_detection.gd" id="3_pcbbo"]
 [ext_resource type="Script" uid="uid://qg13ywutd1oc" path="res://src/component/input_controller.gd" id="4_4c2rd"]
@@ -8,6 +9,7 @@
 [ext_resource type="Script" uid="uid://nefanyx8s75e" path="res://src/component/dash.gd" id="6_vjaxa"]
 [ext_resource type="Script" uid="uid://dsdbxyhccf5fo" path="res://src/component/ladder_user.gd" id="7_46d1e"]
 [ext_resource type="Script" uid="uid://bkiex56ji6k26" path="res://src/component/platform_dropthrough.gd" id="8_5qfj1"]
+[ext_resource type="Script" uid="uid://7kmhc7hktvem" path="res://src/component/death.gd" id="10_cslia"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vjaxa"]
 size = Vector2(8, 42)
@@ -2207,6 +2209,17 @@ script = ExtResource("1_el60q")
 movement = [NodePath("GroundMovement")]
 metadata/_custom_type_script = "uid://5x2nutm2sa1c"
 
+[node name="Health" type="Node" parent="." unique_id=1107911229 node_paths=PackedStringArray("actor", "death")]
+script = ExtResource("2_m1uvq")
+actor = NodePath("..")
+death = NodePath("../Death")
+metadata/_custom_type_script = "uid://bld701r3fcq2d"
+
+[node name="Death" type="Node" parent="." unique_id=1139475934 node_paths=PackedStringArray("actor")]
+script = ExtResource("10_cslia")
+actor = NodePath("..")
+metadata/_custom_type_script = "uid://7kmhc7hktvem"
+
 [node name="InputController" type="Node" parent="." unique_id=134669693 node_paths=PackedStringArray("movement", "dash", "ladder_user")]
 script = ExtResource("4_4c2rd")
 movement = NodePath("../GroundMovement")
@@ -2314,3 +2327,6 @@ metadata/_aseprite_wizard_config_ = {
 "source_uid": 2775207487902266939
 }
 metadata/_aseprite_wizard_source_file_hash_ = "5711bda3b2825fb77d9e20bc8e9e6981"
+
+[connection signal="on_die" from="Death" to="." method="_on_die"]
+[connection signal="on_revive" from="Death" to="." method="_on_revive"]
