@@ -48,8 +48,8 @@ metadata/_custom_type_script = "uid://cm1r4ivm1k0tp"
 script = ExtResource("5_pptw8")
 actor = NodePath("..")
 ground_detection = NodePath("../GroundDetection")
-max_speed = 150.0
-acceleration_factor = 2.0
+max_speed = 100.0
+acceleration_factor = 3.0
 metadata/_custom_type_script = "uid://k0lbiimg07hk"
 
 [node name="GroundDetection" type="Node" parent="." unique_id=1458548156 node_paths=PackedStringArray("actor")]

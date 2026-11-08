@@ -1597,7 +1597,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"Knockback",
-"speed": 7.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2310,7 +2310,8 @@ debug_color = Color(0.861832, 0.00065092026, 0.87249124, 0.41960785)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=124769676]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_kxeyb")
-animation = &"Idle"
+animation = &"Knockback"
+frame_progress = 0.596034
 offset = Vector2(0, -18)
 metadata/_aseprite_wizard_interface_config_ = {
 "animation_section": false,
@@ -2339,3 +2340,4 @@ metadata/_aseprite_wizard_source_file_hash_ = "5711bda3b2825fb77d9e20bc8e9e6981"
 [connection signal="on_die" from="Death" to="." method="_on_die"]
 [connection signal="on_revive" from="Death" to="." method="_on_revive"]
 [connection signal="on_damaged" from="Damageable" to="Health" method="_on_damage_recieved"]
+[connection signal="on_damaged" from="Damageable" to="MovementAnimator" method="play_anim" unbinds=1 binds= [&"Knockback", true, true]]
