@@ -22,11 +22,13 @@ var health: float:
 		elif not _health_depleted and value <= 0:
 			_health_depleted = true
 			on_health_depleted.emit()
+			if death: death.die()
 		_health = clampf(value, 0, max_health)
 
-func _ready():
-	if death: 
-		on_health_depleted.connect(death.die)
+func _ready() -> void:
 	if fill_health:
 		fill_health = false
 		health = max_health
+
+func _on_damage_recieved(damage: float) -> void:
+	health -= damage

@@ -2222,8 +2222,9 @@ script = ExtResource("10_cslia")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://7kmhc7hktvem"
 
-[node name="Damageable" type="Node" parent="." unique_id=1709918542 node_paths=PackedStringArray("death")]
+[node name="Damageable" type="Node" parent="." unique_id=1709918542 node_paths=PackedStringArray("actor", "death")]
 script = ExtResource("4_fnujx")
+actor = NodePath("..")
 death = NodePath("../Death")
 metadata/_custom_type_script = "uid://e1fyl8sa5y8g"
 
@@ -2337,3 +2338,4 @@ metadata/_aseprite_wizard_source_file_hash_ = "5711bda3b2825fb77d9e20bc8e9e6981"
 
 [connection signal="on_die" from="Death" to="." method="_on_die"]
 [connection signal="on_revive" from="Death" to="." method="_on_revive"]
+[connection signal="on_damaged" from="Damageable" to="Health" method="_on_damage_recieved"]

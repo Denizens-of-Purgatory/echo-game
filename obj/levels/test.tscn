@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="2_4q0k2"]
 [ext_resource type="Script" uid="uid://csljil2xk7thc" path="res://src/level/ladder.gd" id="3_4q0k2"]
 [ext_resource type="Script" uid="uid://e1f3cpdd4m3s" path="res://src/component/camera_follow.gd" id="3_07uws"]
+[ext_resource type="PackedScene" uid="uid://bopgqfppcaj0o" path="res://obj/actors/crawler.tscn" id="5_3i6cy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wg718"]
 size = Vector2(1024, 64)
@@ -152,3 +153,6 @@ metadata/_custom_type_script = "uid://e1f3cpdd4m3s"
 
 [node name="Hero" parent="." unique_id=1140576921 instance=ExtResource("1_wg718")]
 position = Vector2(-64, 64)
+
+[node name="Crawler" parent="." unique_id=1410108048 instance=ExtResource("5_3i6cy")]
+position = Vector2(32, -112)
