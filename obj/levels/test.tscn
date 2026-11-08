@@ -155,4 +155,4 @@ metadata/_custom_type_script = "uid://e1f3cpdd4m3s"
 position = Vector2(-64, 64)
 
 [node name="Crawler" parent="." unique_id=1410108048 instance=ExtResource("5_3i6cy")]
-position = Vector2(32, -112)
+position = Vector2(64, -112)

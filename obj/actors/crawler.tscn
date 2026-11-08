@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://k0lbiimg07hk" path="res://src/component/ground_movement.gd" id="5_pptw8"]
 [ext_resource type="Script" uid="uid://8tidub3buupu" path="res://src/component/ground_detection.gd" id="6_pxnr3"]
 [ext_resource type="Script" uid="uid://bdhislghpkh3c" path="res://src/component/contact_damage.gd" id="7_lqddd"]
+[ext_resource type="Script" uid="uid://cm1r4ivm1k0tp" path="res://src/component/simple_patrol.gd" id="8_aqwts"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5vl63"]
 radius = 8.0
@@ -37,10 +38,18 @@ script = ExtResource("4_hrqb5")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://7kmhc7hktvem"
 
+[node name="SimplePatrol" type="Node" parent="." unique_id=308471546 node_paths=PackedStringArray("actor", "movement")]
+script = ExtResource("8_aqwts")
+actor = NodePath("..")
+movement = NodePath("../GroundMovement")
+metadata/_custom_type_script = "uid://cm1r4ivm1k0tp"
+
 [node name="GroundMovement" type="Node" parent="." unique_id=1476095968 node_paths=PackedStringArray("actor", "ground_detection")]
 script = ExtResource("5_pptw8")
 actor = NodePath("..")
 ground_detection = NodePath("../GroundDetection")
+max_speed = 150.0
+acceleration_factor = 2.0
 metadata/_custom_type_script = "uid://k0lbiimg07hk"
 
 [node name="GroundDetection" type="Node" parent="." unique_id=1458548156 node_paths=PackedStringArray("actor")]

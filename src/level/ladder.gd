@@ -7,6 +7,17 @@ static func find(root: Node) -> Ladder:
 			return child
 	return null
 
+static func calc_minmax(collision_obj: CollisionObject2D) -> Array[Vector2]:
+	var minp: Vector2 = Vector2(INF, INF)
+	var maxp: Vector2 = Vector2(-INF, -INF)
+	for child in collision_obj.get_children():
+		if child is CollisionShape2D and child.shape:
+			var col := child as CollisionShape2D
+			var rect: Rect2 = col.transform * col.shape.get_rect()
+			minp = minp.min(rect.position)
+			maxp = maxp.max(rect.end)
+	return [minp, maxp]
+
 @export var parent: Area2D = null
 
 ## reference all the colliders here that should be ignored while the ladder is 
@@ -17,12 +28,9 @@ var _min_pos: Vector2 = Vector2(INF, INF)
 var _max_pos: Vector2 = Vector2(-INF, -INF)
 
 func _ready() -> void:
-	for child in parent.get_children():
-		if child is CollisionShape2D and child.shape:
-			var col := child as CollisionShape2D
-			var rect: Rect2 = col.transform * col.shape.get_rect()
-			_min_pos = _min_pos.min(rect.position)
-			_max_pos = _max_pos.max(rect.end)
+	var minmax := calc_minmax(parent)
+	_min_pos = minmax[0]
+	_max_pos = minmax[1]
 
 ## The y value of the top of the ladder
 func top_y() -> float:
