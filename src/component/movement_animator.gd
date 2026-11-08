@@ -5,6 +5,7 @@ extends Node
 @export var sprite: AnimatedSprite2D = null
 @export var input_controller: InputController = null
 @export var movement: Movement = null
+@export var stun: Stun = null
 @export var ground_detection: GroundDetection = null
 @export var ladder_user: LadderUser = null
 @export var dash: Dash = null
@@ -30,6 +31,9 @@ func _ready() -> void:
 	dash.on_dash_stop.connect(play_anim.bind(anim_dash_end, true, true))
 
 func _process(_delta: float) -> void:
+	
+	if stun and stun.is_stunned:
+		return
 	
 	# flip the sprite horizontally based on input
 	if auto_flip and not _anim_locked:

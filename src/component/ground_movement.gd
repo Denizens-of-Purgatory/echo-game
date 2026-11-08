@@ -24,6 +24,9 @@ enum SlopeSlipResistMode {
 ## component to detect whether actor is on ground or not
 @export var ground_detection: GroundDetection = null
 
+## component that allows the actor to be stunned
+@export var stun: Stun = null
+
 ## component which allows actor to drop through platform collisions
 @export var dropthrough: PlatformDropthrough = null
 
@@ -88,7 +91,7 @@ var _ground_friction_applied: bool = false
 #### ------------------- GETTERS/SETTERS ---------------------------------------
 
 func is_moving() -> bool: return absf(move_vector.x) >= 0.1
-#
+
 #### ------------------- SIGNAL RECEIVERS --------------------------------------
 
 func _ready() -> void:
@@ -138,7 +141,10 @@ func _reset_air_jumps() -> void:
 
 func _actor_integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if not _active: return
-#	
+	
+	if stun and stun.is_stunned:
+		move_vector = Vector2.ZERO
+
 	if ground_detection.is_on_ground():
 		if not ground_detection._was_on_ground:
 			_handle_ground_impact_velocity_correction(state)
