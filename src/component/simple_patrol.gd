@@ -108,5 +108,6 @@ func _physics_process(delta: float) -> void:
 	
 	movement.move_vector = Vector2(move_dir, 0)
 
-func stop_at_edge() -> void:
+func stop_at_edge(flip: bool = true) -> void:
+	if not flip: move_dir *= -1
 	_movement_wait = edge_pause_time
