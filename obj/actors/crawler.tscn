@@ -61,6 +61,7 @@ metadata/_custom_type_script = "uid://8tidub3buupu"
 script = ExtResource("7_lqddd")
 actor = NodePath("..")
 hitbox = NodePath("../Hitbox")
+damage = 10.0
 metadata/_custom_type_script = "uid://bdhislghpkh3c"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=324753429]

@@ -151,8 +151,8 @@ camera = NodePath("..")
 target = NodePath("../../Hero")
 metadata/_custom_type_script = "uid://e1f3cpdd4m3s"
 
-[node name="Hero" parent="." unique_id=1140576921 instance=ExtResource("1_wg718")]
-position = Vector2(-64, 64)
-
 [node name="Crawler" parent="." unique_id=1410108048 instance=ExtResource("5_3i6cy")]
 position = Vector2(64, -112)
+
+[node name="Hero" parent="." unique_id=1140576921 instance=ExtResource("1_wg718")]
+position = Vector2(-64, 64)
