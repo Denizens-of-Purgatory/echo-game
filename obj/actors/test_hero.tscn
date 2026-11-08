@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://k0lbiimg07hk" path="res://src/component/ground_movement.gd" id="2_t8fna"]
 [ext_resource type="Script" uid="uid://8tidub3buupu" path="res://src/component/ground_detection.gd" id="3_pcbbo"]
 [ext_resource type="Script" uid="uid://qg13ywutd1oc" path="res://src/component/input_controller.gd" id="4_4c2rd"]
+[ext_resource type="Script" uid="uid://e1fyl8sa5y8g" path="res://src/component/damageable.gd" id="4_fnujx"]
 [ext_resource type="Script" uid="uid://n7kixcd52vn7" path="res://src/component/movement_animator.gd" id="5_1423e"]
 [ext_resource type="Script" uid="uid://nefanyx8s75e" path="res://src/component/dash.gd" id="6_vjaxa"]
 [ext_resource type="Script" uid="uid://dsdbxyhccf5fo" path="res://src/component/ladder_user.gd" id="7_46d1e"]
@@ -2199,7 +2200,7 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="Hero" type="RigidBody2D" unique_id=1140576921 node_paths=PackedStringArray("movement")]
+[node name="Hero" type="RigidBody2D" unique_id=1140576921 node_paths=PackedStringArray("movement", "damageable")]
 physics_interpolation_mode = 1
 collision_layer = 8
 collision_mask = 7
@@ -2207,6 +2208,7 @@ can_sleep = false
 lock_rotation = true
 script = ExtResource("1_el60q")
 movement = [NodePath("GroundMovement")]
+damageable = NodePath("Damageable")
 metadata/_custom_type_script = "uid://5x2nutm2sa1c"
 
 [node name="Health" type="Node" parent="." unique_id=1107911229 node_paths=PackedStringArray("actor", "death")]
@@ -2219,6 +2221,11 @@ metadata/_custom_type_script = "uid://bld701r3fcq2d"
 script = ExtResource("10_cslia")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://7kmhc7hktvem"
+
+[node name="Damageable" type="Node" parent="." unique_id=1709918542 node_paths=PackedStringArray("death")]
+script = ExtResource("4_fnujx")
+death = NodePath("../Death")
+metadata/_custom_type_script = "uid://e1fyl8sa5y8g"
 
 [node name="InputController" type="Node" parent="." unique_id=134669693 node_paths=PackedStringArray("movement", "dash", "ladder_user")]
 script = ExtResource("4_4c2rd")
