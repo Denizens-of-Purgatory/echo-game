@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://qg13ywutd1oc" path="res://src/component/input_controller.gd" id="4_4c2rd"]
 [ext_resource type="Script" uid="uid://e1fyl8sa5y8g" path="res://src/component/damageable.gd" id="4_fnujx"]
 [ext_resource type="Script" uid="uid://n7kixcd52vn7" path="res://src/component/movement_animator.gd" id="5_1423e"]
+[ext_resource type="Script" uid="uid://dryu50g7kj4iq" path="res://src/component/stun.gd" id="6_mvchi"]
 [ext_resource type="Script" uid="uid://nefanyx8s75e" path="res://src/component/dash.gd" id="6_vjaxa"]
 [ext_resource type="Script" uid="uid://dsdbxyhccf5fo" path="res://src/component/ladder_user.gd" id="7_46d1e"]
 [ext_resource type="Script" uid="uid://bkiex56ji6k26" path="res://src/component/platform_dropthrough.gd" id="8_5qfj1"]
@@ -1595,7 +1596,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_d4brn")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"Knockback",
 "speed": 16.0
 }, {
@@ -2235,10 +2236,11 @@ dash = NodePath("../Dash")
 ladder_user = NodePath("../LadderUser")
 metadata/_custom_type_script = "uid://qg13ywutd1oc"
 
-[node name="GroundMovement" type="Node" parent="." unique_id=580192802 node_paths=PackedStringArray("actor", "ground_detection", "dropthrough", "ladder_user", "dash")]
+[node name="GroundMovement" type="Node" parent="." unique_id=580192802 node_paths=PackedStringArray("actor", "ground_detection", "stun", "dropthrough", "ladder_user", "dash")]
 script = ExtResource("2_t8fna")
 actor = NodePath("..")
 ground_detection = NodePath("../GroundDetection")
+stun = NodePath("../Stun")
 dropthrough = NodePath("../PlatformDropthrough")
 ladder_user = NodePath("../LadderUser")
 dash = NodePath("../Dash")
@@ -2246,6 +2248,10 @@ jump_power = 250.0
 jump_sustain = 0.6
 max_speed = 175.0
 metadata/_custom_type_script = "uid://k0lbiimg07hk"
+
+[node name="Stun" type="Node" parent="." unique_id=1238779527]
+script = ExtResource("6_mvchi")
+metadata/_custom_type_script = "uid://dryu50g7kj4iq"
 
 [node name="GroundDetection" type="Node" parent="." unique_id=136229313 node_paths=PackedStringArray("actor")]
 script = ExtResource("3_pcbbo")
@@ -2273,12 +2279,13 @@ actor = NodePath("..")
 movement = NodePath("../GroundMovement")
 metadata/_custom_type_script = "uid://nefanyx8s75e"
 
-[node name="MovementAnimator" type="Node" parent="." unique_id=1727272655 node_paths=PackedStringArray("actor", "sprite", "input_controller", "movement", "ground_detection", "ladder_user", "dash")]
+[node name="MovementAnimator" type="Node" parent="." unique_id=1727272655 node_paths=PackedStringArray("actor", "sprite", "input_controller", "movement", "stun", "ground_detection", "ladder_user", "dash")]
 script = ExtResource("5_1423e")
 actor = NodePath("..")
 sprite = NodePath("../AnimatedSprite2D")
 input_controller = NodePath("../InputController")
 movement = NodePath("../GroundMovement")
+stun = NodePath("../Stun")
 ground_detection = NodePath("../GroundDetection")
 ladder_user = NodePath("../LadderUser")
 dash = NodePath("../Dash")
@@ -2311,7 +2318,8 @@ debug_color = Color(0.861832, 0.00065092026, 0.87249124, 0.41960785)
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_kxeyb")
 animation = &"Knockback"
-frame_progress = 0.596034
+frame = 5
+frame_progress = 1.0
 offset = Vector2(0, -18)
 metadata/_aseprite_wizard_interface_config_ = {
 "animation_section": false,
@@ -2341,3 +2349,4 @@ metadata/_aseprite_wizard_source_file_hash_ = "5711bda3b2825fb77d9e20bc8e9e6981"
 [connection signal="on_revive" from="Death" to="." method="_on_revive"]
 [connection signal="on_damaged" from="Damageable" to="Health" method="_on_damage_recieved"]
 [connection signal="on_damaged" from="Damageable" to="MovementAnimator" method="play_anim" unbinds=1 binds= [&"Knockback", true, true]]
+[connection signal="on_damaged" from="Damageable" to="Stun" method="stun" unbinds=1 binds= [1.0]]
