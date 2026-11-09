@@ -30,13 +30,13 @@ func _ready() -> void:
 
 func _area_entered(area: Area2D) -> void:
 	if is_climbing(): return
-	var ladder := Ladder.find(area)
+	var ladder := Component.get_component(area, Ladder) as Ladder
 	if ladder:
 		_ladder_to_use = ladder
 
 func _area_exited(area: Area2D) -> void:
 	if is_climbing(): return
-	if _ladder_to_use and area == _ladder_to_use.parent:
+	if _ladder_to_use and area == _ladder_to_use.area:
 		_ladder_to_use = null
 
 func _overlapper_body_exited(other: Node2D) -> void:
@@ -67,14 +67,14 @@ func _actor_integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		_handle_climbing(state)
 
 func _handle_climbing(state: PhysicsDirectBodyState2D) -> void:
-	actor.global_position.x = _ladder_to_use.parent.global_position.x
+	actor.global_position.x = _ladder_to_use.area.global_position.x
 	var speed := movement.max_speed * climb_speed_multiplier
 	state.linear_velocity.x = 0
 	state.linear_velocity.y = _climb_dir * speed
 	
 	# stop climbing if no longer colliding with ladder
 	if _climb_dir < 0:
-		if _ladder_to_use.parent not in overlapper.get_overlapping_areas():
+		if _ladder_to_use.area not in overlapper.get_overlapping_areas():
 			state.linear_velocity.y = 0
 			stop_climbing()
 

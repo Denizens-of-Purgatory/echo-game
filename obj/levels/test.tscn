@@ -132,10 +132,10 @@ script = ExtResource("2_4q0k2")
 fill_color = Color(0.2645837, 0.24574038, 0.0936724, 1)
 metadata/_custom_type_script = "uid://bnkw38y6lklqh"
 
-[node name="Ladder" type="Node" parent="TerrainAreas/Ladder" unique_id=985811555 node_paths=PackedStringArray("parent", "ignore_colliders")]
+[node name="Ladder" type="Node" parent="TerrainAreas/Ladder" unique_id=985811555 node_paths=PackedStringArray("ignore_colliders", "_entity")]
 script = ExtResource("3_4q0k2")
-parent = NodePath("..")
 ignore_colliders = [NodePath("../../../Terrain/UpperFloor")]
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://csljil2xk7thc"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TerrainAreas/Ladder" unique_id=2040413092]
