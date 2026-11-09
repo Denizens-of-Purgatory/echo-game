@@ -139,4 +139,4 @@ func set_ungrounded() -> void:
 	_manual_unground = true
 	if is_on_ground():
 		on_ground_exit.emit()
-		_hang_time = max_coyote_time + 0.01
+		_hang_time = max_coyote_time + 0.001

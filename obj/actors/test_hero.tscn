@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://n7kixcd52vn7" path="res://src/component/movement_animator.gd" id="5_1423e"]
 [ext_resource type="Script" uid="uid://nefanyx8s75e" path="res://src/component/dash.gd" id="6_vjaxa"]
 [ext_resource type="Script" uid="uid://dsdbxyhccf5fo" path="res://src/component/ladder_user.gd" id="7_46d1e"]
+[ext_resource type="Script" uid="uid://bkiex56ji6k26" path="res://src/component/platform_dropthrough.gd" id="8_5qfj1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vjaxa"]
 size = Vector2(8, 42)
@@ -2200,6 +2201,7 @@ animations = [{
 physics_interpolation_mode = 1
 collision_layer = 8
 collision_mask = 7
+can_sleep = false
 lock_rotation = true
 script = ExtResource("1_el60q")
 movement = [NodePath("GroundMovement")]
@@ -2212,10 +2214,11 @@ dash = NodePath("../Dash")
 ladder_user = NodePath("../LadderUser")
 metadata/_custom_type_script = "uid://qg13ywutd1oc"
 
-[node name="GroundMovement" type="Node" parent="." unique_id=580192802 node_paths=PackedStringArray("actor", "ground_detection", "ladder_user", "dash")]
+[node name="GroundMovement" type="Node" parent="." unique_id=580192802 node_paths=PackedStringArray("actor", "ground_detection", "dropthrough", "ladder_user", "dash")]
 script = ExtResource("2_t8fna")
 actor = NodePath("..")
 ground_detection = NodePath("../GroundDetection")
+dropthrough = NodePath("../PlatformDropthrough")
 ladder_user = NodePath("../LadderUser")
 dash = NodePath("../Dash")
 jump_power = 250.0
@@ -2228,11 +2231,17 @@ script = ExtResource("3_pcbbo")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://8tidub3buupu"
 
+[node name="PlatformDropthrough" type="Node" parent="." unique_id=1217247399 node_paths=PackedStringArray("actor", "ground_detection")]
+script = ExtResource("8_5qfj1")
+actor = NodePath("..")
+ground_detection = NodePath("../GroundDetection")
+metadata/_custom_type_script = "uid://bkiex56ji6k26"
+
 [node name="LadderUser" type="Node" parent="." unique_id=1647737182 node_paths=PackedStringArray("actor", "detector", "overlapper", "movement", "ground_detection")]
 script = ExtResource("7_46d1e")
 actor = NodePath("..")
 detector = NodePath("../LadderDetector")
-overlapper = NodePath("../LadderOverlapper")
+overlapper = NodePath("../Overlapper")
 movement = NodePath("../GroundMovement")
 ground_detection = NodePath("../GroundDetection")
 metadata/_custom_type_script = "uid://dsdbxyhccf5fo"
@@ -2263,11 +2272,11 @@ position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_vjaxa")
 debug_color = Color(0.21599993, 0.54, 0, 0)
 
-[node name="LadderOverlapper" type="Area2D" parent="." unique_id=646439856]
+[node name="Overlapper" type="Area2D" parent="." unique_id=646439856]
 collision_layer = 0
 collision_mask = 5
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="LadderOverlapper" unique_id=890262133]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Overlapper" unique_id=890262133]
 position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_el60q")
 debug_color = Color(0.20799991, 0.52, 0, 0)

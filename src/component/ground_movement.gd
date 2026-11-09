@@ -24,6 +24,9 @@ enum SlopeSlipResistMode {
 ## component to detect whether actor is on ground or not
 @export var ground_detection: GroundDetection = null
 
+## component which allows actor to drop through platform collisions
+@export var dropthrough: PlatformDropthrough = null
+
 ## component that grants the ability to climb ladders which affects movement
 @export var ladder_user: LadderUser = null
 
@@ -135,7 +138,7 @@ func _reset_air_jumps() -> void:
 
 func _actor_integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if not _active: return
-	
+#	
 	if ground_detection.is_on_ground():
 		if not ground_detection._was_on_ground:
 			_handle_ground_impact_velocity_correction(state)
@@ -309,6 +312,9 @@ func _apply_ground_friction(state: PhysicsDirectBodyState2D) -> void:
 func move(move_dir: Vector2, clamp_to_one: bool = true) -> void:
 	if ladder_user:
 		ladder_user.climb(move_dir.y)
+	if dropthrough:
+		if move_dir.y > 0 and ground_detection.has_ground_contact():
+			dropthrough.drop_collision()
 	move_horizontal(move_dir.x, clamp_to_one)
 
 ## move the player in the specified direction. A move_dir of 1 is right, left 
