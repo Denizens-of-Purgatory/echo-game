@@ -1,7 +1,6 @@
 class_name CameraFollow
-extends Node
+extends Component
 
-@export var camera: Camera2D = null
 @export var target: Actor = null
 
 ## How quickly the camera pans from 0 to 1, where 1 is instant
@@ -17,10 +16,15 @@ var _fixed_timestep: float = 0
 var _movement: Movement = null
 var _last_move_dir: Vector2 = Vector2.ZERO
 
+var camera: Node2D:
+	get: return entity as Node2D
+
 func _ready() -> void:
+	assert(entity is Node2D)
+	
 	_prev_pos = target.global_position
 	_curr_pos = target.global_position
-	camera.global_position = _curr_pos
+	entity.global_position = _curr_pos
 
 func _physics_process(delta: float) -> void:
 	_fixed_timestep = delta
@@ -30,7 +34,7 @@ func _physics_process(delta: float) -> void:
 	
 func get_target_position() -> Vector2:
 	if not _movement:
-		_movement = Movement.get_from(target)
+		_movement = Component.get_component(target, Movement)
 	
 	var offset := Vector2.ZERO
 	if _movement:

@@ -18,24 +18,6 @@ enum SlopeSlipResistMode {
 	Always
 }
 
-## the actor that this script is controlling
-@export var actor: RigidbodyForceIntegrator = null
-
-## component to detect whether actor is on ground or not
-@export var ground_detection: GroundDetection = null
-
-## component that allows the actor to be stunned
-@export var stun: Stun = null
-
-## component which allows actor to drop through platform collisions
-@export var dropthrough: PlatformDropthrough = null
-
-## component that grants the ability to climb ladders which affects movement
-@export var ladder_user: LadderUser = null
-
-## component that grants an actor the dash ability which can affect movement
-@export var dash: Dash = null
-
 ## the axis that ground movement forces will be applied along, whether it will
 ## be perpendicular to the ground normal, or perpendicular to the actor gravity
 @export var move_axis: MoveAxis = MoveAxis.GroundNormal
@@ -71,6 +53,17 @@ enum SlopeSlipResistMode {
 ## jump, and so on
 @export var max_air_jumps: int = 1
 
+## component to detect whether actor is on ground or not
+var ground_detection: GroundDetection = null
+## component that allows the actor to be stunned
+var stun: Stun = null
+## component which allows actor to drop through platform collisions
+var dropthrough: PlatformDropthrough = null
+## component that grants the ability to climb ladders which affects movement
+var ladder_user: LadderUser = null
+## component that grants an actor the dash ability which can affect movement
+var dash: Dash = null
+
 ## how many air jumps the actor has already done since last touching ground
 var _air_jumps_used: int = 0 
 ## if the actor will jump immediately after hitting the ground
@@ -90,21 +83,15 @@ var _ground_friction_applied: bool = false
 
 #### ------------------- GETTERS/SETTERS ---------------------------------------
 
+var actor: RigidbodyForceIntegrator:
+	get: return entity as RigidbodyForceIntegrator
+
 func is_moving() -> bool: return absf(move_vector.x) >= 0.1
 
 #### ------------------- SIGNAL RECEIVERS --------------------------------------
 
 func _ready() -> void:
-	# get parent if not set
-	if actor == null:
-		push_warning("actor was not set, attempting to find parent actor..")
-		var parent := get_parent()
-		if parent is RigidbodyForceIntegrator:
-			actor = parent
-		else: 
-			push_error("GroundMovement must be child of RigidbodyForceIntegrator")
-			return
-		
+	
 	if !use_native_friction:
 		# require frictionless physics material for custom friction
 		if actor.physics_material_override == null or actor.physics_material_override.friction > 0:
@@ -118,19 +105,16 @@ func _ready() -> void:
 			actor.physics_material_override = PhysicsMaterial.new()
 		_native_friction_factor = actor.physics_material_override.friction
 		_native_friction_rough = actor.physics_material_override.rough
+
+	ground_detection = Component.get_component(actor, GroundDetection) as GroundDetection
+	stun = Component.get_component(entity, Stun)
+	dropthrough = Component.get_component(entity, PlatformDropthrough)
+	ladder_user = Component.get_component(entity, LadderUser)
+	dash = Component.get_component(entity, Dash)
 	
-	# assign components to actor if it's a rigid body controller
-	if actor is CharacterRigidbody2D:
-		if actor.ground_movement != null and actor.ground_movement != self:
-			push_error("ERROR multiple GroundMovement found on ", actor)
-		actor.ground_movement = self
-		if ground_detection == null and actor.ground_detection != null:
-			ground_detection = actor.ground_detection
-			print(self, " linked ground detection component")
-		elif actor.ground_detection == null and ground_detection != null:
-			actor.ground_detection = ground_detection
-			print("attached ground detection from ", self)
-	
+	assert(entity is RigidbodyForceIntegrator)
+	assert(ground_detection != null)
+
 	# attach signals
 	actor.on_integrate_forces.connect(_actor_integrate_forces) 
 	ground_detection.on_ground_enter.connect(_reset_air_jumps)
@@ -140,7 +124,7 @@ func _reset_air_jumps() -> void:
 	_air_jumps_used = 0
 
 func _actor_integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	if not _active: return
+	if not enabled: return
 	
 	if stun and stun.is_stunned:
 		move_vector = Vector2.ZERO
@@ -269,7 +253,7 @@ func _handle_ground_movement(state: PhysicsDirectBodyState2D) -> void:
 	var targ_vel := max_speed * clampf(move_vector.x, -1, 1)
 	var acceleration := max_speed * acceleration_factor
 	
-	# if speed is higher than max speed
+	# if speed is higher than max speedNod
 	if absf(fwd_vel) > absf(targ_vel):
 		var dif_vel_x := targ_vel - fwd_vel
 		var acc_x: float = minf(acceleration, absf(dif_vel_x)) * signf(dif_vel_x) * state.step

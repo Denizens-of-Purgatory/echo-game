@@ -1,7 +1,6 @@
 class_name PlatformDropthrough
-extends Node
+extends Component
 
-@export var actor: RigidBody2D = null
 @export var ground_detection: GroundDetection = null
 @export_flags_2d_physics var platform_layers: int = 2
 
@@ -9,7 +8,12 @@ var _overlapper: Area2D = null
 var _drop_time: float = 0
 var _exceptions: Array[PhysicsBody2D] = []
 
+var actor: RigidBody2D:
+	get: return entity as RigidBody2D
+
 func _ready() -> void:
+	assert(entity is RigidBody2D)
+	
 	# create a new collision area with the same collision as the actor to 
 	# track when platforms are no longer being overlapped after the 
 	# collision drop starts

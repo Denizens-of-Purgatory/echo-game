@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bopgqfppcaj0o"]
 
-[ext_resource type="Script" uid="uid://bsc5ak14gevuf" path="res://src/actor/character_rigidbody_2d.gd" id="1_liwk6"]
+[ext_resource type="Script" uid="uid://dotxd3ydru4qa" path="res://src/actor/actor.gd" id="1_aqwts"]
 [ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="2_qr7nc"]
 [ext_resource type="Script" uid="uid://e1fyl8sa5y8g" path="res://src/component/damageable.gd" id="3_0aawm"]
 [ext_resource type="Script" uid="uid://7kmhc7hktvem" path="res://src/component/death.gd" id="4_hrqb5"]
@@ -12,56 +12,53 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_5vl63"]
 radius = 8.0
 
-[node name="Crawler" type="RigidBody2D" unique_id=1410108048 node_paths=PackedStringArray("movement", "damageable")]
+[node name="Crawler" type="RigidBody2D" unique_id=123628031 node_paths=PackedStringArray("movement", "damageable")]
 collision_layer = 8
 collision_mask = 7
 can_sleep = false
 lock_rotation = true
-script = ExtResource("1_liwk6")
+script = ExtResource("1_aqwts")
 movement = [null]
 damageable = NodePath("Damageable")
-metadata/_custom_type_script = "uid://bsc5ak14gevuf"
+metadata/_custom_type_script = "uid://dotxd3ydru4qa"
 
 [node name="RenderCollision" type="Node" parent="." unique_id=577270510]
 script = ExtResource("2_qr7nc")
 fill_color = Color(0.978828, 0, 0.38150227, 1)
 metadata/_custom_type_script = "uid://bnkw38y6lklqh"
 
-[node name="Damageable" type="Node" parent="." unique_id=1384947977 node_paths=PackedStringArray("actor", "death")]
+[node name="Damageable" type="Node" parent="." unique_id=1384947977 node_paths=PackedStringArray("_entity")]
 script = ExtResource("3_0aawm")
-actor = NodePath("..")
-death = NodePath("../Death")
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://e1fyl8sa5y8g"
 
-[node name="Death" type="Node" parent="." unique_id=45206893 node_paths=PackedStringArray("actor")]
+[node name="Death" type="Node" parent="." unique_id=45206893 node_paths=PackedStringArray("_entity")]
 script = ExtResource("4_hrqb5")
-actor = NodePath("..")
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://7kmhc7hktvem"
 
-[node name="SimplePatrol" type="Node" parent="." unique_id=308471546 node_paths=PackedStringArray("actor", "movement")]
+[node name="SimplePatrol" type="Node" parent="." unique_id=308471546 node_paths=PackedStringArray("_entity")]
 script = ExtResource("8_aqwts")
-actor = NodePath("..")
-movement = NodePath("../GroundMovement")
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://cm1r4ivm1k0tp"
 
-[node name="GroundMovement" type="Node" parent="." unique_id=1476095968 node_paths=PackedStringArray("actor", "ground_detection")]
-script = ExtResource("5_pptw8")
-actor = NodePath("..")
-ground_detection = NodePath("../GroundDetection")
-max_speed = 100.0
-acceleration_factor = 3.0
-metadata/_custom_type_script = "uid://k0lbiimg07hk"
-
-[node name="GroundDetection" type="Node" parent="." unique_id=1458548156 node_paths=PackedStringArray("actor")]
+[node name="GroundDetection" type="Node" parent="." unique_id=1458548156 node_paths=PackedStringArray("_entity")]
 script = ExtResource("6_pxnr3")
-actor = NodePath("..")
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://8tidub3buupu"
 
-[node name="ContactDamage" type="Node" parent="." unique_id=1235219827 node_paths=PackedStringArray("actor", "hitbox")]
+[node name="GroundMovement" type="Node" parent="." unique_id=1476095968 node_paths=PackedStringArray("_entity")]
+script = ExtResource("5_pptw8")
+max_speed = 100.0
+acceleration_factor = 3.0
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://k0lbiimg07hk"
+
+[node name="ContactDamage" type="Node" parent="." unique_id=1235219827 node_paths=PackedStringArray("hitbox", "_entity")]
 script = ExtResource("7_lqddd")
-actor = NodePath("..")
 hitbox = NodePath("../Hitbox")
 damage = 10.0
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://bdhislghpkh3c"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=324753429]

@@ -2214,84 +2214,69 @@ movement = [NodePath("GroundMovement")]
 damageable = NodePath("Damageable")
 metadata/_custom_type_script = "uid://5x2nutm2sa1c"
 
-[node name="Health" type="Node" parent="." unique_id=1107911229 node_paths=PackedStringArray("actor", "death")]
+[node name="Health" type="Node" parent="." unique_id=1107911229 node_paths=PackedStringArray("_entity")]
 script = ExtResource("2_m1uvq")
-actor = NodePath("..")
-death = NodePath("../Death")
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://bld701r3fcq2d"
 
-[node name="Death" type="Node" parent="." unique_id=1139475934 node_paths=PackedStringArray("actor")]
+[node name="Death" type="Node" parent="." unique_id=1139475934 node_paths=PackedStringArray("_entity")]
 script = ExtResource("10_cslia")
-actor = NodePath("..")
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://7kmhc7hktvem"
 
-[node name="Damageable" type="Node" parent="." unique_id=1709918542 node_paths=PackedStringArray("actor", "death")]
+[node name="Damageable" type="Node" parent="." unique_id=1709918542 node_paths=PackedStringArray("_entity")]
 script = ExtResource("4_fnujx")
-actor = NodePath("..")
-death = NodePath("../Death")
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://e1fyl8sa5y8g"
 
-[node name="InputController" type="Node" parent="." unique_id=134669693 node_paths=PackedStringArray("movement", "dash", "ladder_user")]
+[node name="InputController" type="Node" parent="." unique_id=134669693 node_paths=PackedStringArray("_entity")]
 script = ExtResource("4_4c2rd")
-movement = NodePath("../GroundMovement")
-dash = NodePath("../Dash")
-ladder_user = NodePath("../LadderUser")
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://qg13ywutd1oc"
 
-[node name="GroundMovement" type="Node" parent="." unique_id=580192802 node_paths=PackedStringArray("actor", "ground_detection", "stun", "dropthrough", "ladder_user", "dash")]
+[node name="GroundDetection" type="Node" parent="." unique_id=136229313 node_paths=PackedStringArray("_entity")]
+script = ExtResource("3_pcbbo")
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://8tidub3buupu"
+
+[node name="GroundMovement" type="Node" parent="." unique_id=580192802 node_paths=PackedStringArray("_entity")]
 script = ExtResource("2_t8fna")
-actor = NodePath("..")
-ground_detection = NodePath("../GroundDetection")
-stun = NodePath("../Stun")
-dropthrough = NodePath("../PlatformDropthrough")
-ladder_user = NodePath("../LadderUser")
-dash = NodePath("../Dash")
 jump_power = 250.0
 jump_sustain = 0.6
 max_speed = 175.0
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://k0lbiimg07hk"
 
-[node name="Stun" type="Node" parent="." unique_id=1238779527]
+[node name="Stun" type="Node" parent="." unique_id=1238779527 node_paths=PackedStringArray("_entity")]
 script = ExtResource("6_mvchi")
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://dryu50g7kj4iq"
 
-[node name="GroundDetection" type="Node" parent="." unique_id=136229313 node_paths=PackedStringArray("actor")]
-script = ExtResource("3_pcbbo")
-actor = NodePath("..")
-metadata/_custom_type_script = "uid://8tidub3buupu"
-
-[node name="PlatformDropthrough" type="Node" parent="." unique_id=1217247399 node_paths=PackedStringArray("actor", "ground_detection")]
+[node name="PlatformDropthrough" type="Node" parent="." unique_id=1217247399 node_paths=PackedStringArray("ground_detection", "_entity")]
 script = ExtResource("8_5qfj1")
-actor = NodePath("..")
 ground_detection = NodePath("../GroundDetection")
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://bkiex56ji6k26"
 
-[node name="LadderUser" type="Node" parent="." unique_id=1647737182 node_paths=PackedStringArray("actor", "detector", "overlapper", "movement", "ground_detection")]
+[node name="LadderUser" type="Node" parent="." unique_id=1647737182 node_paths=PackedStringArray("detector", "overlapper", "movement", "ground_detection", "_entity")]
 script = ExtResource("7_46d1e")
-actor = NodePath("..")
 detector = NodePath("../LadderDetector")
 overlapper = NodePath("../Overlapper")
 movement = NodePath("../GroundMovement")
 ground_detection = NodePath("../GroundDetection")
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://dsdbxyhccf5fo"
 
-[node name="Dash" type="Node" parent="." unique_id=760224945 node_paths=PackedStringArray("actor", "movement")]
+[node name="Dash" type="Node" parent="." unique_id=760224945 node_paths=PackedStringArray("movement", "_entity")]
 script = ExtResource("6_vjaxa")
-actor = NodePath("..")
 movement = NodePath("../GroundMovement")
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://nefanyx8s75e"
 
-[node name="MovementAnimator" type="Node" parent="." unique_id=1727272655 node_paths=PackedStringArray("actor", "sprite", "input_controller", "movement", "stun", "death", "ground_detection", "ladder_user", "dash")]
+[node name="MovementAnimator" type="Node" parent="." unique_id=1727272655 node_paths=PackedStringArray("sprite", "_entity")]
 script = ExtResource("5_1423e")
-actor = NodePath("..")
 sprite = NodePath("../AnimatedSprite2D")
-input_controller = NodePath("../InputController")
-movement = NodePath("../GroundMovement")
-stun = NodePath("../Stun")
-death = NodePath("../Death")
-ground_detection = NodePath("../GroundDetection")
-ladder_user = NodePath("../LadderUser")
-dash = NodePath("../Dash")
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://n7kixcd52vn7"
 
 [node name="LadderDetector" type="Area2D" parent="." unique_id=1557402715]

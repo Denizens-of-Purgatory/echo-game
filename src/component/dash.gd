@@ -1,11 +1,9 @@
 class_name Dash
-extends Node
+extends Component
 
 signal on_dash_start()
 signal on_dash_stop()
 
-## the actor that the dash ability moves
-@export var actor: RigidbodyForceIntegrator = null
 @export var movement: Movement = null
 
 @export var dash_time: float = 0.2
@@ -26,6 +24,9 @@ var _dash_dir: float = 0
 var _dash_cooldown_time: float = 0
 var _consecutive_dashes_used: int = 0
 var _dash_queued: bool = false
+
+var actor: RigidbodyForceIntegrator:
+	get: return entity as RigidbodyForceIntegrator
 
 func _ready() -> void:
 	actor.on_integrate_forces.connect(_actor_integrate_forces)
@@ -48,6 +49,7 @@ func _physics_process(delta: float) -> void:
 		actor.linear_velocity.y = 0
 		_dashing = dash_time
 		_consecutive_dashes_used += 1
+		on_dash_start.emit()
 	
 	# handle dash cooldown
 	if _dash_cooldown_time > 0 and not is_dashing():

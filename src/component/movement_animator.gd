@@ -1,15 +1,7 @@
 class_name MovementAnimator
-extends Node
+extends Component
 
-@export var actor: RigidBody2D = null
 @export var sprite: AnimatedSprite2D = null
-@export var input_controller: InputController = null
-@export var movement: Movement = null
-@export var stun: Stun = null
-@export var death: Death = null
-@export var ground_detection: GroundDetection = null
-@export var ladder_user: LadderUser = null
-@export var dash: Dash = null
 
 @export var auto_flip: bool = true
 @export var anim_idle: StringName = "Idle"
@@ -23,9 +15,29 @@ extends Node
 @export var anim_climb_idle: StringName = "ClimbIdle"
 @export var anim_climbing: StringName = "LadderClimb"
 
+var input_controller: InputController = null
+var movement: Movement = null
+var stun: Stun = null
+var death: Death = null
+var ground_detection: GroundDetection = null
+var ladder_user: LadderUser = null
+var dash: Dash = null
 var _anim_locked: bool = false
 
+var actor: RigidBody2D:
+	get: return entity as RigidBody2D
+
 func _ready() -> void:
+	assert(entity is RigidBody2D)
+	
+	input_controller = Component.get_component(entity, InputController)
+	movement = Component.get_component(entity, GroundMovement)
+	dash = Component.get_component(entity, Dash)
+	death = Component.get_component(entity, Death)
+	stun = Component.get_component(entity, Stun)
+	ground_detection = Component.get_component(entity, GroundDetection)
+	ladder_user = Component.get_component(entity, LadderUser)
+	
 	sprite.play()
 	sprite.animation_finished.connect(_on_anim_finish)
 	sprite.animation_looped.connect(_on_anim_finish)

@@ -1,10 +1,7 @@
 class_name SimplePatrol
-extends Node
+extends Component
 
 signal edge_reached()
-
-@export var actor: RigidBody2D = null
-@export var movement: Movement = null
 
 ## How far ahead, in pixels, an edge is looked for
 @export var edge_lookahead: float = 16
@@ -16,10 +13,14 @@ signal edge_reached()
 ## Initial movement direction, -1 for left, 1 for right
 @export var move_dir: float = 1
 
+var movement: Movement = null
 var _edge_detector: Area2D = null
 var _wall_detector: Area2D = null
 var _movement_wait: float = 0
 var _do_edge_overlap_check: bool = true
+
+var actor: CollisionObject2D:
+	get: return entity as CollisionObject2D
 
 func _create_detectors() -> void:
 	if _wall_detector:
@@ -69,6 +70,7 @@ func _create_detectors() -> void:
 	_edge_detector.position.x = edge_lookahead * signf(move_dir)
 
 func _on_wall_detector_overlap(_other: Node2D) -> void:
+	edge_reached.emit()
 	stop_at_edge()
 
 func _on_edge_detector_exit(_other: Node2D) -> void:
@@ -81,6 +83,7 @@ func _edge_overlap_check() -> void:
 		if body != actor:
 			overlapped = true
 	if not overlapped:
+		edge_reached.emit()
 		stop_at_edge()
 
 func _position_detectors() -> void:
@@ -88,6 +91,10 @@ func _position_detectors() -> void:
 	_wall_detector.position.x = edge_lookahead * signf(move_dir)
 
 func _ready() -> void:
+	assert(entity is CollisionObject2D)
+	movement = Component.get_component(entity, GroundMovement)
+	assert(movement != null)
+	
 	_create_detectors()
 	
 func _physics_process(delta: float) -> void:

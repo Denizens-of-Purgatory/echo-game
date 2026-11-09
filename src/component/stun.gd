@@ -1,5 +1,5 @@
 class_name Stun
-extends Node
+extends Component
 
 signal on_stunned()
 signal on_stun_end()

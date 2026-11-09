@@ -1,10 +1,8 @@
 class_name Death
-extends Node
+extends Component
 
 signal on_die()
 signal on_revive()
-
-@export var actor: Node = null
 
 var _is_dead: bool = false
 var is_dead: bool: 

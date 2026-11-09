@@ -1,5 +1,5 @@
 class_name Hero
-extends CharacterRigidbody2D
+extends Actor
 
 @export var input_controller: InputController = null
 @export var ladder_user: LadderUser = null

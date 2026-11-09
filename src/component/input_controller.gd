@@ -1,9 +1,5 @@
 class_name InputController
-extends Node
-
-@export var movement: Movement = null
-@export var dash: Dash = null
-@export var ladder_user: LadderUser = null
+extends Component
 
 @export var control_moveRight: StringName = &"move_right"
 @export var control_moveLeft: StringName = &"move_left"
@@ -12,6 +8,10 @@ extends Node
 @export var control_jump: StringName = &"jump"
 @export var control_melee: StringName = &"melee"
 @export var control_dash: StringName = &"dash"
+
+var movement: Movement = null
+var dash: Dash = null
+var ladder_user: LadderUser = null
 
 var last_horizontal_facing_direction: float = 1
 var action_ids: Array[StringName] = []
@@ -27,6 +27,9 @@ func _ready() -> void:
 		control_melee,
 		control_dash,
 	]
+	movement = Component.get_component(entity, Movement)
+	dash = Component.get_component(entity, Dash)
+	ladder_user = Component.get_component(entity, LadderUser)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_type():
@@ -65,11 +68,7 @@ func _process(_delta: float) -> void:
 		dash.dash(last_horizontal_facing_direction)
 
 func _find_movement() -> void:
-	print("getting ground movement for controller..")
-	var parent := get_parent()
-	if parent is CharacterRigidbody2D and parent.ground_movement != null:
-		movement = parent.ground_movement
-		print("found ground movement for controller!")
+	movement = Component.get_component(entity, GroundMovement)
 
 func is_action_pressed(action_id: StringName) -> bool:
 	return action_pressed_map.get(action_id, false)

@@ -145,10 +145,10 @@ debug_color = Color(0.39899087, 0.37668952, 0.07582962, 0.41960785)
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1127553788]
 
-[node name="CameraFollow" type="Node" parent="Camera" unique_id=432718089 node_paths=PackedStringArray("camera", "target")]
+[node name="CameraFollow" type="Node" parent="Camera" unique_id=432718089 node_paths=PackedStringArray("target", "_entity")]
 script = ExtResource("3_07uws")
-camera = NodePath("..")
 target = NodePath("../../Hero")
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://e1f3cpdd4m3s"
 
 [node name="Crawler" parent="." unique_id=1410108048 instance=ExtResource("5_3i6cy")]

@@ -1,10 +1,9 @@
 class_name LadderUser
-extends Node
+extends Component
 
 signal on_climb_start()
 signal on_climb_end()
 
-@export var actor: RigidbodyForceIntegrator = null
 @export var detector: Area2D = null
 
 ## overlap area used to prevent the actor from getting off the ladder if they 
@@ -19,7 +18,11 @@ var _ladder_to_use: Ladder = null
 var _climbing: bool = false
 var _climb_dir: float = 0
 
+var actor: RigidbodyForceIntegrator:
+	get: return entity as RigidbodyForceIntegrator
+
 func _ready() -> void:
+	assert(entity is RigidbodyForceIntegrator)
 	actor.on_integrate_forces.connect(_actor_integrate_forces)
 	detector.area_entered.connect(_area_entered)
 	detector.area_exited.connect(_area_exited)

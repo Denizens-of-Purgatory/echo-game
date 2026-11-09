@@ -1,9 +1,8 @@
 class_name ContactDamage
-extends Node
+extends Component
 
 signal on_damage_given(dmg: float)
 
-@export var actor: Actor = null
 @export var hitbox: Area2D = null
 @export var damage: float = 1
 

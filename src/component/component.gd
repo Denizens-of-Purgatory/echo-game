@@ -29,6 +29,7 @@ signal on_detached(entity: Node)
 ## If not enabled, the component shouldn't affect the behavior of it's entity
 @export var _enabled: bool = true
 
+var _initialized: bool = false
 
 
 ## The node entity that the component is attached to and acts upon
@@ -56,6 +57,8 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	detach()
 
+
+
 ## Detach a component from it's parent entity if it has one
 func detach() -> void:
 	if not entity: return
@@ -66,8 +69,11 @@ func detach() -> void:
 
 ## Attach a component to the specified node entity
 func attach(node_entity: Node):
-	if entity == node_entity: return
-	if entity: detach()
+	if _initialized:
+		if entity == node_entity: return
+		if entity: detach()
+	else:
+		_initialized = true
 	
 	var components: Dictionary[Script, Component]
 	var script: Script = get_script()
@@ -78,7 +84,7 @@ func attach(node_entity: Node):
 	else: 
 		components = node_entity.get_meta(META_KEY)
 		var comp: Component = components.get(script)
-		if comp != self:
+		if comp and comp != self:
 			push_error(
 				"entity '%s' already has component of type '%s'" % 
 				[node_entity, script.get_global_name()]

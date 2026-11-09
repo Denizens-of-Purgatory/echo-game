@@ -1,11 +1,8 @@
 class_name GroundDetection
-extends Node
+extends Component
 
 signal on_ground_enter()
 signal on_ground_exit()
-
-## the actor that this script is referencing
-@export var actor: RigidbodyForceIntegrator = null
 
 ## the amount of time it takes, after walking off a platform, for the actor to 
 ## realize its no longer on the ground
@@ -35,6 +32,10 @@ var _ground_collider: Object = null
 
 #### ------------------- GETTERS/SETTERS ---------------------------------------
 
+## the actor that this script is referencing
+var actor: RigidBody2D:
+	get: return entity as RigidBody2D
+
 ## return true if the actor is currently on the ground
 func is_on_ground() -> bool:
 	return _hang_time <= max_coyote_time
@@ -51,25 +52,11 @@ func has_ground_contact() -> bool:
 #### ------------------- SIGNAL RECEIVERS --------------------------------------
 
 func _ready() -> void:
-	# find actor if not referenced
-	if actor == null:
-		push_warning("actor not specified, finding actor..")
-		var parent := get_parent()
-		if parent is RigidBody2D:
-			actor = parent
-		else: push_error("GroundDetection must reference RegidBody2D as actor")
+	assert(entity is RigidBody2D)
 	
 	# set up actor
 	if actor is RigidbodyForceIntegrator:
 		actor.on_integrate_forces.connect(_actor_integrate_forces)
-	
-		# assign component to actor if it's a rigid body controller
-		if actor is CharacterRigidbody2D:
-			if actor.ground_detection != null and actor.ground_detection != self:
-				push_error("ERROR multiple GroundDetection found on ", actor)
-			elif actor.ground_detection == null:
-				actor.ground_detection = self
-				print(self, " attached ground detection component!")
 	
 	# set required actor physics settings
 	if !actor.contact_monitor: 
