@@ -7,7 +7,7 @@ signal edge_reached()
 @export var movement: Movement = null
 
 ## How far ahead, in pixels, an edge is looked for
-@export var edge_lookahead: float = 32
+@export var edge_lookahead: float = 16
 
 ## How long before the actor waits to turn around after reaching the edge of 
 ## a platform
