@@ -6,6 +6,10 @@
 [ext_resource type="Script" uid="uid://qg13ywutd1oc" path="res://src/component/input_controller.gd" id="4_4c2rd"]
 [ext_resource type="Script" uid="uid://n7kixcd52vn7" path="res://src/component/movement_animator.gd" id="5_1423e"]
 [ext_resource type="Script" uid="uid://nefanyx8s75e" path="res://src/component/dash.gd" id="6_vjaxa"]
+[ext_resource type="Script" uid="uid://dsdbxyhccf5fo" path="res://src/component/ladder_user.gd" id="7_46d1e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vjaxa"]
+size = Vector2(8, 42)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_el60q"]
 radius = 8.0
@@ -2194,21 +2198,25 @@ animations = [{
 
 [node name="Hero" type="RigidBody2D" unique_id=1140576921 node_paths=PackedStringArray("movement")]
 physics_interpolation_mode = 1
+collision_layer = 8
+collision_mask = 7
 lock_rotation = true
 script = ExtResource("1_el60q")
 movement = [NodePath("GroundMovement")]
 metadata/_custom_type_script = "uid://5x2nutm2sa1c"
 
-[node name="InputController" type="Node" parent="." unique_id=134669693 node_paths=PackedStringArray("movement", "dash")]
+[node name="InputController" type="Node" parent="." unique_id=134669693 node_paths=PackedStringArray("movement", "dash", "ladder_user")]
 script = ExtResource("4_4c2rd")
 movement = NodePath("../GroundMovement")
 dash = NodePath("../Dash")
+ladder_user = NodePath("../LadderUser")
 metadata/_custom_type_script = "uid://qg13ywutd1oc"
 
-[node name="GroundMovement" type="Node" parent="." unique_id=580192802 node_paths=PackedStringArray("actor", "ground_detection", "dash")]
+[node name="GroundMovement" type="Node" parent="." unique_id=580192802 node_paths=PackedStringArray("actor", "ground_detection", "ladder_user", "dash")]
 script = ExtResource("2_t8fna")
 actor = NodePath("..")
 ground_detection = NodePath("../GroundDetection")
+ladder_user = NodePath("../LadderUser")
 dash = NodePath("../Dash")
 metadata/_custom_type_script = "uid://k0lbiimg07hk"
 
@@ -2216,6 +2224,21 @@ metadata/_custom_type_script = "uid://k0lbiimg07hk"
 script = ExtResource("3_pcbbo")
 actor = NodePath("..")
 metadata/_custom_type_script = "uid://8tidub3buupu"
+
+[node name="LadderUser" type="Node" parent="." unique_id=1647737182 node_paths=PackedStringArray("actor", "detector", "overlapper", "movement", "ground_detection")]
+script = ExtResource("7_46d1e")
+actor = NodePath("..")
+detector = NodePath("../LadderDetector")
+overlapper = NodePath("../LadderOverlapper")
+movement = NodePath("../GroundMovement")
+ground_detection = NodePath("../GroundDetection")
+metadata/_custom_type_script = "uid://dsdbxyhccf5fo"
+
+[node name="Dash" type="Node" parent="." unique_id=760224945 node_paths=PackedStringArray("actor", "movement")]
+script = ExtResource("6_vjaxa")
+actor = NodePath("..")
+movement = NodePath("../GroundMovement")
+metadata/_custom_type_script = "uid://nefanyx8s75e"
 
 [node name="MovementAnimator" type="Node" parent="." unique_id=1727272655 node_paths=PackedStringArray("actor", "sprite", "input_controller", "movement", "ground_detection", "dash")]
 script = ExtResource("5_1423e")
@@ -2227,11 +2250,23 @@ ground_detection = NodePath("../GroundDetection")
 dash = NodePath("../Dash")
 metadata/_custom_type_script = "uid://n7kixcd52vn7"
 
-[node name="Dash" type="Node" parent="." unique_id=760224945 node_paths=PackedStringArray("actor", "movement")]
-script = ExtResource("6_vjaxa")
-actor = NodePath("..")
-movement = NodePath("../GroundMovement")
-metadata/_custom_type_script = "uid://nefanyx8s75e"
+[node name="LadderDetector" type="Area2D" parent="." unique_id=1557402715]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LadderDetector" unique_id=932772396]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_vjaxa")
+debug_color = Color(0.21599993, 0.54, 0, 0)
+
+[node name="LadderOverlapper" type="Area2D" parent="." unique_id=646439856]
+collision_layer = 0
+collision_mask = 5
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="LadderOverlapper" unique_id=890262133]
+position = Vector2(0, 4)
+shape = SubResource("CapsuleShape2D_el60q")
+debug_color = Color(0.20799991, 0.52, 0, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=905930263]
 position = Vector2(0, 4)
@@ -2241,7 +2276,7 @@ debug_color = Color(0.861832, 0.00065092026, 0.87249124, 0.41960785)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=124769676]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_kxeyb")
-animation = &"DashStart"
+animation = &"ClimbIdle"
 offset = Vector2(0, -18)
 metadata/_aseprite_wizard_interface_config_ = {
 "animation_section": false,
