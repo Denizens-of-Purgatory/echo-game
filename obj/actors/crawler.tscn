@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://dotxd3ydru4qa" path="res://src/actor/actor.gd" id="1_aqwts"]
 [ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="2_qr7nc"]
-[ext_resource type="Script" uid="uid://e1fyl8sa5y8g" path="res://src/component/damageable.gd" id="3_0aawm"]
-[ext_resource type="Script" uid="uid://7kmhc7hktvem" path="res://src/component/death.gd" id="4_hrqb5"]
-[ext_resource type="Script" uid="uid://k0lbiimg07hk" path="res://src/component/ground_movement.gd" id="5_pptw8"]
-[ext_resource type="Script" uid="uid://8tidub3buupu" path="res://src/component/ground_detection.gd" id="6_pxnr3"]
-[ext_resource type="Script" uid="uid://bdhislghpkh3c" path="res://src/component/contact_damage.gd" id="7_lqddd"]
-[ext_resource type="Script" uid="uid://cm1r4ivm1k0tp" path="res://src/component/simple_patrol.gd" id="8_aqwts"]
+[ext_resource type="Script" uid="uid://e1fyl8sa5y8g" path="res://src/component/damage/damageable.gd" id="3_0aawm"]
+[ext_resource type="Script" uid="uid://7kmhc7hktvem" path="res://src/component/damage/death.gd" id="4_hrqb5"]
+[ext_resource type="Script" uid="uid://k0lbiimg07hk" path="res://src/component/movement/ground_movement.gd" id="5_pptw8"]
+[ext_resource type="Script" uid="uid://8tidub3buupu" path="res://src/component/movement/ground_detection.gd" id="6_pxnr3"]
+[ext_resource type="Script" uid="uid://bdhislghpkh3c" path="res://src/component/damage/contact_damage.gd" id="7_lqddd"]
+[ext_resource type="Script" uid="uid://cm1r4ivm1k0tp" path="res://src/component/movement/simple_patrol.gd" id="8_aqwts"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5vl63"]
 radius = 8.0
