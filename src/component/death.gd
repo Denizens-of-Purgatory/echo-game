@@ -7,6 +7,8 @@ signal on_revive()
 @export var actor: Node = null
 
 var _is_dead: bool = false
+var is_dead: bool: 
+	get: return _is_dead
 
 func die() -> void:
 	if not _is_dead:
