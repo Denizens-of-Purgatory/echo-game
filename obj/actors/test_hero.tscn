@@ -2218,7 +2218,9 @@ actor = NodePath("..")
 ground_detection = NodePath("../GroundDetection")
 ladder_user = NodePath("../LadderUser")
 dash = NodePath("../Dash")
-max_speed = 200.0
+jump_power = 250.0
+jump_sustain = 0.6
+max_speed = 175.0
 metadata/_custom_type_script = "uid://k0lbiimg07hk"
 
 [node name="GroundDetection" type="Node" parent="." unique_id=136229313 node_paths=PackedStringArray("actor")]
