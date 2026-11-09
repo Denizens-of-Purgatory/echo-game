@@ -2218,6 +2218,7 @@ actor = NodePath("..")
 ground_detection = NodePath("../GroundDetection")
 ladder_user = NodePath("../LadderUser")
 dash = NodePath("../Dash")
+max_speed = 200.0
 metadata/_custom_type_script = "uid://k0lbiimg07hk"
 
 [node name="GroundDetection" type="Node" parent="." unique_id=136229313 node_paths=PackedStringArray("actor")]
@@ -2277,7 +2278,7 @@ debug_color = Color(0.861832, 0.00065092026, 0.87249124, 0.41960785)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=124769676]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_kxeyb")
-animation = &"FrontFlip"
+animation = &"Idle"
 offset = Vector2(0, -18)
 metadata/_aseprite_wizard_interface_config_ = {
 "animation_section": false,
