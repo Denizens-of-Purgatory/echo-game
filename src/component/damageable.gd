@@ -3,7 +3,10 @@ extends Node
 
 const FLAG: StringName = &"damageable"
 
-static func get_component(node: Node) -> Damageable: return node.get_meta(FLAG, null)
+static func get_component(node: Node) -> Damageable: 
+	if node and node.has_meta(FLAG):
+		return node.get_meta(FLAG, null)
+	return null
 
 signal on_damaged(damage: float)
 
