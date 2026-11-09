@@ -128,6 +128,7 @@ func _ready() -> void:
 	# attach signals
 	actor.on_integrate_forces.connect(_actor_integrate_forces) 
 	ground_detection.on_ground_enter.connect(_reset_air_jumps)
+	if ladder_user: ladder_user.on_climb_start.connect(_reset_air_jumps)
 
 func _reset_air_jumps() -> void:
 	_air_jumps_used = 0
