@@ -24,6 +24,9 @@ enum SlopeSlipResistMode {
 ## component to detect whether actor is on ground or not
 @export var ground_detection: GroundDetection = null
 
+## component that grants an actor the dash ability which can affect movement
+@export var dash: Dash = null
+
 ## the axis that ground movement forces will be applied along, whether it will
 ## be perpendicular to the ground normal, or perpendicular to the actor gravity
 @export var move_axis: MoveAxis = MoveAxis.GroundNormal
@@ -171,6 +174,9 @@ func _handle_jump_state(state: PhysicsDirectBodyState2D) -> void:
 	_is_jumping = false
 
 func _handle_jump(state: PhysicsDirectBodyState2D) -> void:
+	# ignore jump if mid-dash
+	if dash and dash.is_dashing(): return
+	
 	# get relative axes
 	var up_axis := -state.total_gravity.normalized()
 	var fwd_axis := -up_axis.orthogonal()
@@ -184,6 +190,9 @@ func _handle_jump(state: PhysicsDirectBodyState2D) -> void:
 	on_jump_begin.emit()
 
 func _handle_jump_sustain(state: PhysicsDirectBodyState2D) -> void:
+	# ignore jump sustain if mid-dash
+	if dash and dash.is_dashing(): return
+	
 	var grav := state.total_gravity
 	var up_axis := -grav.normalized()
 	var up_vel := up_axis.dot(actor.linear_velocity)

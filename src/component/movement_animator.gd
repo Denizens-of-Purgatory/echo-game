@@ -3,8 +3,10 @@ extends Node
 
 @export var actor: RigidBody2D = null
 @export var sprite: AnimatedSprite2D = null
+@export var input_controller: InputController = null
 @export var movement: Movement = null
 @export var ground_detection: GroundDetection = null
+@export var dash: Dash = null
 
 @export var auto_flip: bool = true
 @export var anim_idle: StringName = "Idle"
@@ -13,6 +15,8 @@ extends Node
 @export var anim_jump_rise: StringName = "JumpRise"
 @export var anim_fall: StringName = "JumpMid"
 @export var anim_trans_fall_idle: StringName = "Land"
+@export var anim_dash_end: StringName = "DashEnd"
+@export var anim_dash_loop: StringName = "DashLoop"
 
 var _anim_locked: bool = false
 
@@ -20,15 +24,25 @@ func _ready() -> void:
 	sprite.play()
 	sprite.animation_finished.connect(_on_anim_finish)
 	sprite.animation_looped.connect(_on_anim_finish)
+	dash.on_dash_stop.connect(play_anim.bind(anim_dash_end, true, true))
 
 func _process(_delta: float) -> void:
 	
 	# flip the sprite horizontally based on input
 	if auto_flip and not _anim_locked:
-		if movement.move_vector.x < 0:
+		var horizontal_orientation: float = 0
+		if input_controller:
+			horizontal_orientation = input_controller.last_horizontal_facing_direction
+		elif movement:
+			horizontal_orientation = movement.move_vector.x
+		if horizontal_orientation < 0:
 			sprite.scale.x = -absf(sprite.scale.x)
-		elif movement.move_vector.x > 0:
+		elif horizontal_orientation > 0:
 			sprite.scale.x = absf(sprite.scale.x)
+	
+	if dash.is_dashing():
+		play_anim(anim_dash_loop, false, true)
+		return
 	
 	# play ground movement animations
 	if ground_detection.is_on_ground():
