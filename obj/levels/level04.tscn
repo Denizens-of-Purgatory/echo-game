@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bceffp1h7h6uh" path="res://assets/Walls/Walls.png" id="1_dm24t"]
 [ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="2_4qcmg"]
-[ext_resource type="Script" uid="uid://csljil2xk7thc" path="res://src/level/ladder.gd" id="3_a7ntv"]
+[ext_resource type="Script" uid="uid://csljil2xk7thc" path="res://src/component/environment/ladder.gd" id="3_a7ntv"]
 [ext_resource type="PackedScene" uid="uid://0kumfvklghhg" path="res://obj/actors/test_hero.tscn" id="4_brbom"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k4w6c"]

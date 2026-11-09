@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://hupn30wnxt51"]
 
 [ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="1_kk1mo"]
-[ext_resource type="Script" uid="uid://csljil2xk7thc" path="res://src/level/ladder.gd" id="2_j3ufp"]
+[ext_resource type="Script" uid="uid://csljil2xk7thc" path="res://src/component/environment/ladder.gd" id="2_j3ufp"]
 [ext_resource type="PackedScene" uid="uid://0kumfvklghhg" path="res://obj/actors/test_hero.tscn" id="3_ufq6a"]
 [ext_resource type="Texture2D" uid="uid://bceffp1h7h6uh" path="res://assets/Walls/Walls.png" id="4_k4w6c"]
 
