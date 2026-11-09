@@ -37,8 +37,9 @@ func _area_exited(area: Area2D) -> void:
 		_ladder_to_use = null
 
 func _overlapper_body_exited(other: Node2D) -> void:
+	# track when solid objects are no longer overlapping the actor after letting
+	# go of a ladder so that collision with them can be reenabled
 	if is_climbing(): return
-	
 	var index := _ladder_collision_exceptions.find(other)
 	if index >= 0:
 		actor.remove_collision_exception_with(other)
@@ -46,10 +47,12 @@ func _overlapper_body_exited(other: Node2D) -> void:
 
 func _begin_climbing() -> void:
 	if _climbing or not _ladder_to_use: return
-	if _climb_dir < 0 and _ladder_to_use.top_y() > actor.global_position.y:
-		return
-	if _climb_dir > 0 and _ladder_to_use.bottom_y() < actor.global_position.y + 32:
-		return
+	
+	# if near the top of the ladder, actor can only start climbing down
+	if _climb_dir < 0 and _ladder_to_use.top_y() > actor.global_position.y: return
+	# if near the bottom of the ladder, actor can only start climbing up
+	if _climb_dir > 0 and _ladder_to_use.bottom_y() < actor.global_position.y + 32: return
+	
 	_climbing = true
 	on_climb_start.emit()
 	for collider in _ladder_to_use.ignore_colliders:
@@ -66,14 +69,17 @@ func _handle_climbing(state: PhysicsDirectBodyState2D) -> void:
 	state.linear_velocity.x = 0
 	state.linear_velocity.y = _climb_dir * speed
 	
+	# stop climbing if no longer colliding with ladder
 	if _climb_dir < 0:
 		if _ladder_to_use.parent not in overlapper.get_overlapping_areas():
 			state.linear_velocity.y = 0
 			stop_climbing()
 
+## Whether or not the actor is currently holding onto a ladder
 func is_climbing() -> bool:
 	return _climbing
 
+## Force the actor to stop holding onto the ladder immediately
 func stop_climbing() -> void:
 	if not is_climbing(): return
 	on_climb_end.emit()
