@@ -6,6 +6,7 @@ extends Node
 @export var input_controller: InputController = null
 @export var movement: Movement = null
 @export var stun: Stun = null
+@export var death: Death = null
 @export var ground_detection: GroundDetection = null
 @export var ladder_user: LadderUser = null
 @export var dash: Dash = null
@@ -32,7 +33,12 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	
+	if death and death.is_dead:
+		play_anim("Die", true, true)
+		return
+	
 	if stun and stun.is_stunned:
+		play_anim("Knockback", true, true)
 		return
 	
 	# flip the sprite horizontally based on input
