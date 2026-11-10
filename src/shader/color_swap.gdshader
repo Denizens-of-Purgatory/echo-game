@@ -1,5 +1,6 @@
 shader_type canvas_item;
 
+uniform sampler2D original_colors;
 uniform sampler2D palette;
 uniform ivec2 palette_dims;
 
@@ -14,12 +15,12 @@ vec4 swap_color(vec4 color_in) {
 			i % palette_dims.x,
 			i / palette_dims.x
 		);
-		vec4 palette_col = texelFetch(palette, index_2d, 0);
+		vec4 original_col = texelFetch(original_colors, index_2d, 0);
 		
 		// skip transparent palette pixels
-		if (palette_col.a <= 0.0) continue;
+		if (original_col.a <= 0.0) continue;
 		
-		float dist = distance(color_in, palette_col);
+		float dist = distance(color_in, original_col);
 		if(dist <= closest_dist) {
 			closest_dist = dist;
 			closest_index = i;
