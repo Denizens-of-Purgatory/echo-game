@@ -5,12 +5,13 @@ uniform sampler2D palette;
 uniform ivec2 palette_dims;
 
 vec4 swap_color(vec4 color_in) {
-	int palette_size = palette_dims.x * palette_dims.y;
+	ivec2 dims = textureSize(original_colors, 0);
+	int array_size = dims.x * dims.y;
 	int closest_index = 0;
 	float closest_dist = 999999.0;
 	
 	// search for index of closest color in pallette
-	for (int i = palette_size - 1; i >= 0; i--) {
+	for (int i = array_size - 1; i >= 0; i--) {
 		ivec2 index_2d = ivec2(
 			i % palette_dims.x,
 			i / palette_dims.x
@@ -20,7 +21,7 @@ vec4 swap_color(vec4 color_in) {
 		// skip transparent palette pixels
 		if (original_col.a <= 0.0) continue;
 		
-		float dist = distance(color_in, original_col);
+		float dist = distance(color_in.rgb, original_col.rgb);
 		if(dist <= closest_dist) {
 			closest_dist = dist;
 			closest_index = i;
@@ -41,5 +42,12 @@ vec4 swap_color(vec4 color_in) {
 
 void fragment() {
 	vec4 color = texture(TEXTURE, UV);
-	COLOR = swap_color(color);
+	if(color.a >= 0.0){
+		COLOR = swap_color(color);
+	}
+	
+	// skip swap functionality for transparent pixels
+	else{
+		COLOR = color;
+	}
 }
