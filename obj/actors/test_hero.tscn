@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://dsdbxyhccf5fo" path="res://src/component/movement/ladder_user.gd" id="7_46d1e"]
 [ext_resource type="Script" uid="uid://bkiex56ji6k26" path="res://src/component/movement/platform_dropthrough.gd" id="8_5qfj1"]
 [ext_resource type="Script" uid="uid://7kmhc7hktvem" path="res://src/component/damage/death.gd" id="10_cslia"]
+[ext_resource type="Material" uid="uid://d1w4385ao0maa" path="res://assets/color_swap/color_swap.tres" id="13_30wli"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vjaxa"]
 size = Vector2(8, 42)
@@ -2304,6 +2305,7 @@ debug_color = Color(0.861832, 0.00065092026, 0.87249124, 0.41960785)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=124769676]
 texture_filter = 1
+material = ExtResource("13_30wli")
 sprite_frames = SubResource("SpriteFrames_v33n2")
 animation = &"Knockback"
 offset = Vector2(0, -18)
