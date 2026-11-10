@@ -1,25 +1,23 @@
 shader_type canvas_item;
 
-uniform sampler2D original_colors;
-uniform sampler2D palette;
+const int MAX_COLORS = 8;
+uniform int color_count : hint_range(0, MAX_COLORS, 1) = 4;
+
+uniform vec4 original_colors[MAX_COLORS] : source_color;
+uniform vec4 palette[MAX_COLORS] : source_color;
 uniform ivec2 palette_dims;
 
 vec4 swap_color(vec4 color_in) {
-	ivec2 dims = textureSize(original_colors, 0);
-	int array_size = dims.x * dims.y;
 	int closest_index = 0;
 	float closest_dist = 999999.0;
 	
 	// search for index of closest color in pallette
-	for (int i = array_size - 1; i >= 0; i--) {
+	for (int i = 0; i < color_count; i++) {
 		ivec2 index_2d = ivec2(
 			i % palette_dims.x,
 			i / palette_dims.x
 		);
-		vec4 original_col = texelFetch(original_colors, index_2d, 0);
-		
-		// skip transparent palette pixels
-		if (original_col.a <= 0.0) continue;
+		vec4 original_col = original_colors[i];
 		
 		float dist = distance(color_in.rgb, original_col.rgb);
 		if(dist <= closest_dist) {
@@ -29,11 +27,7 @@ vec4 swap_color(vec4 color_in) {
 	}
 	
 	// swap color
-	ivec2 index_2d = ivec2(
-		closest_index % palette_dims.x,
-		closest_index / palette_dims.x
-	);
-	vec4 color_out = texelFetch(palette, index_2d, 0);
+	vec4 color_out = palette[closest_index];
 	
 	// retain input alpha
 	color_out.a = color_in.a;

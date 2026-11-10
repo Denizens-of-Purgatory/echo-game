@@ -2307,7 +2307,7 @@ debug_color = Color(0.861832, 0.00065092026, 0.87249124, 0.41960785)
 texture_filter = 1
 material = ExtResource("13_30wli")
 sprite_frames = SubResource("SpriteFrames_v33n2")
-animation = &"Knockback"
+animation = &"Die"
 offset = Vector2(0, -18)
 metadata/_aseprite_wizard_interface_config_ = {
 "animation_section": false,

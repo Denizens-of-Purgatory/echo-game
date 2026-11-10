@@ -1,11 +1,10 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://d1w4385ao0maa"]
 
 [ext_resource type="Shader" uid="uid://xqbrk7gpdfg2" path="res://src/shader/color_swap.gdshader" id="1_x50go"]
-[ext_resource type="Texture2D" uid="uid://bj0kinfcuwwo5" path="res://assets/color_swap/palette.png" id="2_0shms"]
-[ext_resource type="Texture2D" uid="uid://c7e1em707ru0h" path="res://assets/color_swap/original_colors.png" id="2_klegp"]
 
 [resource]
 shader = ExtResource("1_x50go")
-shader_parameter/original_colors = ExtResource("2_klegp")
-shader_parameter/palette = ExtResource("2_0shms")
+shader_parameter/color_count = 3
+shader_parameter/original_colors = PackedColorArray(1, 0.9882353, 0.9882353, 1, 0.7294118, 0.7764706, 0.83137256, 1, 0.52156866, 0.58431375, 0.65882355, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/palette = PackedColorArray(0.5629899, 0.78002393, 0.999999, 1, 0.52516824, 0.3819329, 1, 1, 0.3845129, 0.0010246555, 0.559225, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 shader_parameter/palette_dims = Vector2i(2, 2)
