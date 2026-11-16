@@ -14,6 +14,7 @@ extends Component
 @export var anim_dash_loop: StringName = "DashLoop"
 @export var anim_climb_idle: StringName = "ClimbIdle"
 @export var anim_climbing: StringName = "LadderClimb"
+@export var anim_melee: StringName = "InteractionPull"
 
 var input_controller: InputController = null
 var movement: Movement = null
@@ -22,6 +23,7 @@ var death: Death = null
 var ground_detection: GroundDetection = null
 var ladder_user: LadderUser = null
 var dash: Dash = null
+var melee: MeleeAttack = null
 var _anim_locked: bool = false
 
 var actor: RigidBody2D:
@@ -37,6 +39,7 @@ func _ready() -> void:
 	stun = Component.get_component(entity, Stun)
 	ground_detection = Component.get_component(entity, GroundDetection)
 	ladder_user = Component.get_component(entity, LadderUser)
+	melee = Component.get_component(entity, MeleeAttack)
 	
 	sprite.play()
 	sprite.animation_finished.connect(_on_anim_finish)
@@ -51,6 +54,10 @@ func _process(_delta: float) -> void:
 	
 	if stun and stun.is_stunned:
 		play_anim("Knockback", true, true)
+		return
+	
+	if melee and melee.is_attacking:
+		play_anim(anim_melee, true, true)
 		return
 	
 	# flip the sprite horizontally based on input

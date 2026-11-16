@@ -5,14 +5,17 @@ extends Component
 @export var attack_area: Area2D = null
 @export var attack_animation: StringName = "attack"
 @export var attack_damage: float = 5
-@export var attack_time: float = 0.25
-@export var cooldown: float = 0.35
+@export var attack_time: float = 0.4
+@export var cooldown: float = 0.4
 @export var flip_with_movement: bool = true
 
 var _movement: GroundMovement = null
 var _attack_delta: float = -1
 var _attack_wait: float = 0
 var _attacked_nodes: Array[Node2D] = []
+
+var is_attacking: bool:
+	get: return _attack_delta >= 0
 
 func _handle_attacking(delta: float) -> void:
 	_attack_delta += delta
@@ -52,7 +55,7 @@ func _physics_process(delta: float) -> void:
 					attack_container.position.x *= -1
 
 func begin_attack() -> void:
-	if _attack_delta >= 0 or _attack_wait > 0: return
+	if is_attacking or _attack_wait > 0: return
 	attack_area.position = Vector2.ZERO
 	attack_container.add_child(attack_area)
 	_attack_delta = 0

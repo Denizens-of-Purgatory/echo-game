@@ -15,7 +15,6 @@
 [ext_resource type="Material" uid="uid://d1w4385ao0maa" path="res://assets/color_swap/color_swap.tres" id="13_30wli"]
 [ext_resource type="Script" uid="uid://wmdt362ndsil" path="res://src/component/movement/slippery.gd" id="14_l3e5e"]
 [ext_resource type="Script" uid="uid://dv5t3a5n8iuhd" path="res://src/component/melee_attack.gd" id="14_ytrcm"]
-[ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="15_ctkup"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5vl63"]
 size = Vector2(26, 48)
@@ -1544,7 +1543,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"InteractionPull",
-"speed": 10.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2281,12 +2280,6 @@ script = ExtResource("14_l3e5e")
 _entity = NodePath("..")
 metadata/_custom_type_script = "uid://wmdt362ndsil"
 
-[node name="MovementAnimator" type="Node" parent="." unique_id=1727272655 node_paths=PackedStringArray("sprite", "_entity")]
-script = ExtResource("5_1423e")
-sprite = NodePath("../AnimatedSprite2D")
-_entity = NodePath("..")
-metadata/_custom_type_script = "uid://n7kixcd52vn7"
-
 [node name="InputController" type="Node" parent="." unique_id=134669693 node_paths=PackedStringArray("_entity")]
 script = ExtResource("4_4c2rd")
 _entity = NodePath("..")
@@ -2300,6 +2293,12 @@ attack_animation = &"InteractionPull"
 _entity = NodePath("..")
 metadata/_custom_type_script = "uid://dv5t3a5n8iuhd"
 
+[node name="MovementAnimator" type="Node" parent="." unique_id=1727272655 node_paths=PackedStringArray("sprite", "_entity")]
+script = ExtResource("5_1423e")
+sprite = NodePath("../AnimatedSprite2D")
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://n7kixcd52vn7"
+
 [node name="MeleeContainer" type="Node2D" parent="." unique_id=171226614]
 position = Vector2(16, 4)
 
@@ -2310,12 +2309,6 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeContainer/AttackCollision" unique_id=1615872682]
 shape = SubResource("RectangleShape2D_5vl63")
 debug_color = Color(0.9953105, 0.06477477, 0, 0.41960785)
-
-[node name="RenderCollision" type="Node" parent="MeleeContainer/AttackCollision" unique_id=966951292]
-script = ExtResource("15_ctkup")
-fill_color = Color(1, 0, 0, 0.0627451)
-outline_color = Color(1, 0.100000024, 0, 0.2509804)
-metadata/_custom_type_script = "uid://bnkw38y6lklqh"
 
 [node name="LadderDetector" type="Area2D" parent="." unique_id=1557402715]
 collision_layer = 0
