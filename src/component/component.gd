@@ -14,6 +14,15 @@ static func get_component(node: Node, script: Script, include_disabled: bool = f
 		return comp
 	return null
 
+## Searches for a component on a node that has not yet been added to the scene 
+## tree, returns null if not found
+static func find_uninitialized_component(node: Node, script: Script) -> Component:
+	for child in node.get_children(true):
+		if not child is Component: continue
+		if child.get_script() == script and child._entity == node:
+			return child
+	return null
+
 signal on_enabled()
 signal on_disabled()
 

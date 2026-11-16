@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://csljil2xk7thc" path="res://src/component/environment/ladder.gd" id="3_4q0k2"]
 [ext_resource type="Script" uid="uid://e1f3cpdd4m3s" path="res://src/component/camera_follow.gd" id="3_07uws"]
 [ext_resource type="PackedScene" uid="uid://bopgqfppcaj0o" path="res://obj/actors/crawler.tscn" id="5_3i6cy"]
+[ext_resource type="Script" uid="uid://dnfeubtjjv8w0" path="res://src/component/environment/level.gd" id="6_doww4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wg718"]
 size = Vector2(1024, 64)
@@ -37,6 +38,12 @@ size = Vector2(176, 16)
 size = Vector2(16, 232)
 
 [node name="Test" type="Node2D" unique_id=1407107177]
+
+[node name="Level" type="Node" parent="." unique_id=596911180 node_paths=PackedStringArray("spawn_point", "_entity")]
+script = ExtResource("6_doww4")
+spawn_point = NodePath("../Hero")
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://dnfeubtjjv8w0"
 
 [node name="Terrain" type="Node2D" parent="." unique_id=755884943]
 
