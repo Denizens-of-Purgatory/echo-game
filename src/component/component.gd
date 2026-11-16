@@ -39,6 +39,7 @@ signal on_detached(entity: Node)
 @export var _enabled: bool = true
 
 var _initialized: bool = false
+var _needs_reattachment: bool = false
 
 
 ## The node entity that the component is attached to and acts upon
@@ -73,14 +74,17 @@ func detach() -> void:
 	if not entity: return
 	var components := entity.get_meta(META_KEY) as Dictionary[Script, Component] 
 	components.erase(get_script())
-	_entity = null
+	_needs_reattachment = true
 	on_detached.emit()
 
 ## Attach a component to the specified node entity
 func attach(node_entity: Node):
 	if _initialized:
-		if entity == node_entity: return
-		if entity: detach()
+		if _needs_reattachment:
+			_needs_reattachment = false
+		else:
+			if entity == node_entity: return
+			if entity: detach()
 	else:
 		_initialized = true
 	

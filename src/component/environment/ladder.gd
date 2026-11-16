@@ -28,6 +28,11 @@ var _max_pos: Vector2 = Vector2(-INF, -INF)
 var area: Area2D: 
 	get: return entity as Area2D
 
+func _enter_tree() -> void:
+	if not _entity:
+		_entity = get_parent()
+	super._enter_tree()
+
 func _ready() -> void:
 	assert(entity is Area2D)
 	var minmax := calc_minmax(entity)

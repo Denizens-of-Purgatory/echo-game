@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://dk78etxfuc3oe"]
+
+[ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="1_nbnny"]
+[ext_resource type="Script" uid="uid://crs05eudy7qe5" path="res://src/component/environment/level_portal.gd" id="2_i7vxu"]
+[ext_resource type="PackedScene" uid="uid://hupn30wnxt51" path="res://obj/levels/level01.tscn" id="3_rbocy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5vl63"]
+size = Vector2(16, 16)
+
+[node name="NextLevelPortal" type="Area2D" unique_id=1976154138]
+collision_layer = 4
+collision_mask = 8
+
+[node name="PortalCollision" type="CollisionShape2D" parent="." unique_id=1329169192]
+shape = SubResource("RectangleShape2D_5vl63")
+debug_color = Color(0.19046757, 0.5965358, 0, 0.41960785)
+
+[node name="RenderCollision" type="Node" parent="." unique_id=270420415]
+script = ExtResource("1_nbnny")
+fill_color = Color(1, 1, 1, 0)
+outline_color = Color(3.2247603e-06, 0.6076473, 0.1728701, 1)
+metadata/_custom_type_script = "uid://bnkw38y6lklqh"
+
+[node name="LevelPortal" type="Node" parent="." unique_id=399445750 node_paths=PackedStringArray("_entity")]
+script = ExtResource("2_i7vxu")
+next_level_scene = ExtResource("3_rbocy")
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://crs05eudy7qe5"

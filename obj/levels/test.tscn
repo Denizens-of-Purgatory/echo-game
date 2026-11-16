@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://e1f3cpdd4m3s" path="res://src/component/camera_follow.gd" id="3_07uws"]
 [ext_resource type="PackedScene" uid="uid://bopgqfppcaj0o" path="res://obj/actors/crawler.tscn" id="5_3i6cy"]
 [ext_resource type="Script" uid="uid://dnfeubtjjv8w0" path="res://src/component/environment/level.gd" id="6_doww4"]
+[ext_resource type="PackedScene" uid="uid://dk78etxfuc3oe" path="res://obj/props/next_level_portal.tscn" id="7_ta6hp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wg718"]
 size = Vector2(1024, 64)
@@ -163,3 +164,6 @@ position = Vector2(64, -112)
 
 [node name="Hero" parent="." unique_id=1140576921 instance=ExtResource("1_wg718")]
 position = Vector2(-64, 64)
+
+[node name="NextLevelPortal" parent="." unique_id=1976154138 instance=ExtResource("7_ta6hp")]
+position = Vector2(176, 112)

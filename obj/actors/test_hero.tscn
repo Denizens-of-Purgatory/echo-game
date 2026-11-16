@@ -2230,11 +2230,6 @@ script = ExtResource("4_fnujx")
 _entity = NodePath("..")
 metadata/_custom_type_script = "uid://e1fyl8sa5y8g"
 
-[node name="InputController" type="Node" parent="." unique_id=134669693 node_paths=PackedStringArray("_entity")]
-script = ExtResource("4_4c2rd")
-_entity = NodePath("..")
-metadata/_custom_type_script = "uid://qg13ywutd1oc"
-
 [node name="GroundDetection" type="Node" parent="." unique_id=136229313 node_paths=PackedStringArray("_entity")]
 script = ExtResource("3_pcbbo")
 _entity = NodePath("..")
@@ -2279,6 +2274,11 @@ script = ExtResource("5_1423e")
 sprite = NodePath("../AnimatedSprite2D")
 _entity = NodePath("..")
 metadata/_custom_type_script = "uid://n7kixcd52vn7"
+
+[node name="InputController" type="Node" parent="." unique_id=134669693 node_paths=PackedStringArray("_entity")]
+script = ExtResource("4_4c2rd")
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://qg13ywutd1oc"
 
 [node name="LadderDetector" type="Area2D" parent="." unique_id=1557402715]
 collision_layer = 0

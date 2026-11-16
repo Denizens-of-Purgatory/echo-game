@@ -27,7 +27,7 @@ func _ready() -> void:
 		control_melee,
 		control_dash,
 	]
-	movement = Component.get_component(entity, Movement)
+	movement = Component.get_component(entity, GroundMovement)
 	dash = Component.get_component(entity, Dash)
 	ladder_user = Component.get_component(entity, LadderUser)
 

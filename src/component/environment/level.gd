@@ -5,6 +5,7 @@ static func convert_to_level(node: Node) -> Level:
 	var level := Component.find_uninitialized_component(node, Level) as Level
 	if not level:
 		level = Level.new()
+		level._entity = node
 		node.add_child(level)
 	
 	# search for player to use as spawn point
@@ -21,6 +22,12 @@ static func convert_to_level(node: Node) -> Level:
 		new_spawn_point.global_position = level.spawn_point.global_position
 		level.spawn_point = new_spawn_point
 	
+	# remove any cameras
+	if Game.camera:
+		for child in node.get_children():
+			if child is Camera2D:
+				child.queue_free()
+	
 	return level
 
 static func load_level(scene: PackedScene) -> Level:
@@ -31,18 +38,18 @@ static func load_level(scene: PackedScene) -> Level:
 	return level
 
 static func start_level(level: Level) -> void:
-	# unload the previous level
+	# unload the previous level and set the new level
 	if is_instance_valid(Game.currentLevel):
 		Game.currentLevel.on_end.emit()
-		Game.currentLevel.queue_free()
+		Game.currentLevel.entity.queue_free()
+	Game.currentLevel = level
 	
 	# add the level to the scene
 	if not level.entity.get_parent():
-		Game.get_tree().root.add_child(level.entity)
+		Game.get_tree().root.add_child.call_deferred(level.entity)
 	
 	# start the next level
 	Game.hero.global_position = level.spawn_point.global_position
-	Game.currentLevel = level
 	level.on_start.emit()
 	
 	print("Starting level: %s" % [level.level_title])
