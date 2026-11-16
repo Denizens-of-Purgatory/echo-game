@@ -10,6 +10,7 @@ func _ready() -> void:
 	hitbox.body_entered.connect(_hitbox_entered)
 
 func _hitbox_entered(other: Node2D):
+	if other == entity: return
 	var damageable := Damageable.get_component(other)
 	if not damageable: return
 	damageable.damage(damage)

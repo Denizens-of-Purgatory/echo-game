@@ -60,6 +60,10 @@ func _process(_delta: float) -> void:
 	elif move_input.x > 0:
 		last_horizontal_facing_direction = 1
 	
+	if is_action_pressed(control_melee):
+		var melee := get_component(entity, MeleeAttack) as MeleeAttack
+		melee.begin_attack()
+	
 	if is_action_pressed(control_jump) and movement is GroundMovement:
 		movement.jump()
 	if dash and is_action_pressed(control_dash):
