@@ -18,6 +18,7 @@ collision_mask = 7
 can_sleep = false
 lock_rotation = true
 script = ExtResource("1_aqwts")
+title = "Crawler"
 movement = [null]
 damageable = NodePath("Damageable")
 metadata/_custom_type_script = "uid://dotxd3ydru4qa"

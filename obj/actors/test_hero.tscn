@@ -2211,6 +2211,7 @@ lock_rotation = true
 script = ExtResource("1_el60q")
 input_controller = NodePath("InputController")
 ladder_user = NodePath("LadderUser")
+title = "Echo"
 movement = [NodePath("GroundMovement")]
 damageable = NodePath("Damageable")
 metadata/_custom_type_script = "uid://5x2nutm2sa1c"
