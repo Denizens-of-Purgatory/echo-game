@@ -28,7 +28,7 @@ static func load_level(scene: PackedScene) -> Level:
 	var level := Component.find_uninitialized_component(level_node, Level)
 	if level == null:
 		level = convert_to_level(level_node)
-	return null
+	return level
 
 static func start_level(level: Level) -> void:
 	# unload the previous level
@@ -41,6 +41,7 @@ static func start_level(level: Level) -> void:
 		Game.get_tree().root.add_child(level.entity)
 	
 	# start the next level
+	Game.hero.global_position = level.spawn_point.global_position
 	Game.currentLevel = level
 	level.on_start.emit()
 	

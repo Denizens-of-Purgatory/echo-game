@@ -4,12 +4,16 @@ extends Actor
 @export var input_controller: InputController = null
 @export var ladder_user: LadderUser = null
 
+var _skip_singleton_check: bool = false
+
 func _ready() -> void:
-	if is_instance_valid(Game.hero):
-		push_warning("Multiple hero nodes cannot exist in the game at once")
-		queue_free()
-	else:
-		Game.hero = self
+	super._ready()
+	if not _skip_singleton_check:
+		if is_instance_valid(Game.hero):
+			push_warning("Multiple hero nodes cannot exist in the game at once")
+			queue_free()
+		else:
+			Game.hero = self
 
 func _on_die() -> void:
 	ladder_user.stop_climbing()
