@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://bkiex56ji6k26" path="res://src/component/movement/platform_dropthrough.gd" id="8_5qfj1"]
 [ext_resource type="Script" uid="uid://7kmhc7hktvem" path="res://src/component/damage/death.gd" id="10_cslia"]
 [ext_resource type="Material" uid="uid://d1w4385ao0maa" path="res://assets/color_swap/color_swap.tres" id="13_30wli"]
+[ext_resource type="Script" uid="uid://wmdt362ndsil" path="res://src/component/movement/slippery.gd" id="14_l3e5e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vjaxa"]
 size = Vector2(8, 42)
@@ -2269,6 +2270,11 @@ script = ExtResource("6_vjaxa")
 movement = NodePath("../GroundMovement")
 _entity = NodePath("..")
 metadata/_custom_type_script = "uid://nefanyx8s75e"
+
+[node name="Slippery" type="Node" parent="." unique_id=918898108 node_paths=PackedStringArray("_entity")]
+script = ExtResource("14_l3e5e")
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://wmdt362ndsil"
 
 [node name="MovementAnimator" type="Node" parent="." unique_id=1727272655 node_paths=PackedStringArray("sprite", "_entity")]
 script = ExtResource("5_1423e")

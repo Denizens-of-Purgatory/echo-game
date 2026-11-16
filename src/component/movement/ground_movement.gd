@@ -63,6 +63,8 @@ var dropthrough: PlatformDropthrough = null
 var ladder_user: LadderUser = null
 ## component that grants an actor the dash ability which can affect movement
 var dash: Dash = null
+## component that controls whether the actor is slippery or not
+var slippery: Slippery = null
 
 ## how many air jumps the actor has already done since last touching ground
 var _air_jumps_used: int = 0 
@@ -111,6 +113,7 @@ func _ready() -> void:
 	dropthrough = Component.get_component(entity, PlatformDropthrough)
 	ladder_user = Component.get_component(entity, LadderUser)
 	dash = Component.get_component(entity, Dash)
+	slippery = Component.get_component(entity, Slippery)
 	
 	assert(entity is RigidbodyForceIntegrator)
 	assert(ground_detection != null)
@@ -289,6 +292,7 @@ func _handle_ground_movement(state: PhysicsDirectBodyState2D) -> void:
 
 ## applies ground friction to the body
 func _apply_ground_friction(state: PhysicsDirectBodyState2D) -> void:
+	if slippery and slippery.is_slippery: return
 	if ground_detection.is_on_ground() and ground_detection.has_ground_contact():
 		if use_native_friction:
 			if actor.physics_material_override.friction != _native_friction_factor:
