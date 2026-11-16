@@ -2250,6 +2250,8 @@ metadata/_custom_type_script = "uid://k0lbiimg07hk"
 
 [node name="GroundJump" type="Node" parent="." unique_id=1866562227 node_paths=PackedStringArray("_entity")]
 script = ExtResource("7_ctkup")
+jump_power = 255.0
+jump_sustain = 0.6
 _entity = NodePath("..")
 metadata/_custom_type_script = "uid://bsgvr8j4pdur4"
 
