@@ -1,8 +1,6 @@
 class_name GroundMovement
 extends Movement
 
-signal on_jump_begin()
-
 ## the axis that ground movement forces will be applied along
 enum MoveAxis {
 	GroundNormal,
@@ -27,17 +25,6 @@ enum SlopeSlipResistMode {
 ## "Always" is recommended for when use native friction is off
 @export var slope_resist_mode: SlopeSlipResistMode = SlopeSlipResistMode.WhenMoving
 
-## how quickly the actor is launched upwards immedialely when jumping
-@export var jump_power: float = 450
-
-## how long the jump is sustained for when holding the jump button. From 0 to 1,
-## where 1 means the jump is sustained indefinitely, and 0 means it is not 
-## sustained at all. Jump sustain is treated as a constant upward force 
-## with magnitude relative to gravity on the actor. jump sustain force is 
-## as long as jump input is recieved until the jump reaches it's peak, or a 
-## collision gets in the way
-@export_range(0, 1) var jump_sustain: float = 0.5
-
 ## if true, friction is calculated by the physics engine instead of using our 
 ## custom implementation. May work better in cases where the character is 
 ## walking on a lot of different dynamic physics surfaces
@@ -47,11 +34,6 @@ enum SlopeSlipResistMode {
 ## on the ground, 1 means the actor will stop immediately, while 0 means they 
 ## will slip and slide around like on ice
 @export_range(0, 1) var ground_friction: float = 0.5
-
-## the amount of times the actor can jump after already being in the air, 
-## before touching the ground. 1 would be a double jump, 2 would be a triple 
-## jump, and so on
-@export var max_air_jumps: int = 1
 
 ## component to detect whether actor is on ground or not
 var ground_detection: GroundDetection = null
@@ -66,14 +48,6 @@ var dash: Dash = null
 ## component that controls whether the actor is slippery or not
 var slippery: Slippery = null
 
-## how many air jumps the actor has already done since last touching ground
-var _air_jumps_used: int = 0 
-## if the actor will jump immediately after hitting the ground
-var _jump_queued: bool = false
-## true if jump input is recieved
-var _is_jumping: bool = false
-## if jump input received in previous step
-var _was_jumping: bool = false
 ## the linear velocity of the actor in the previous step
 var _prev_velocity: Vector2 = Vector2.ZERO
 ## the original native friction of the rigidbody
@@ -121,11 +95,6 @@ func _ready() -> void:
 	# attach signals
 	if not actor.on_integrate_forces.is_connected(_actor_integrate_forces):
 		actor.on_integrate_forces.connect(_actor_integrate_forces) 
-		ground_detection.on_ground_enter.connect(_reset_air_jumps)
-		if ladder_user: ladder_user.on_climb_start.connect(_reset_air_jumps)
-
-func _reset_air_jumps() -> void:
-	_air_jumps_used = 0
 
 func _actor_integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if not enabled: return
@@ -145,7 +114,6 @@ func _actor_integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 					if !is_moving(): _handle_resist_slope_sliding(state)
 	
 	_handle_ground_movement(state)
-	_handle_jump_state(state)
 	
 	# remove friction unless it was explicitly applied this frame
 	if use_native_friction:
@@ -158,54 +126,6 @@ func _actor_integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	_prev_velocity = state.linear_velocity
 
 #### ------------------- PRIVATE IMPLEMENTATION --------------------------------
-
-func _handle_jump_state(state: PhysicsDirectBodyState2D) -> void:
-	# make actor jump if jump input received and on ground (or climbing)
-	if (
-		(ground_detection.is_on_ground() or (ladder_user and ladder_user.is_climbing())) or 
-		(_air_jumps_used < max_air_jumps and is_falling(state))
-	):
-		if (_is_jumping && !_was_jumping) or _jump_queued:
-			if not (ground_detection.is_on_ground() or (ladder_user and ladder_user.is_climbing())):
-				_air_jumps_used += 1
-			if ladder_user and ladder_user.is_climbing():
-				ladder_user.stop_climbing()
-			_handle_jump(state)
-	elif _is_jumping:
-		_handle_jump_sustain(state)
-	
-	# reset flags
-	if !_is_jumping: _jump_queued = false
-	_was_jumping = _is_jumping
-	_is_jumping = false
-
-func _handle_jump(state: PhysicsDirectBodyState2D) -> void:
-	# ignore jump if mid-dash
-	if dash and dash.is_dashing(): return
-	
-	# get relative axes
-	var up_axis := -state.total_gravity.normalized()
-	var fwd_axis := -up_axis.orthogonal()
-	var up_vel := jump_power
-	var fwd_vel := fwd_axis * state.linear_velocity
-	
-	# apply velocity relative to local axes
-	ground_detection.set_ungrounded()
-	state.linear_velocity = fwd_axis * fwd_vel + up_axis * up_vel
-	_jump_queued = false
-	on_jump_begin.emit()
-
-func _handle_jump_sustain(state: PhysicsDirectBodyState2D) -> void:
-	# ignore jump sustain if mid-dash
-	if dash and dash.is_dashing(): return
-	
-	var grav := state.total_gravity
-	var up_axis := -grav.normalized()
-	var up_vel := up_axis.dot(actor.linear_velocity)
-	
-	# only jump sustain if still moving upward from initial jump velocity
-	if up_vel > 0:
-		state.linear_velocity += -grav * jump_sustain * state.step
 
 ## calculate velocity relative to body's local axes, maintaining the previous 
 ## frame's forward velocity
@@ -230,13 +150,6 @@ func _handle_resist_slope_sliding(state: PhysicsDirectBodyState2D) -> void:
 	ground_vel += slide_mag * -state.step
 	up_vel += fall_mag * -state.step
 	state.linear_velocity = ground_axis * ground_vel + up_axis * up_vel
-
-func is_falling(state: PhysicsDirectBodyState2D) -> bool:
-	if ground_detection.has_ground_contact():
-		return false
-	var up_axis := -actor.get_gravity().normalized()
-	var up_vel := up_axis.dot(state.linear_velocity)
-	return up_vel <= 0
 
 ## apply horizontal movement forces to the body
 func _handle_ground_movement(state: PhysicsDirectBodyState2D) -> void:
@@ -326,9 +239,3 @@ func move_right() -> void: move_horizontal(1)
 
 ## move the actor to the left according to speed properties
 func move_left() -> void: move_horizontal(-1)
-
-## make the actor jump if they're able to
-func jump():
-	_is_jumping = true
-	if !_was_jumping:
-		_jump_queued = true

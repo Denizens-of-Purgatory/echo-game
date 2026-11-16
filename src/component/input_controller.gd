@@ -10,6 +10,7 @@ extends Component
 @export var control_dash: StringName = &"dash"
 
 var movement: Movement = null
+var jumping: GroundJump = null
 var dash: Dash = null
 var ladder_user: LadderUser = null
 
@@ -28,6 +29,7 @@ func _ready() -> void:
 		control_dash,
 	]
 	movement = Component.get_component(entity, GroundMovement)
+	jumping = Component.get_component(entity, GroundJump)
 	dash = Component.get_component(entity, Dash)
 	ladder_user = Component.get_component(entity, LadderUser)
 
@@ -38,11 +40,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				action_pressed_map.set(id, event.is_pressed())
 
 func _process(_delta: float) -> void:
-	
-	if(movement == null): _find_movement()
-	
 	var move_input: Vector2 = Vector2.ZERO
-	
 	if not dash or not dash.is_dashing():
 		if is_action_pressed(control_moveLeft):
 			move_input.x -= 1
@@ -64,15 +62,13 @@ func _process(_delta: float) -> void:
 		var melee := get_component(entity, MeleeAttack) as MeleeAttack
 		melee.begin_attack()
 	
-	if is_action_pressed(control_jump) and movement is GroundMovement:
-		movement.jump()
+	if jumping and is_action_pressed(control_jump):
+		jumping.jump()
+	
 	if dash and is_action_pressed(control_dash):
 		if ladder_user and ladder_user.is_climbing():
 			ladder_user.stop_climbing()
 		dash.dash(last_horizontal_facing_direction)
-
-func _find_movement() -> void:
-	movement = Component.get_component(entity, GroundMovement)
 
 func is_action_pressed(action_id: StringName) -> bool:
 	return action_pressed_map.get(action_id, false)

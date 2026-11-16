@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://dryu50g7kj4iq" path="res://src/component/damage/stun.gd" id="6_mvchi"]
 [ext_resource type="Script" uid="uid://nefanyx8s75e" path="res://src/component/movement/dash.gd" id="6_vjaxa"]
 [ext_resource type="Script" uid="uid://dsdbxyhccf5fo" path="res://src/component/movement/ladder_user.gd" id="7_46d1e"]
+[ext_resource type="Script" uid="uid://bsgvr8j4pdur4" path="res://src/component/movement/ground_jump.gd" id="7_ctkup"]
 [ext_resource type="Script" uid="uid://bkiex56ji6k26" path="res://src/component/movement/platform_dropthrough.gd" id="8_5qfj1"]
 [ext_resource type="Script" uid="uid://7kmhc7hktvem" path="res://src/component/damage/death.gd" id="10_cslia"]
 [ext_resource type="Material" uid="uid://d1w4385ao0maa" path="res://assets/color_swap/color_swap.tres" id="13_30wli"]
@@ -2243,11 +2244,14 @@ metadata/_custom_type_script = "uid://8tidub3buupu"
 
 [node name="GroundMovement" type="Node" parent="." unique_id=580192802 node_paths=PackedStringArray("_entity")]
 script = ExtResource("2_t8fna")
-jump_power = 250.0
-jump_sustain = 0.6
 max_speed = 175.0
 _entity = NodePath("..")
 metadata/_custom_type_script = "uid://k0lbiimg07hk"
+
+[node name="GroundJump" type="Node" parent="." unique_id=1866562227 node_paths=PackedStringArray("_entity")]
+script = ExtResource("7_ctkup")
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://bsgvr8j4pdur4"
 
 [node name="Stun" type="Node" parent="." unique_id=1238779527 node_paths=PackedStringArray("_entity")]
 script = ExtResource("6_mvchi")
