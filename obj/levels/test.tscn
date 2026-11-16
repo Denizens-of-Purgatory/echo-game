@@ -3,10 +3,10 @@
 [ext_resource type="PackedScene" uid="uid://0kumfvklghhg" path="res://obj/actors/hero.tscn" id="1_wg718"]
 [ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="2_4q0k2"]
 [ext_resource type="Script" uid="uid://e1f3cpdd4m3s" path="res://src/component/camera_follow.gd" id="3_07uws"]
-[ext_resource type="PackedScene" uid="uid://bce7uh33o3x3k" path="res://obj/props/ladder.tscn" id="3_ta6hp"]
+[ext_resource type="PackedScene" uid="uid://bce7uh33o3x3k" path="res://obj/environment/ladder.tscn" id="3_ta6hp"]
 [ext_resource type="PackedScene" uid="uid://bopgqfppcaj0o" path="res://obj/actors/crawler.tscn" id="5_3i6cy"]
 [ext_resource type="Script" uid="uid://dnfeubtjjv8w0" path="res://src/component/environment/level.gd" id="6_doww4"]
-[ext_resource type="PackedScene" uid="uid://dk78etxfuc3oe" path="res://obj/props/next_level_portal.tscn" id="7_ta6hp"]
+[ext_resource type="PackedScene" uid="uid://dk78etxfuc3oe" path="res://obj/environment/next_level_portal.tscn" id="7_ta6hp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wg718"]
 size = Vector2(1024, 64)
