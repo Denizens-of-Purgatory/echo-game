@@ -15,9 +15,8 @@ script = ExtResource("1_f18yk")
 fill_color = Color(0.2645837, 0.24574038, 0.0936724, 1)
 metadata/_custom_type_script = "uid://bnkw38y6lklqh"
 
-[node name="Ladder" type="Node" parent="." unique_id=1108424838 node_paths=PackedStringArray("ignore_colliders", "_entity")]
+[node name="Ladder" type="Node" parent="." unique_id=1108424838 node_paths=PackedStringArray("_entity")]
 script = ExtResource("2_51w4t")
-ignore_colliders = [null]
 _entity = NodePath("..")
 metadata/_custom_type_script = "uid://csljil2xk7thc"
 

@@ -130,6 +130,9 @@ debug_color = Color(0.60043633, 0.37415928, 4.813075e-07, 0.41960785)
 [node name="Ladder" parent="TerrainAreas" unique_id=191418472 instance=ExtResource("3_ta6hp")]
 position = Vector2(16, -104)
 
+[node name="Ladder" parent="TerrainAreas/Ladder" index="1" unique_id=1108424838 node_paths=PackedStringArray("ignore_colliders")]
+ignore_colliders = [NodePath("../../../Terrain/UpperFloor")]
+
 [node name="Camera" type="Camera2D" parent="." unique_id=1127553788]
 
 [node name="CameraFollow" type="Node" parent="Camera" unique_id=432718089 node_paths=PackedStringArray("target", "_entity")]
@@ -146,3 +149,5 @@ position = Vector2(-64, 64)
 
 [node name="NextLevelPortal" parent="." unique_id=1976154138 instance=ExtResource("7_ta6hp")]
 position = Vector2(176, 112)
+
+[editable path="TerrainAreas/Ladder"]
