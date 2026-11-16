@@ -13,7 +13,7 @@ signal edge_reached()
 ## Initial movement direction, -1 for left, 1 for right
 @export var move_dir: float = 1
 
-var movement: Movement = null
+var movement: MovementVector = null
 var _edge_detector: Area2D = null
 var _wall_detector: Area2D = null
 var _movement_wait: float = 0
@@ -92,8 +92,8 @@ func _position_detectors() -> void:
 
 func _ready() -> void:
 	assert(entity is CollisionObject2D)
-	movement = Component.get_component(entity, GroundMovement)
-	assert(movement != null)
+	movement = Component.get_component(entity, MovementVector)
+	assert(movement)
 	
 	_create_detectors()
 	
@@ -110,10 +110,10 @@ func _physics_process(delta: float) -> void:
 			_position_detectors()
 			_do_edge_overlap_check = true
 		else:
-			movement.move_vector = Vector2(0, 0)
+			movement.movement_vector = Vector2(0, 0)
 			return
 	
-	movement.move_vector = Vector2(move_dir, 0)
+	movement.movement_vector = Vector2(move_dir, 0)
 
 func stop_at_edge(flip: bool = true) -> void:
 	if not flip: move_dir *= -1

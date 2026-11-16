@@ -13,7 +13,7 @@ extends Component
 var _curr_pos: Vector2 = Vector2.ZERO
 var _prev_pos: Vector2 = Vector2.ZERO
 var _fixed_timestep: float = 0
-var _movement: Movement = null
+var _movement: MovementVector = null
 var _last_move_dir: Vector2 = Vector2.ZERO
 
 var camera: Node2D:
@@ -34,13 +34,13 @@ func _physics_process(delta: float) -> void:
 	
 func get_target_position() -> Vector2:
 	if not _movement:
-		_movement = Component.get_component(target, Movement)
+		_movement = Component.get_component(target, MovementVector)
 	
 	var offset := Vector2.ZERO
 	if _movement:
-		if absf(_movement.move_vector.x) > 0.1:
-			_last_move_dir.x = _movement.move_vector.x
-		_last_move_dir.y = _movement.move_vector.y
+		if absf(_movement.movement_vector.x) > 0.1:
+			_last_move_dir.x = _movement.movement_vector.x
+		_last_move_dir.y = _movement.movement_vector.y
 		offset += Vector2(
 			signf(_last_move_dir.x) * look_distance_horizontal,
 			signf(_last_move_dir.y) * look_distance_vertical,

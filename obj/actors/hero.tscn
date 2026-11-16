@@ -16,6 +16,7 @@
 [ext_resource type="Material" uid="uid://d1w4385ao0maa" path="res://assets/color_swap/color_swap.tres" id="13_30wli"]
 [ext_resource type="Script" uid="uid://wmdt362ndsil" path="res://src/component/movement/slippery.gd" id="14_l3e5e"]
 [ext_resource type="Script" uid="uid://dv5t3a5n8iuhd" path="res://src/component/melee_attack.gd" id="14_ytrcm"]
+[ext_resource type="Script" uid="uid://842dtvcq7yaj" path="res://src/component/movement/movement_vector.gd" id="16_s4skh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5vl63"]
 size = Vector2(26, 48)
@@ -2208,7 +2209,7 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="Hero" type="RigidBody2D" unique_id=1140576921 node_paths=PackedStringArray("input_controller", "ladder_user", "movement", "damageable")]
+[node name="Hero" type="RigidBody2D" unique_id=1140576921 node_paths=PackedStringArray("input_controller", "ladder_user")]
 physics_interpolation_mode = 1
 collision_layer = 8
 collision_mask = 7
@@ -2218,8 +2219,6 @@ script = ExtResource("1_el60q")
 input_controller = NodePath("InputController")
 ladder_user = NodePath("LadderUser")
 title = "Echo"
-movement = [NodePath("GroundMovement")]
-damageable = NodePath("Damageable")
 metadata/_custom_type_script = "uid://5x2nutm2sa1c"
 
 [node name="Health" type="Node" parent="." unique_id=1107911229 node_paths=PackedStringArray("_entity")]
@@ -2236,6 +2235,11 @@ metadata/_custom_type_script = "uid://7kmhc7hktvem"
 script = ExtResource("4_fnujx")
 _entity = NodePath("..")
 metadata/_custom_type_script = "uid://e1fyl8sa5y8g"
+
+[node name="MovementVector" type="Node" parent="." unique_id=964393559 node_paths=PackedStringArray("_entity")]
+script = ExtResource("16_s4skh")
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://842dtvcq7yaj"
 
 [node name="GroundDetection" type="Node" parent="." unique_id=136229313 node_paths=PackedStringArray("_entity")]
 script = ExtResource("3_pcbbo")

@@ -18,6 +18,7 @@ extends Component
 
 var input_controller: InputController = null
 var movement: Movement = null
+var move_vec: MovementVector = null
 var stun: Stun = null
 var death: Death = null
 var ground_detection: GroundDetection = null
@@ -33,6 +34,7 @@ func _ready() -> void:
 	assert(entity is RigidBody2D)
 	
 	input_controller = Component.get_component(entity, InputController)
+	move_vec = Component.get_component(entity, MovementVector)
 	movement = Component.get_component(entity, GroundMovement)
 	dash = Component.get_component(entity, Dash)
 	death = Component.get_component(entity, Death)
@@ -65,8 +67,8 @@ func _process(_delta: float) -> void:
 		var horizontal_orientation: float = 0
 		if input_controller:
 			horizontal_orientation = input_controller.last_horizontal_facing_direction
-		elif movement:
-			horizontal_orientation = movement.move_vector.x
+		elif move_vec:
+			horizontal_orientation = move_vec.movement_vector.x
 		if horizontal_orientation < 0:
 			sprite.scale.x = -absf(sprite.scale.x)
 		elif horizontal_orientation > 0:
@@ -89,7 +91,7 @@ func _process(_delta: float) -> void:
 			play_anim(anim_trans_fall_idle, true)
 		else:
 			var speed_threshold := movement.max_speed * 0.85
-			if absf(movement.move_vector.x) > 0.25:
+			if absf(move_vec.movement_vector.x) > 0.25:
 				play_anim(anim_run)
 			elif absf(actor.linear_velocity.x) > speed_threshold:
 				play_anim(anim_trans_run_idle, true)

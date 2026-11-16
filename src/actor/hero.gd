@@ -18,7 +18,9 @@ func _ready() -> void:
 func _on_die() -> void:
 	ladder_user.stop_climbing()
 	input_controller.queue_free()
-	movement[0].move_vector = Vector2.ZERO
+	
+	var movement_vec: MovementVector = Component.get_component(self, MovementVector)
+	if movement_vec: movement_vec.movement_vector = Vector2.ZERO
 
 func _on_revive() -> void:
 	pass

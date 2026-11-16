@@ -8,8 +8,6 @@ extends Component
 ## one second, with a factor of 2 it takes 1/2 second, etc
 @export var acceleration_factor: float = 5
 
-var move_vector: Vector2 = Vector2.ZERO
-
 ## Instructs the movement component to move in the specified direction
 func move(_move_dir: Vector2, _clamp_to_one: bool = true) -> void:
 	push_error("Not implemented")

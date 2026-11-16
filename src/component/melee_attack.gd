@@ -9,7 +9,7 @@ extends Component
 @export var cooldown: float = 0.4
 @export var flip_with_movement: bool = true
 
-var _movement: GroundMovement = null
+var _movement: MovementVector = null
 var _attack_delta: float = -1
 var _attack_wait: float = 0
 var _attacked_nodes: Array[Node2D] = []
@@ -49,9 +49,9 @@ func _physics_process(delta: float) -> void:
 				_attack_wait = 0
 		if flip_with_movement:
 			if not _movement:
-				_movement = get_component(entity, GroundMovement)
+				_movement = get_component(entity, MovementVector)
 			if _movement:
-				if absf(signf(_movement.move_vector.x) - signf(attack_container.position.x)) > 1:
+				if absf(signf(_movement.movement_vector.x) - signf(attack_container.position.x)) > 1:
 					attack_container.position.x *= -1
 
 func begin_attack() -> void:

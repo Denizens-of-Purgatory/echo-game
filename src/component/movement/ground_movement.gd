@@ -48,6 +48,8 @@ var dash: Dash = null
 ## component that controls whether the actor is slippery or not
 var slippery: Slippery = null
 
+var movement_vector: MovementVector = null
+
 ## the linear velocity of the actor in the previous step
 var _prev_velocity: Vector2 = Vector2.ZERO
 ## the original native friction of the rigidbody
@@ -62,7 +64,7 @@ var _ground_friction_applied: bool = false
 var actor: RigidbodyForceIntegrator:
 	get: return entity as RigidbodyForceIntegrator
 
-func is_moving() -> bool: return absf(move_vector.x) >= 0.1
+func is_moving() -> bool: return absf(movement_vector.movement_vector.x) >= 0.1
 
 #### ------------------- SIGNAL RECEIVERS --------------------------------------
 
@@ -82,7 +84,8 @@ func _ready() -> void:
 		_native_friction_factor = actor.physics_material_override.friction
 		_native_friction_rough = actor.physics_material_override.rough
 
-	ground_detection = Component.get_component(actor, GroundDetection) as GroundDetection
+	movement_vector = Component.get_component(entity, MovementVector)
+	ground_detection = Component.get_component(actor, GroundDetection)
 	stun = Component.get_component(entity, Stun)
 	dropthrough = Component.get_component(entity, PlatformDropthrough)
 	ladder_user = Component.get_component(entity, LadderUser)
@@ -90,7 +93,8 @@ func _ready() -> void:
 	slippery = Component.get_component(entity, Slippery)
 	
 	assert(entity is RigidbodyForceIntegrator)
-	assert(ground_detection != null)
+	assert(movement_vector)
+	assert(ground_detection)
 
 	# attach signals
 	if not actor.on_integrate_forces.is_connected(_actor_integrate_forces):
@@ -100,7 +104,7 @@ func _actor_integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if not enabled: return
 	
 	if stun and stun.is_stunned:
-		move_vector = Vector2.ZERO
+		movement_vector.movement_vector = Vector2.ZERO
 
 	if ground_detection.is_on_ground():
 		if not ground_detection._was_on_ground:
@@ -167,7 +171,7 @@ func _handle_ground_movement(state: PhysicsDirectBodyState2D) -> void:
 	var fwd_vel := fwd_axis.dot(state.linear_velocity)
 	
 	# calculate desired motion parameters
-	var targ_vel := max_speed * clampf(move_vector.x, -1, 1)
+	var targ_vel := max_speed * clampf(movement_vector.movement_vector.x, -1, 1)
 	var acceleration := max_speed * acceleration_factor
 	
 	# if speed is higher than max speedNod
@@ -186,7 +190,7 @@ func _handle_ground_movement(state: PhysicsDirectBodyState2D) -> void:
 	# if speed needs to be increased
 	else: 
 		# calculate total horizontal acceleration for this step
-		var acc_x: float = acceleration * move_vector.x * state.step
+		var acc_x: float = acceleration * movement_vector.movement_vector.x * state.step
 #		
 		# if ground friction helps accelerate toward target velocity, apply friction
 		if signf(fwd_vel + acc_x) != signf(targ_vel):
@@ -224,15 +228,15 @@ func move(move_dir: Vector2, clamp_to_one: bool = true) -> void:
 		if move_dir.y > 0 and ground_detection.has_ground_contact():
 			dropthrough.drop_collision()
 	move_horizontal(move_dir.x, clamp_to_one)
-	move_vector.y = move_dir.y
+	movement_vector.movement_vector.y = movement_vector.movement_vector.y
 
 ## move the player in the specified direction. A move_dir of 1 is right, left 
 ## is -1. Absolute value less than 1 will move the actor slower than their 
 ## max_speed. Absolute values higher than 1 will only move the actor faster
 ## than their max speed if clamp_to_one is set to false
 func move_horizontal(move_dir: float, clamp_to_one: bool = true) -> void:
-	if clamp_to_one: move_vector.x = clampf(move_dir, -1, 1)
-	else: move_vector.x = move_dir
+	if clamp_to_one: movement_vector.movement_vector.x = clampf(move_dir, -1, 1)
+	else: movement_vector.movement_vector.x = move_dir
 
 ## move the actor to the right according to speed properties
 func move_right() -> void: move_horizontal(1)
