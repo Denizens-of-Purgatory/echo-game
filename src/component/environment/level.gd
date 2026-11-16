@@ -47,6 +47,7 @@ static func start_level(level: Level) -> void:
 	# add the level to the scene
 	if not level.entity.get_parent():
 		Game.get_tree().root.add_child.call_deferred(level.entity)
+		Game.get_tree().root.move_child.call_deferred(level.entity, 1)
 	
 	# start the next level
 	Game.hero.global_position = level.spawn_point.global_position
