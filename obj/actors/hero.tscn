@@ -1329,9 +1329,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yuhqd")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"Crouch",
-"speed": 7.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 2.857143,
@@ -2346,8 +2346,11 @@ debug_color = Color(0.861832, 0.00065092026, 0.87249124, 0.41960785)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=124769676]
 texture_filter = 1
 material = ExtResource("13_30wli")
+position = Vector2(0, 3)
 sprite_frames = SubResource("SpriteFrames_v33n2")
 animation = &"Idle"
+frame = 1
+frame_progress = 0.43957707
 offset = Vector2(0, -18)
 metadata/_aseprite_wizard_interface_config_ = {
 "animation_section": false,

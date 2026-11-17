@@ -9,9 +9,12 @@ signal on_damage_given(dmg: float)
 func _ready() -> void:
 	hitbox.body_entered.connect(_hitbox_entered)
 
-func _hitbox_entered(other: Node2D):
+func _hitbox_entered(other: Node2D) -> void:
 	if other == entity: return
 	var damageable := Damageable.get_component(other)
-	if not damageable: return
+	if damageable: 
+		hit(damageable)
+
+func hit(damageable: Damageable) -> void:
 	damageable.damage(damage)
 	on_damage_given.emit(damage)
