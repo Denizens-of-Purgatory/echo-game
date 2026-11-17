@@ -2,6 +2,7 @@ class_name ContactDamage
 extends Component
 
 signal on_damage_given(dmg: float)
+signal on_damage_given_to(other: Node)
 
 @export var hitbox: Area2D = null
 @export var damage: float = 1
@@ -18,3 +19,4 @@ func _hitbox_entered(other: Node2D) -> void:
 func hit(damageable: Damageable) -> void:
 	damageable.damage(damage)
 	on_damage_given.emit(damage)
+	on_damage_given_to.emit(damageable.entity)

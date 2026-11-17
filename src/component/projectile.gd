@@ -10,6 +10,7 @@ signal on_hit_damageable(damageable: Damageable)
 @export var max_lifetime: float = 5
 @export var speed: float = 500
 
+var projectile_owner: Node = null
 var movement: MovementVector = null
 var lifetime: float = 0
 var _last_position: Vector2 = Vector2.ZERO
@@ -27,23 +28,32 @@ func _integrate_position(delta: float) -> void:
 		collision_raycast.target_position = collision_raycast.to_local(entity2d.global_position)
 		collision_raycast.force_raycast_update()
 		if collision_raycast.is_colliding():
-			_hit_other(collision_raycast.get_collider())
+			_hit_other(collision_raycast.get_collider(), true)
 
-func _hit_other(other: Node2D) -> void:
+func _hit_other(other: Node2D, pass_forward: bool = false) -> void:
+	if other == projectile_owner or other == entity:
+		return
 	var damageabe := Damageable.get_component(other, Damageable)
 	on_hit.emit(other)
 	if damageabe:
 		on_hit_damageable.emit(damageabe)
-		var damager := Component.get_component(entity, ContactDamage) as ContactDamage
-		if damager:
-			damager.hit(damageabe)
+		if pass_forward:
+			var damager := Component.get_component(entity, ContactDamage) as ContactDamage
+			if damager:
+				damager.hit(damageabe)
+	
+	if destroy_on_collide:
+		entity2d.queue_free()
 
 func _ready() -> void:
 	movement = Component.get_component(entity, MovementVector)
 	assert(movement)
 	assert(entity is Node2D)
 	_last_position = entity2d.global_position
-	collision_raycast.enabled = false
+	
+	if collision_raycast:
+		collision_raycast.enabled = false
+		collision_raycast.add_exception(projectile_owner)
 	
 	if collision_area:
 		collision_area.body_entered.connect(_hit_other)

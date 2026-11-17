@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bopgqfppcaj0o" path="res://obj/actors/crawler.tscn" id="5_3i6cy"]
 [ext_resource type="Script" uid="uid://dnfeubtjjv8w0" path="res://src/component/environment/level.gd" id="6_doww4"]
 [ext_resource type="PackedScene" uid="uid://dk78etxfuc3oe" path="res://obj/environment/next_level_portal.tscn" id="7_ta6hp"]
+[ext_resource type="PackedScene" uid="uid://ccdjc7722gef5" path="res://obj/entities/projectile.tscn" id="8_em65g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wg718"]
 size = Vector2(1024, 64)
@@ -149,5 +150,7 @@ position = Vector2(-64, 64)
 
 [node name="NextLevelPortal" parent="." unique_id=1976154138 instance=ExtResource("7_ta6hp")]
 position = Vector2(176, 112)
+
+[node name="Projectile" parent="." unique_id=1335915349 instance=ExtResource("8_em65g")]
 
 [editable path="TerrainAreas/Ladder"]
