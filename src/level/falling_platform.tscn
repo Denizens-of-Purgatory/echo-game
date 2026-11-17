@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cxfmyy631abfr"]
+
+[ext_resource type="Script" uid="uid://bekksh8m32kba" path="res://src/level/falling_platform.gd" id="1_n8rnf"]
+[ext_resource type="TileSet" uid="uid://6wvg170iq42u" path="res://assets/Walls/walls.tres" id="2_2egsa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8w43j"]
+size = Vector2(48, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n8rnf"]
+size = Vector2(48, 6.5)
+
+[node name="FallingPlatform" type="StaticBody2D" unique_id=1634158947]
+collision_mask = 0
+script = ExtResource("1_n8rnf")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=583571]
+tile_map_data = PackedByteArray(0, 0, 1, 0, 255, 255, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 255, 255, 0, 0, 2, 0, 0, 0, 0, 0, 3, 0, 255, 255, 0, 0, 2, 0, 0, 0, 0, 0)
+tile_set = ExtResource("2_2egsa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=568266647]
+position = Vector2(40, -8.5)
+shape = SubResource("RectangleShape2D_8w43j")
+
+[node name="TopTrigger" type="Area2D" parent="." unique_id=609505970]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopTrigger" unique_id=1626863603]
+position = Vector2(40, -19)
+shape = SubResource("RectangleShape2D_n8rnf")

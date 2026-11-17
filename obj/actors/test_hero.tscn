@@ -2197,7 +2197,7 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="Hero" type="RigidBody2D" unique_id=1140576921 node_paths=PackedStringArray("movement")]
+[node name="Hero" type="RigidBody2D" unique_id=1140576921 node_paths=PackedStringArray("movement") groups=["player"]]
 physics_interpolation_mode = 1
 collision_layer = 8
 collision_mask = 7

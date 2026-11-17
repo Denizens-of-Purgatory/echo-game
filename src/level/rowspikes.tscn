@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bd60ad21iytho"]
+
+[ext_resource type="Script" uid="uid://cfm8a876ibnx1" path="res://src/level/rowspikes.gd" id="1_c7yps"]
+[ext_resource type="Texture2D" uid="uid://pds6ckqk05mr" path="res://assets/Obstacles/Spikes/4 Conjoined Spikes.png" id="1_cmd8c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ib2y"]
+size = Vector2(47, 12.5)
+
+[node name="spikes" type="Node2D" unique_id=20091395]
+script = ExtResource("1_c7yps")
+
+[node name="4ConjoinedSpikes" type="Sprite2D" parent="." unique_id=551407168]
+position = Vector2(23.414635, -12.222221)
+scale = Vector2(1.1707317, 2.4444447)
+texture = ExtResource("1_cmd8c")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1929171991]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1022249610]
+position = Vector2(23, -6.75)
+shape = SubResource("RectangleShape2D_8ib2y")

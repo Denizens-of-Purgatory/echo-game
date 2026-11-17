@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://nc5itv5qqxrs"]
+
+[ext_resource type="Script" uid="uid://cn3a6o2142wor" path="res://src/level/fall_spike.gd" id="1_8dva6"]
+[ext_resource type="Texture2D" uid="uid://dhrau7nmxp2vj" path="res://assets/Obstacles/Spikes/Individual Spike.png" id="2_j0upe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ib2y"]
+size = Vector2(135, 630)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k8ckf"]
+size = Vector2(32, 56)
+
+[node name="MovingSpike" type="Node2D" unique_id=1624905487]
+script = ExtResource("1_8dva6")
+
+[node name="TriggerArea" type="Area2D" parent="." unique_id=1608996738]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea" unique_id=1842531076]
+position = Vector2(22, 259)
+shape = SubResource("RectangleShape2D_8ib2y")
+
+[node name="MovingSpike" type="Node2D" parent="." unique_id=1831042347]
+unique_name_in_owner = true
+
+[node name="IndividualSpike" type="Sprite2D" parent="MovingSpike" unique_id=1759100068]
+position = Vector2(21.000002, -25)
+rotation = 3.1415925
+scale = Vector2(2.0588236, 6.4320984)
+texture = ExtResource("2_j0upe")
+
+[node name="Hitbox" type="Area2D" parent="MovingSpike" unique_id=511262963]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MovingSpike/Hitbox" unique_id=1448967319]
+position = Vector2(20, -29)
+shape = SubResource("RectangleShape2D_k8ckf")
+
+[node name="GroundRay" type="RayCast2D" parent="." unique_id=1876320936]
+unique_name_in_owner = true
+position = Vector2(6, 18)
