@@ -52,4 +52,4 @@ func _physics_process(delta: float) -> void:
 	_integrate_position(delta)
 	lifetime += delta
 	if lifetime > max_lifetime:
-		queue_free()
+		entity2d.queue_free()
