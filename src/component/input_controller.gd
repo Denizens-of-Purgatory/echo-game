@@ -9,6 +9,8 @@ extends Component
 @export var control_melee: StringName = &"melee"
 @export var control_dash: StringName = &"dash"
 
+@export var use_projectile: bool = false
+
 var movement: Movement = null
 var jumping: GroundJump = null
 var dash: Dash = null
@@ -59,8 +61,12 @@ func _process(_delta: float) -> void:
 		last_horizontal_facing_direction = 1
 	
 	if is_action_pressed(control_melee):
-		var melee := get_component(entity, MeleeAttack) as MeleeAttack
-		melee.begin_attack()
+		if use_projectile:
+			var attack := get_component(entity, ProjectileAttack) as ProjectileAttack
+			attack.attack()
+		else:
+			var melee := get_component(entity, MeleeAttack) as MeleeAttack
+			melee.begin_attack()
 	
 	if jumping and is_action_pressed(control_jump):
 		jumping.jump()

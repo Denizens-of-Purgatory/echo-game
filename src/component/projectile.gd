@@ -10,10 +10,21 @@ signal on_hit_damageable(damageable: Damageable)
 @export var max_lifetime: float = 5
 @export var speed: float = 500
 
-var projectile_owner: Node = null
 var movement: MovementVector = null
 var lifetime: float = 0
+var _projectile_owner: Node = null
 var _last_position: Vector2 = Vector2.ZERO
+
+var projectile_owner: Node2D:
+	get: return projectile_owner
+	set(val):
+		if (val == _projectile_owner): return
+		_projectile_owner = val
+		if collision_raycast: 
+			collision_raycast.add_exception(val)
+		var ct_dam := Component.get_component(entity, ContactDamage) as ContactDamage
+		if ct_dam:
+			ct_dam.ignore_collisions_with(val)
 
 var entity2d: Node2D:
 	get: return entity as Node2D
@@ -31,7 +42,7 @@ func _integrate_position(delta: float) -> void:
 			_hit_other(collision_raycast.get_collider(), true)
 
 func _hit_other(other: Node2D, pass_forward: bool = false) -> void:
-	if other == projectile_owner or other == entity:
+	if other == _projectile_owner or other == entity:
 		return
 	var damageabe := Damageable.get_component(other, Damageable)
 	on_hit.emit(other)
@@ -53,7 +64,7 @@ func _ready() -> void:
 	
 	if collision_raycast:
 		collision_raycast.enabled = false
-		collision_raycast.add_exception(projectile_owner)
+		if (_projectile_owner): collision_raycast.add_exception(_projectile_owner)
 	
 	if collision_area:
 		collision_area.body_entered.connect(_hit_other)

@@ -16,7 +16,9 @@
 [ext_resource type="Material" uid="uid://d1w4385ao0maa" path="res://assets/color_swap/color_swap.tres" id="13_30wli"]
 [ext_resource type="Script" uid="uid://wmdt362ndsil" path="res://src/component/movement/slippery.gd" id="14_l3e5e"]
 [ext_resource type="Script" uid="uid://dv5t3a5n8iuhd" path="res://src/component/melee_attack.gd" id="14_ytrcm"]
+[ext_resource type="Script" uid="uid://jmux6linguce" path="res://src/component/projectile_attack.gd" id="16_0grmx"]
 [ext_resource type="Script" uid="uid://842dtvcq7yaj" path="res://src/component/movement/movement_vector.gd" id="16_s4skh"]
+[ext_resource type="PackedScene" uid="uid://ccdjc7722gef5" path="res://obj/entities/projectile.tscn" id="17_bl86j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5vl63"]
 size = Vector2(26, 48)
@@ -2292,6 +2294,7 @@ metadata/_custom_type_script = "uid://wmdt362ndsil"
 
 [node name="InputController" type="Node" parent="." unique_id=134669693 node_paths=PackedStringArray("_entity")]
 script = ExtResource("4_4c2rd")
+use_projectile = true
 _entity = NodePath("..")
 metadata/_custom_type_script = "uid://qg13ywutd1oc"
 
@@ -2302,6 +2305,15 @@ attack_area = NodePath("../MeleeContainer/AttackCollision")
 attack_animation = &"InteractionPull"
 _entity = NodePath("..")
 metadata/_custom_type_script = "uid://dv5t3a5n8iuhd"
+
+[node name="ProjectileAttack" type="Node" parent="." unique_id=1633907986 node_paths=PackedStringArray("projectile", "projectile_spawnpoint", "_entity")]
+script = ExtResource("16_0grmx")
+projectile = NodePath("Projectile")
+projectile_spawnpoint = NodePath("../ProjectileSpawn")
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://jmux6linguce"
+
+[node name="Projectile" parent="ProjectileAttack" unique_id=1335915349 instance=ExtResource("17_bl86j")]
 
 [node name="MovementAnimator" type="Node" parent="." unique_id=1727272655 node_paths=PackedStringArray("sprite", "_entity")]
 script = ExtResource("5_1423e")
@@ -2373,6 +2385,9 @@ metadata/_aseprite_wizard_config_ = {
 "source_uid": 2775207487902266939
 }
 metadata/_aseprite_wizard_source_file_hash_ = "ec508a8ea605ee81e6ffd71dc7deefbc"
+
+[node name="ProjectileSpawn" type="Node2D" parent="." unique_id=1077553091]
+position = Vector2(0, 8)
 
 [connection signal="on_die" from="Death" to="." method="_on_die"]
 [connection signal="on_revive" from="Death" to="." method="_on_revive"]
