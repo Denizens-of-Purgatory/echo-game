@@ -22,11 +22,14 @@ var camera: Node2D:
 func _ready() -> void:
 	assert(entity is Node2D)
 	
-	_prev_pos = target.global_position
-	_curr_pos = target.global_position
-	entity.global_position = _curr_pos
+	if target:
+		_prev_pos = target.global_position
+		_curr_pos = target.global_position
+		entity.global_position = _curr_pos
 
 func _physics_process(delta: float) -> void:
+	if not target: 
+		return
 	_fixed_timestep = delta
 	_prev_pos = camera.global_position
 	_curr_pos = get_target_position()

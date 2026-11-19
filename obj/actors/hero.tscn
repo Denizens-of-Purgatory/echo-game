@@ -2358,7 +2358,6 @@ debug_color = Color(0.861832, 0.00065092026, 0.87249124, 0.41960785)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=124769676]
 texture_filter = 1
 material = ExtResource("13_30wli")
-position = Vector2(0, 3)
 sprite_frames = SubResource("SpriteFrames_v33n2")
 animation = &"Idle"
 frame = 1

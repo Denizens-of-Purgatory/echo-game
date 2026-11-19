@@ -1,14 +1,15 @@
 [gd_scene format=4 uid="uid://hupn30wnxt51"]
 
-[ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="1_kk1mo"]
-[ext_resource type="Script" uid="uid://csljil2xk7thc" path="res://src/component/environment/ladder.gd" id="2_j3ufp"]
+[ext_resource type="Script" uid="uid://dnfeubtjjv8w0" path="res://src/component/environment/level.gd" id="1_clt04"]
 [ext_resource type="PackedScene" uid="uid://nc5itv5qqxrs" path="res://src/level/FallSpike.tscn" id="2_l5pvp"]
 [ext_resource type="Texture2D" uid="uid://dhrau7nmxp2vj" path="res://assets/Obstacles/Spikes/Individual Spike.png" id="3_hi6ha"]
 [ext_resource type="PackedScene" uid="uid://0kumfvklghhg" path="res://obj/actors/hero.tscn" id="3_ufq6a"]
 [ext_resource type="Texture2D" uid="uid://bceffp1h7h6uh" path="res://assets/Walls/Walls.png" id="4_k4w6c"]
-[ext_resource type="Script" uid="uid://e1f3cpdd4m3s" path="res://src/component/camera_follow.gd" id="5_eg3qw"]
 [ext_resource type="PackedScene" uid="uid://bd60ad21iytho" path="res://src/level/rowspikes.tscn" id="6_l5pvp"]
 [ext_resource type="PackedScene" uid="uid://cxfmyy631abfr" path="res://src/level/falling_platform.tscn" id="7_hi6ha"]
+[ext_resource type="PackedScene" uid="uid://bce7uh33o3x3k" path="res://obj/environment/ladder.tscn" id="8_clt04"]
+[ext_resource type="PackedScene" uid="uid://dk78etxfuc3oe" path="res://obj/environment/next_level_portal.tscn" id="11_2qdkr"]
+[ext_resource type="PackedScene" uid="uid://cuoc4k1r40x0k" path="res://obj/levels/level02.tscn" id="12_1tarh"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k4w6c"]
 texture = ExtResource("4_k4w6c")
@@ -35,10 +36,14 @@ physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_k4w6c")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cnecw"]
-size = Vector2(16, 232)
-
 [node name="Level01" type="Node2D" unique_id=1407107177]
+
+[node name="Level" type="Node" parent="." unique_id=864973438 node_paths=PackedStringArray("spawn_point", "_entity")]
+script = ExtResource("1_clt04")
+level_title = "First Level"
+spawn_point = NodePath("../Hero")
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://dnfeubtjjv8w0"
 
 [node name="Terrain" type="Node2D" parent="." unique_id=755884943]
 
@@ -109,16 +114,6 @@ position = Vector2(1603, 414)
 
 [node name="spikes9" parent="Terrain" unique_id=643771649 instance=ExtResource("6_l5pvp")]
 position = Vector2(1650, 414)
-
-[node name="TerrainAreas" type="Node2D" parent="." unique_id=197704875]
-
-[node name="Camera" type="Camera2D" parent="." unique_id=325359644]
-
-[node name="CameraFollow" type="Node" parent="Camera" unique_id=1725489446 node_paths=PackedStringArray("target", "_entity")]
-script = ExtResource("5_eg3qw")
-target = NodePath("../../Hero")
-_entity = NodePath("..")
-metadata/_custom_type_script = "uid://e1f3cpdd4m3s"
 
 [node name="Hero" parent="." unique_id=1140576921 instance=ExtResource("3_ufq6a")]
 position = Vector2(-64, 64)
@@ -223,25 +218,8 @@ texture = ExtResource("3_hi6ha")
 position = Vector2(894, 166)
 rotation = -0.0019898568
 
-[node name="Ladder" type="Area2D" parent="." unique_id=1991884381]
-position = Vector2(1539, -76)
-collision_layer = 4
-collision_mask = 0
-
-[node name="RenderCollision" type="Node" parent="Ladder" unique_id=1429904184]
-script = ExtResource("1_kk1mo")
-fill_color = Color(0.2645837, 0.24574038, 0.0936724, 1)
-metadata/_custom_type_script = "uid://bnkw38y6lklqh"
-
-[node name="Ladder" type="Node" parent="Ladder" unique_id=2133973464 node_paths=PackedStringArray("ignore_colliders")]
-script = ExtResource("2_j3ufp")
-ignore_colliders = [null]
-metadata/_custom_type_script = "uid://csljil2xk7thc"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ladder" unique_id=1302004922]
-position = Vector2(-1, 120)
-shape = SubResource("RectangleShape2D_cnecw")
-debug_color = Color(0.39899087, 0.37668952, 0.07582962, 0.41960785)
+[node name="Ladder" parent="." unique_id=191418472 instance=ExtResource("8_clt04")]
+position = Vector2(1536, -72)
 
 [node name="spikes11" parent="." unique_id=1531612989 instance=ExtResource("6_l5pvp")]
 position = Vector2(1267, 340)
@@ -257,3 +235,11 @@ position = Vector2(1410, 339)
 
 [node name="spikes15" parent="." unique_id=1841821113 instance=ExtResource("6_l5pvp")]
 position = Vector2(1448, 338)
+
+[node name="NextLevelPortal" parent="." unique_id=1976154138 instance=ExtResource("11_2qdkr")]
+position = Vector2(1600, -672)
+
+[node name="LevelPortal" parent="NextLevelPortal" index="2" unique_id=399445750]
+next_level_scene = ExtResource("12_1tarh")
+
+[editable path="NextLevelPortal"]

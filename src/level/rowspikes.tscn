@@ -18,6 +18,6 @@ texture = ExtResource("1_cmd8c")
 collision_layer = 0
 collision_mask = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1022249610]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1022249610]
 position = Vector2(23, -6.75)
 shape = SubResource("RectangleShape2D_8ib2y")

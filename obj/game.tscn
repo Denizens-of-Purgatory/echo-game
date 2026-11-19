@@ -1,7 +1,15 @@
 [gd_scene format=3 uid="uid://biq60ms5kjcl1"]
 
 [ext_resource type="Script" uid="uid://dtyndql3krjbq" path="res://src/game_manager.gd" id="1_y5a5f"]
+[ext_resource type="PackedScene" uid="uid://bxca1stph2q1h" path="res://obj/camera.tscn" id="2_6d1hs"]
+[ext_resource type="PackedScene" uid="uid://0kumfvklghhg" path="res://obj/actors/hero.tscn" id="3_f3wxv"]
 
-[node name="GameManager" type="Node" unique_id=573870356]
+[node name="GameManager" type="Node" unique_id=573870356 node_paths=PackedStringArray("camera", "hero")]
 script = ExtResource("1_y5a5f")
+camera = NodePath("Camera")
+hero = NodePath("Hero")
 metadata/_custom_type_script = "uid://dtyndql3krjbq"
+
+[node name="Hero" parent="." unique_id=1140576921 instance=ExtResource("3_f3wxv")]
+
+[node name="Camera" parent="." unique_id=1135763348 instance=ExtResource("2_6d1hs")]

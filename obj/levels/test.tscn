@@ -2,11 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://0kumfvklghhg" path="res://obj/actors/hero.tscn" id="1_wg718"]
 [ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="2_4q0k2"]
-[ext_resource type="Script" uid="uid://e1f3cpdd4m3s" path="res://src/component/camera_follow.gd" id="3_07uws"]
 [ext_resource type="PackedScene" uid="uid://bce7uh33o3x3k" path="res://obj/environment/ladder.tscn" id="3_ta6hp"]
+[ext_resource type="PackedScene" uid="uid://bxca1stph2q1h" path="res://obj/camera.tscn" id="4_em65g"]
 [ext_resource type="PackedScene" uid="uid://bopgqfppcaj0o" path="res://obj/actors/crawler.tscn" id="5_3i6cy"]
 [ext_resource type="Script" uid="uid://dnfeubtjjv8w0" path="res://src/component/environment/level.gd" id="6_doww4"]
 [ext_resource type="PackedScene" uid="uid://dk78etxfuc3oe" path="res://obj/environment/next_level_portal.tscn" id="7_ta6hp"]
+[ext_resource type="PackedScene" uid="uid://hupn30wnxt51" path="res://obj/levels/level01.tscn" id="8_em65g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wg718"]
 size = Vector2(1024, 64)
@@ -133,13 +134,7 @@ position = Vector2(16, -104)
 [node name="Ladder" parent="TerrainAreas/Ladder" index="1" unique_id=1108424838 node_paths=PackedStringArray("ignore_colliders")]
 ignore_colliders = [NodePath("../../../Terrain/UpperFloor")]
 
-[node name="Camera" type="Camera2D" parent="." unique_id=1127553788]
-
-[node name="CameraFollow" type="Node" parent="Camera" unique_id=432718089 node_paths=PackedStringArray("target", "_entity")]
-script = ExtResource("3_07uws")
-target = NodePath("../../Hero")
-_entity = NodePath("..")
-metadata/_custom_type_script = "uid://e1f3cpdd4m3s"
+[node name="Camera" parent="." unique_id=1135763348 instance=ExtResource("4_em65g")]
 
 [node name="Crawler" parent="." unique_id=1410108048 instance=ExtResource("5_3i6cy")]
 position = Vector2(64, -112)
@@ -150,4 +145,8 @@ position = Vector2(-64, 64)
 [node name="NextLevelPortal" parent="." unique_id=1976154138 instance=ExtResource("7_ta6hp")]
 position = Vector2(176, 112)
 
+[node name="LevelPortal" parent="NextLevelPortal" index="2" unique_id=399445750]
+next_level_scene = ExtResource("8_em65g")
+
 [editable path="TerrainAreas/Ladder"]
+[editable path="NextLevelPortal"]

@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="1_nbnny"]
 [ext_resource type="Script" uid="uid://crs05eudy7qe5" path="res://src/component/environment/level_portal.gd" id="2_i7vxu"]
-[ext_resource type="PackedScene" uid="uid://hupn30wnxt51" path="res://obj/levels/level01.tscn" id="3_rbocy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5vl63"]
 size = Vector2(16, 16)
@@ -23,6 +22,5 @@ metadata/_custom_type_script = "uid://bnkw38y6lklqh"
 
 [node name="LevelPortal" type="Node" parent="." unique_id=399445750 node_paths=PackedStringArray("_entity")]
 script = ExtResource("2_i7vxu")
-next_level_scene = ExtResource("3_rbocy")
 _entity = NodePath("..")
 metadata/_custom_type_script = "uid://crs05eudy7qe5"
