@@ -37,6 +37,12 @@ size = Vector2(16, 232)
 
 [node name="Test" type="Node2D" unique_id=1407107177]
 
+[node name="Level" type="Node" parent="." unique_id=596911180 node_paths=PackedStringArray("spawn_point", "_entity")]
+script = ExtResource("6_doww4")
+spawn_point = NodePath("../Hero")
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://dnfeubtjjv8w0"
+
 [node name="Terrain" type="Node2D" parent="." unique_id=755884943]
 
 [node name="Ground" type="StaticBody2D" parent="Terrain" unique_id=1863478030]

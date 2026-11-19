@@ -1,7 +1,6 @@
 class_name MovementAnimator
-extends Node
+extends Component
 
-@export var actor: RigidBody2D = null
 @export var sprite: AnimatedSprite2D = null
 @export var input_controller: InputController = null
 @export var movement: Movement = null
@@ -21,15 +20,51 @@ extends Node
 @export var anim_climb_idle: StringName = "ClimbIdle"
 @export var anim_climbing: StringName = "LadderClimb"
 
+var input_controller: InputController = null
+var movement: Movement = null
+var move_vec: MovementVector = null
+var stun: Stun = null
+var death: Death = null
+var ground_detection: GroundDetection = null
+var ladder_user: LadderUser = null
+var dash: Dash = null
+var melee: MeleeAttack = null
 var _anim_locked: bool = false
 
+var actor: RigidBody2D:
+	get: return entity as RigidBody2D
+
 func _ready() -> void:
+	assert(entity is RigidBody2D)
+	
+	input_controller = Component.get_component(entity, InputController)
+	move_vec = Component.get_component(entity, MovementVector)
+	movement = Component.get_component(entity, GroundMovement)
+	dash = Component.get_component(entity, Dash)
+	death = Component.get_component(entity, Death)
+	stun = Component.get_component(entity, Stun)
+	ground_detection = Component.get_component(entity, GroundDetection)
+	ladder_user = Component.get_component(entity, LadderUser)
+	melee = Component.get_component(entity, MeleeAttack)
+	
 	sprite.play()
 	sprite.animation_finished.connect(_on_anim_finish)
 	sprite.animation_looped.connect(_on_anim_finish)
 	dash.on_dash_stop.connect(play_anim.bind(anim_dash_end, true, true))
 
 func _process(_delta: float) -> void:
+	
+	if death and death.is_dead:
+		play_anim("Die", true, true)
+		return
+	
+	if stun and stun.is_stunned:
+		play_anim("Knockback", true, true)
+		return
+	
+	if melee and melee.is_attacking:
+		play_anim(anim_melee, true, true)
+		return
 	
 	# flip the sprite horizontally based on input
 	if auto_flip and not _anim_locked:
@@ -60,7 +95,7 @@ func _process(_delta: float) -> void:
 			play_anim(anim_trans_fall_idle, true)
 		else:
 			var speed_threshold := movement.max_speed * 0.85
-			if absf(movement.move_vector.x) > 0.25:
+			if absf(move_vec.movement_vector.x) > 0.25:
 				play_anim(anim_run)
 			elif absf(actor.linear_velocity.x) > speed_threshold:
 				play_anim(anim_trans_run_idle, true)

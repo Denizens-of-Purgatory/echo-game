@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://ccdjc7722gef5"]
+
+[ext_resource type="Script" uid="uid://842dtvcq7yaj" path="res://src/component/movement/movement_vector.gd" id="1_5knm0"]
+[ext_resource type="Script" uid="uid://cnin4anp1s1h2" path="res://src/component/projectile.gd" id="2_jqwfh"]
+[ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="3_8sws2"]
+[ext_resource type="Script" uid="uid://bdhislghpkh3c" path="res://src/component/damage/contact_damage.gd" id="3_phh73"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8sws2"]
+radius = 8.0
+
+[node name="Projectile" type="Node2D" unique_id=1335915349]
+
+[node name="MovementVector" type="Node" parent="." unique_id=1866009094 node_paths=PackedStringArray("_entity")]
+script = ExtResource("1_5knm0")
+_movement_vector = Vector2(1, 0)
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://842dtvcq7yaj"
+
+[node name="ContactDamage" type="Node" parent="." unique_id=1603139824 node_paths=PackedStringArray("hitbox", "_entity")]
+script = ExtResource("3_phh73")
+hitbox = NodePath("../Collision")
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://bdhislghpkh3c"
+
+[node name="Projectile" type="Node" parent="." unique_id=1146140977 node_paths=PackedStringArray("collision_area", "_entity")]
+script = ExtResource("2_jqwfh")
+collision_area = NodePath("../Collision")
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://cnin4anp1s1h2"
+
+[node name="Collision" type="Area2D" parent="." unique_id=281403537]
+collision_layer = 0
+collision_mask = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision" unique_id=1367043662]
+shape = SubResource("CircleShape2D_8sws2")
+debug_color = Color(0.6072011, 0.36466613, 1, 0.41960785)
+
+[node name="RenderCollision" type="Node" parent="Collision" unique_id=1146422038]
+script = ExtResource("3_8sws2")
+fill_color = Color(0.4144995, 0.3549069, 1, 1)
+metadata/_custom_type_script = "uid://bnkw38y6lklqh"

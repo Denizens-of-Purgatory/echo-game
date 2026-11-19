@@ -27,6 +27,10 @@ func _ready() -> void:
 		control_melee,
 		control_dash,
 	]
+	movement = Component.get_component(entity, GroundMovement)
+	jumping = Component.get_component(entity, GroundJump)
+	dash = Component.get_component(entity, Dash)
+	ladder_user = Component.get_component(entity, LadderUser)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_type():
@@ -35,9 +39,6 @@ func _unhandled_input(event: InputEvent) -> void:
 				action_pressed_map.set(id, event.is_pressed())
 
 func _process(_delta: float) -> void:
-	
-	if(movement == null): _find_movement()
-	
 	var move_input: Vector2 = Vector2.ZERO
 	
 	if not dash or not dash.is_dashing():

@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://bce7uh33o3x3k"]
+
+[ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="1_f18yk"]
+[ext_resource type="Script" uid="uid://csljil2xk7thc" path="res://src/component/environment/ladder.gd" id="2_51w4t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ayf5q"]
+size = Vector2(16, 232)
+
+[node name="Ladder" type="Area2D" unique_id=191418472]
+collision_layer = 4
+collision_mask = 0
+
+[node name="RenderCollision" type="Node" parent="." unique_id=964320015]
+script = ExtResource("1_f18yk")
+fill_color = Color(0.2645837, 0.24574038, 0.0936724, 1)
+metadata/_custom_type_script = "uid://bnkw38y6lklqh"
+
+[node name="Ladder" type="Node" parent="." unique_id=1108424838 node_paths=PackedStringArray("_entity")]
+script = ExtResource("2_51w4t")
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://csljil2xk7thc"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1752184242]
+position = Vector2(0, 116)
+shape = SubResource("RectangleShape2D_ayf5q")
+debug_color = Color(0.39899087, 0.37668952, 0.07582962, 0.41960785)

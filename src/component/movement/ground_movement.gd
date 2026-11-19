@@ -42,17 +42,6 @@ enum SlopeSlipResistMode {
 ## "Always" is recommended for when use native friction is off
 @export var slope_resist_mode: SlopeSlipResistMode = SlopeSlipResistMode.WhenMoving
 
-## how quickly the actor is launched upwards immedialely when jumping
-@export var jump_power: float = 450
-
-## how long the jump is sustained for when holding the jump button. From 0 to 1,
-## where 1 means the jump is sustained indefinitely, and 0 means it is not 
-## sustained at all. Jump sustain is treated as a constant upward force 
-## with magnitude relative to gravity on the actor. jump sustain force is 
-## as long as jump input is recieved until the jump reaches it's peak, or a 
-## collision gets in the way
-@export_range(0, 1) var jump_sustain: float = 0.5
-
 ## if true, friction is calculated by the physics engine instead of using our 
 ## custom implementation. May work better in cases where the character is 
 ## walking on a lot of different dynamic physics surfaces
@@ -92,16 +81,7 @@ func is_moving() -> bool: return absf(move_vector.x) >= 0.1
 #### ------------------- SIGNAL RECEIVERS --------------------------------------
 
 func _ready() -> void:
-	# get parent if not set
-	if actor == null:
-		push_warning("actor was not set, attempting to find parent actor..")
-		var parent := get_parent()
-		if parent is RigidbodyForceIntegrator:
-			actor = parent
-		else: 
-			push_error("GroundMovement must be child of RigidbodyForceIntegrator")
-			return
-		
+	
 	if !use_native_friction:
 		# require frictionless physics material for custom friction
 		if actor.physics_material_override == null or actor.physics_material_override.friction > 0:
@@ -115,6 +95,14 @@ func _ready() -> void:
 			actor.physics_material_override = PhysicsMaterial.new()
 		_native_friction_factor = actor.physics_material_override.friction
 		_native_friction_rough = actor.physics_material_override.rough
+
+	movement_vector = Component.get_component(entity, MovementVector)
+	ground_detection = Component.get_component(actor, GroundDetection)
+	stun = Component.get_component(entity, Stun)
+	dropthrough = Component.get_component(entity, PlatformDropthrough)
+	ladder_user = Component.get_component(entity, LadderUser)
+	dash = Component.get_component(entity, Dash)
+	slippery = Component.get_component(entity, Slippery)
 	
 	# assign components to actor if it's a rigid body controller
 	if actor is CharacterRigidbody2D:
@@ -151,7 +139,6 @@ func _actor_integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 					if !is_moving(): _handle_resist_slope_sliding(state)
 	
 	_handle_ground_movement(state)
-	_handle_jump_state(state)
 	
 	# remove friction unless it was explicitly applied this frame
 	if use_native_friction:
@@ -260,10 +247,10 @@ func _handle_ground_movement(state: PhysicsDirectBodyState2D) -> void:
 	var fwd_vel := fwd_axis.dot(state.linear_velocity)
 	
 	# calculate desired motion parameters
-	var targ_vel := max_speed * clampf(move_vector.x, -1, 1)
+	var targ_vel := max_speed * clampf(movement_vector.movement_vector.x, -1, 1)
 	var acceleration := max_speed * acceleration_factor
 	
-	# if speed is higher than max speed
+	# if speed is higher than max speedNod
 	if absf(fwd_vel) > absf(targ_vel):
 		var dif_vel_x := targ_vel - fwd_vel
 		var acc_x: float = minf(acceleration, absf(dif_vel_x)) * signf(dif_vel_x) * state.step
@@ -279,7 +266,7 @@ func _handle_ground_movement(state: PhysicsDirectBodyState2D) -> void:
 	# if speed needs to be increased
 	else: 
 		# calculate total horizontal acceleration for this step
-		var acc_x: float = acceleration * move_vector.x * state.step
+		var acc_x: float = acceleration * movement_vector.movement_vector.x * state.step
 #		
 		# if ground friction helps accelerate toward target velocity, apply friction
 		if signf(fwd_vel + acc_x) != signf(targ_vel):
@@ -298,6 +285,7 @@ func _handle_ground_movement(state: PhysicsDirectBodyState2D) -> void:
 
 ## applies ground friction to the body
 func _apply_ground_friction(state: PhysicsDirectBodyState2D) -> void:
+	if slippery and slippery.is_slippery: return
 	if ground_detection.is_on_ground() and ground_detection.has_ground_contact():
 		if use_native_friction:
 			if actor.physics_material_override.friction != _native_friction_factor:
@@ -323,17 +311,11 @@ func move(move_dir: Vector2, clamp_to_one: bool = true) -> void:
 ## max_speed. Absolute values higher than 1 will only move the actor faster
 ## than their max speed if clamp_to_one is set to false
 func move_horizontal(move_dir: float, clamp_to_one: bool = true) -> void:
-	if clamp_to_one: move_vector.x = clampf(move_dir, -1, 1)
-	else: move_vector.x = move_dir
+	if clamp_to_one: movement_vector.movement_vector.x = clampf(move_dir, -1, 1)
+	else: movement_vector.movement_vector.x = move_dir
 
 ## move the actor to the right according to speed properties
 func move_right() -> void: move_horizontal(1)
 
 ## move the actor to the left according to speed properties
 func move_left() -> void: move_horizontal(-1)
-
-## make the actor jump if they're able to
-func jump():
-	_is_jumping = true
-	if !_was_jumping:
-		_jump_queued = true
