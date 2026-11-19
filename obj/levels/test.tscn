@@ -1,9 +1,12 @@
 [gd_scene format=3 uid="uid://c2uvpwdoqjqis"]
 
-[ext_resource type="PackedScene" uid="uid://0kumfvklghhg" path="res://obj/actors/test_hero.tscn" id="1_wg718"]
+[ext_resource type="PackedScene" uid="uid://0kumfvklghhg" path="res://obj/actors/hero.tscn" id="1_wg718"]
 [ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="2_4q0k2"]
-[ext_resource type="Script" uid="uid://csljil2xk7thc" path="res://src/level/ladder.gd" id="3_4q0k2"]
 [ext_resource type="Script" uid="uid://e1f3cpdd4m3s" path="res://src/component/camera_follow.gd" id="3_07uws"]
+[ext_resource type="PackedScene" uid="uid://bce7uh33o3x3k" path="res://obj/environment/ladder.tscn" id="3_ta6hp"]
+[ext_resource type="PackedScene" uid="uid://bopgqfppcaj0o" path="res://obj/actors/crawler.tscn" id="5_3i6cy"]
+[ext_resource type="Script" uid="uid://dnfeubtjjv8w0" path="res://src/component/environment/level.gd" id="6_doww4"]
+[ext_resource type="PackedScene" uid="uid://dk78etxfuc3oe" path="res://obj/environment/next_level_portal.tscn" id="7_ta6hp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wg718"]
 size = Vector2(1024, 64)
@@ -31,9 +34,6 @@ size = Vector2(48, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_em65g"]
 size = Vector2(176, 16)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ayf5q"]
-size = Vector2(16, 232)
 
 [node name="Test" type="Node2D" unique_id=1407107177]
 
@@ -127,34 +127,27 @@ debug_color = Color(0.60043633, 0.37415928, 4.813075e-07, 0.41960785)
 
 [node name="TerrainAreas" type="Node2D" parent="." unique_id=197704875]
 
-[node name="Ladder" type="Area2D" parent="TerrainAreas" unique_id=1990559542]
+[node name="Ladder" parent="TerrainAreas" unique_id=191418472 instance=ExtResource("3_ta6hp")]
 position = Vector2(16, -104)
-collision_layer = 4
-collision_mask = 0
 
-[node name="RenderCollision" type="Node" parent="TerrainAreas/Ladder" unique_id=94390300]
-script = ExtResource("2_4q0k2")
-fill_color = Color(0.2645837, 0.24574038, 0.0936724, 1)
-metadata/_custom_type_script = "uid://bnkw38y6lklqh"
-
-[node name="Ladder" type="Node" parent="TerrainAreas/Ladder" unique_id=985811555 node_paths=PackedStringArray("parent", "ignore_colliders")]
-script = ExtResource("3_4q0k2")
-parent = NodePath("..")
+[node name="Ladder" parent="TerrainAreas/Ladder" index="1" unique_id=1108424838 node_paths=PackedStringArray("ignore_colliders")]
 ignore_colliders = [NodePath("../../../Terrain/UpperFloor")]
-metadata/_custom_type_script = "uid://csljil2xk7thc"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TerrainAreas/Ladder" unique_id=2040413092]
-position = Vector2(0, 116)
-shape = SubResource("RectangleShape2D_ayf5q")
-debug_color = Color(0.39899087, 0.37668952, 0.07582962, 0.41960785)
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1127553788]
 
-[node name="CameraFollow" type="Node" parent="Camera" unique_id=432718089 node_paths=PackedStringArray("camera", "target")]
+[node name="CameraFollow" type="Node" parent="Camera" unique_id=432718089 node_paths=PackedStringArray("target", "_entity")]
 script = ExtResource("3_07uws")
-camera = NodePath("..")
 target = NodePath("../../Hero")
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://e1f3cpdd4m3s"
+
+[node name="Crawler" parent="." unique_id=1410108048 instance=ExtResource("5_3i6cy")]
+position = Vector2(64, -112)
 
 [node name="Hero" parent="." unique_id=1140576921 instance=ExtResource("1_wg718")]
 position = Vector2(-64, 64)
+
+[node name="NextLevelPortal" parent="." unique_id=1976154138 instance=ExtResource("7_ta6hp")]
+position = Vector2(176, 112)
+
+[editable path="TerrainAreas/Ladder"]

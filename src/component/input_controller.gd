@@ -1,9 +1,5 @@
 class_name InputController
-extends Node
-
-@export var movement: Movement = null
-@export var dash: Dash = null
-@export var ladder_user: LadderUser = null
+extends Component
 
 @export var control_moveRight: StringName = &"move_right"
 @export var control_moveLeft: StringName = &"move_left"
@@ -12,6 +8,13 @@ extends Node
 @export var control_jump: StringName = &"jump"
 @export var control_melee: StringName = &"melee"
 @export var control_dash: StringName = &"dash"
+
+@export var use_projectile: bool = false
+
+var movement: Movement = null
+var jumping: GroundJump = null
+var dash: Dash = null
+var ladder_user: LadderUser = null
 
 var last_horizontal_facing_direction: float = 1
 var action_ids: Array[StringName] = []
@@ -40,7 +43,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(_delta: float) -> void:
 	var move_input: Vector2 = Vector2.ZERO
-	
 	if not dash or not dash.is_dashing():
 		if is_action_pressed(control_moveLeft):
 			move_input.x -= 1
@@ -58,19 +60,21 @@ func _process(_delta: float) -> void:
 	elif move_input.x > 0:
 		last_horizontal_facing_direction = 1
 	
-	if is_action_pressed(control_jump) and movement is GroundMovement:
-		movement.jump()
+	if is_action_pressed(control_melee):
+		if use_projectile:
+			var attack := get_component(entity, ProjectileAttack) as ProjectileAttack
+			attack.attack()
+		else:
+			var melee := get_component(entity, MeleeAttack) as MeleeAttack
+			melee.begin_attack()
+	
+	if jumping and is_action_pressed(control_jump):
+		jumping.jump()
+	
 	if dash and is_action_pressed(control_dash):
 		if ladder_user and ladder_user.is_climbing():
 			ladder_user.stop_climbing()
 		dash.dash(last_horizontal_facing_direction)
-
-func _find_movement() -> void:
-	print("getting ground movement for controller..")
-	var parent := get_parent()
-	if parent is CharacterRigidbody2D and parent.ground_movement != null:
-		movement = parent.ground_movement
-		print("found ground movement for controller!")
 
 func is_action_pressed(action_id: StringName) -> bool:
 	return action_pressed_map.get(action_id, false)

@@ -1,10 +1,10 @@
 [gd_scene format=4 uid="uid://hupn30wnxt51"]
 
 [ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="1_kk1mo"]
-[ext_resource type="Script" uid="uid://csljil2xk7thc" path="res://src/level/ladder.gd" id="2_j3ufp"]
+[ext_resource type="Script" uid="uid://csljil2xk7thc" path="res://src/component/environment/ladder.gd" id="2_j3ufp"]
 [ext_resource type="PackedScene" uid="uid://nc5itv5qqxrs" path="res://src/level/FallSpike.tscn" id="2_l5pvp"]
 [ext_resource type="Texture2D" uid="uid://dhrau7nmxp2vj" path="res://assets/Obstacles/Spikes/Individual Spike.png" id="3_hi6ha"]
-[ext_resource type="PackedScene" uid="uid://0kumfvklghhg" path="res://obj/actors/test_hero.tscn" id="3_ufq6a"]
+[ext_resource type="PackedScene" uid="uid://0kumfvklghhg" path="res://obj/actors/hero.tscn" id="3_ufq6a"]
 [ext_resource type="Texture2D" uid="uid://bceffp1h7h6uh" path="res://assets/Walls/Walls.png" id="4_k4w6c"]
 [ext_resource type="Script" uid="uid://e1f3cpdd4m3s" path="res://src/component/camera_follow.gd" id="5_eg3qw"]
 [ext_resource type="PackedScene" uid="uid://bd60ad21iytho" path="res://src/level/rowspikes.tscn" id="6_l5pvp"]
@@ -114,10 +114,10 @@ position = Vector2(1650, 414)
 
 [node name="Camera" type="Camera2D" parent="." unique_id=325359644]
 
-[node name="CameraFollow" type="Node" parent="Camera" unique_id=1725489446 node_paths=PackedStringArray("camera", "target")]
+[node name="CameraFollow" type="Node" parent="Camera" unique_id=1725489446 node_paths=PackedStringArray("target", "_entity")]
 script = ExtResource("5_eg3qw")
-camera = NodePath("..")
 target = NodePath("../../Hero")
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://e1f3cpdd4m3s"
 
 [node name="Hero" parent="." unique_id=1140576921 instance=ExtResource("3_ufq6a")]
@@ -233,9 +233,8 @@ script = ExtResource("1_kk1mo")
 fill_color = Color(0.2645837, 0.24574038, 0.0936724, 1)
 metadata/_custom_type_script = "uid://bnkw38y6lklqh"
 
-[node name="Ladder" type="Node" parent="Ladder" unique_id=2133973464 node_paths=PackedStringArray("parent", "ignore_colliders")]
+[node name="Ladder" type="Node" parent="Ladder" unique_id=2133973464 node_paths=PackedStringArray("ignore_colliders")]
 script = ExtResource("2_j3ufp")
-parent = NodePath("..")
 ignore_colliders = [null]
 metadata/_custom_type_script = "uid://csljil2xk7thc"
 

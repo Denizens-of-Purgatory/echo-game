@@ -2,11 +2,6 @@ class_name MovementAnimator
 extends Component
 
 @export var sprite: AnimatedSprite2D = null
-@export var input_controller: InputController = null
-@export var movement: Movement = null
-@export var ground_detection: GroundDetection = null
-@export var ladder_user: LadderUser = null
-@export var dash: Dash = null
 
 @export var auto_flip: bool = true
 @export var anim_idle: StringName = "Idle"
@@ -19,6 +14,7 @@ extends Component
 @export var anim_dash_loop: StringName = "DashLoop"
 @export var anim_climb_idle: StringName = "ClimbIdle"
 @export var anim_climbing: StringName = "LadderClimb"
+@export var anim_melee: StringName = "InteractionPull"
 
 var input_controller: InputController = null
 var movement: Movement = null
@@ -71,8 +67,8 @@ func _process(_delta: float) -> void:
 		var horizontal_orientation: float = 0
 		if input_controller:
 			horizontal_orientation = input_controller.last_horizontal_facing_direction
-		elif movement:
-			horizontal_orientation = movement.move_vector.x
+		elif move_vec:
+			horizontal_orientation = move_vec.movement_vector.x
 		if horizontal_orientation < 0:
 			sprite.scale.x = -absf(sprite.scale.x)
 		elif horizontal_orientation > 0:
