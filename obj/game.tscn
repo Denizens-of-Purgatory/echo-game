@@ -2,13 +2,27 @@
 
 [ext_resource type="Script" uid="uid://dtyndql3krjbq" path="res://src/game_manager.gd" id="1_y5a5f"]
 [ext_resource type="PackedScene" uid="uid://bxca1stph2q1h" path="res://obj/camera.tscn" id="2_6d1hs"]
+[ext_resource type="Script" uid="uid://b45ibow466kxg" path="res://src/music_player.gd" id="2_f3wxv"]
 [ext_resource type="PackedScene" uid="uid://0kumfvklghhg" path="res://obj/actors/hero.tscn" id="3_f3wxv"]
+[ext_resource type="AudioStream" uid="uid://cou1iwaqcmls1" path="res://assets/sfx/music/011-MagicalCavern.ogg" id="3_mb25w"]
 
-[node name="GameManager" type="Node" unique_id=573870356 node_paths=PackedStringArray("camera", "hero")]
+[node name="GameManager" type="Node" unique_id=573870356 node_paths=PackedStringArray("music_player", "camera", "hero")]
+process_mode = 3
 script = ExtResource("1_y5a5f")
+music_player = NodePath("MusicPlayer")
 camera = NodePath("Camera")
 hero = NodePath("Hero")
 metadata/_custom_type_script = "uid://dtyndql3krjbq"
+
+[node name="MusicPlayer" type="Node" parent="." unique_id=1199775485 node_paths=PackedStringArray("audio_player")]
+script = ExtResource("2_f3wxv")
+gameplay_loop = ExtResource("3_mb25w")
+audio_player = NodePath("AudioStreamPlayer")
+metadata/_custom_type_script = "uid://b45ibow466kxg"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="MusicPlayer" unique_id=1855479939]
+stream = ExtResource("3_mb25w")
+parameters/looping = true
 
 [node name="Hero" parent="." unique_id=1140576921 instance=ExtResource("3_f3wxv")]
 

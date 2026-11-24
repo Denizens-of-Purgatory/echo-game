@@ -1,10 +1,20 @@
 class_name GameManager
 extends Node
 
+signal on_paused()
+signal on_resumed()
+
+@export var music_player: MusicPlayer = null
 @export var camera: Camera2D = null
 @export var hero: Hero = null
+
 var currentLevel: Level = null
 var elapsed_time: float = 0
+
+var _is_paused: bool = false
+
+var is_paused: bool:
+	get: return _is_paused
 
 func _search_for_level() -> void:
 	for child in get_tree().root.get_children():
@@ -59,5 +69,28 @@ func _ready() -> void:
 	
 	print("Game manager ready")
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_pressed() and event.is_action("pause_game"):
+		if is_paused: resume()
+		else: pause()
+		get_viewport().set_input_as_handled()
+
 func _process(delta: float) -> void:
-	elapsed_time += delta
+	if not _is_paused:
+		elapsed_time += delta
+
+func pause() -> void:
+	if _is_paused: return
+	
+	get_tree().paused = true
+	
+	_is_paused = true
+	on_paused.emit()
+
+func resume() -> void:
+	if not _is_paused: return
+	
+	get_tree().paused = false
+	
+	_is_paused = false
+	on_resumed.emit()
