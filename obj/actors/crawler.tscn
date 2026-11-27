@@ -63,7 +63,7 @@ metadata/_custom_type_script = "uid://k0lbiimg07hk"
 [node name="ContactDamage" type="Node" parent="." unique_id=1235219827 node_paths=PackedStringArray("hitbox", "_entity")]
 script = ExtResource("7_lqddd")
 hitbox = NodePath("../Hitbox")
-damage = 10.0
+damage = 3.0
 _entity = NodePath("..")
 metadata/_custom_type_script = "uid://bdhislghpkh3c"
 

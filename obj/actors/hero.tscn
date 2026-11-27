@@ -3,14 +3,26 @@
 [ext_resource type="Script" uid="uid://5x2nutm2sa1c" path="res://src/actor/hero.gd" id="1_el60q"]
 [ext_resource type="Script" uid="uid://bld701r3fcq2d" path="res://src/component/damage/health.gd" id="2_m1uvq"]
 [ext_resource type="Script" uid="uid://k0lbiimg07hk" path="res://src/component/movement/ground_movement.gd" id="2_t8fna"]
+[ext_resource type="Script" uid="uid://60ewolyrdeju" path="res://src/component/hero_sfx.gd" id="2_xff1e"]
+[ext_resource type="AudioStream" uid="uid://bcyncqy4agoyh" path="res://assets/sfx/gameplay/player_death.wav" id="3_25vpj"]
+[ext_resource type="AudioStream" uid="uid://dahvhm7j10lx8" path="res://assets/sfx/gameplay/player_hurt0.wav" id="3_c34dr"]
+[ext_resource type="AudioStream" uid="uid://fqk1a1cpcc72" path="res://assets/sfx/gameplay/jump.wav" id="3_ofcbm"]
 [ext_resource type="Script" uid="uid://8tidub3buupu" path="res://src/component/movement/ground_detection.gd" id="3_pcbbo"]
+[ext_resource type="AudioStream" uid="uid://cdurqbhlhm1v0" path="res://assets/sfx/gameplay/footstep0.wav" id="3_xrek7"]
 [ext_resource type="Script" uid="uid://qg13ywutd1oc" path="res://src/component/input_controller.gd" id="4_4c2rd"]
+[ext_resource type="AudioStream" uid="uid://dwajfc8p6c02k" path="res://assets/sfx/gameplay/footstep1.wav" id="4_7q68b"]
 [ext_resource type="Script" uid="uid://e1fyl8sa5y8g" path="res://src/component/damage/damageable.gd" id="4_fnujx"]
+[ext_resource type="AudioStream" uid="uid://bh8kntuydm8m3" path="res://assets/sfx/gameplay/player_hurt1.wav" id="4_ofcbm"]
+[ext_resource type="AudioStream" uid="uid://yso1divuddya" path="res://assets/sfx/gameplay/player_hurt2.wav" id="5_78xu5"]
 [ext_resource type="Script" uid="uid://n7kixcd52vn7" path="res://src/component/movement_animator.gd" id="5_1423e"]
+[ext_resource type="AudioStream" uid="uid://ctmuvijhba7u1" path="res://assets/sfx/gameplay/footstep2.wav" id="5_mguld"]
+[ext_resource type="AudioStream" uid="uid://8hkgunfl1jn3" path="res://assets/sfx/gameplay/footstep3.wav" id="6_1ywol"]
 [ext_resource type="Script" uid="uid://dryu50g7kj4iq" path="res://src/component/damage/stun.gd" id="6_mvchi"]
 [ext_resource type="Script" uid="uid://nefanyx8s75e" path="res://src/component/movement/dash.gd" id="6_vjaxa"]
 [ext_resource type="Script" uid="uid://dsdbxyhccf5fo" path="res://src/component/movement/ladder_user.gd" id="7_46d1e"]
 [ext_resource type="Script" uid="uid://bsgvr8j4pdur4" path="res://src/component/movement/ground_jump.gd" id="7_ctkup"]
+[ext_resource type="AudioStream" uid="uid://cbhprufmkwjis" path="res://assets/sfx/gameplay/footstep4.wav" id="7_nk843"]
+[ext_resource type="AudioStream" uid="uid://dx148vfphvurk" path="res://assets/sfx/gameplay/footstep5.wav" id="8_5in8y"]
 [ext_resource type="Script" uid="uid://bkiex56ji6k26" path="res://src/component/movement/platform_dropthrough.gd" id="8_5qfj1"]
 [ext_resource type="Script" uid="uid://7kmhc7hktvem" path="res://src/component/damage/death.gd" id="10_cslia"]
 [ext_resource type="Material" uid="uid://d1w4385ao0maa" path="res://assets/color_swap/color_swap.tres" id="13_30wli"]
@@ -19,6 +31,21 @@
 [ext_resource type="Script" uid="uid://jmux6linguce" path="res://src/component/projectile_attack.gd" id="16_0grmx"]
 [ext_resource type="Script" uid="uid://842dtvcq7yaj" path="res://src/component/movement/movement_vector.gd" id="16_s4skh"]
 [ext_resource type="PackedScene" uid="uid://ccdjc7722gef5" path="res://obj/entities/projectile.tscn" id="17_bl86j"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_78xu5"]
+streams_count = 6
+stream_0/stream = ExtResource("3_xrek7")
+stream_1/stream = ExtResource("4_7q68b")
+stream_2/stream = ExtResource("5_mguld")
+stream_3/stream = ExtResource("6_1ywol")
+stream_4/stream = ExtResource("7_nk843")
+stream_5/stream = ExtResource("8_5in8y")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_hu50j"]
+streams_count = 3
+stream_0/stream = ExtResource("3_c34dr")
+stream_1/stream = ExtResource("4_ofcbm")
+stream_2/stream = ExtResource("5_78xu5")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5vl63"]
 size = Vector2(26, 48)
@@ -2222,6 +2249,28 @@ input_controller = NodePath("InputController")
 ladder_user = NodePath("LadderUser")
 title = "Echo"
 metadata/_custom_type_script = "uid://5x2nutm2sa1c"
+
+[node name="HeroSfx" type="Node" parent="." unique_id=469168052 node_paths=PackedStringArray("footstep_stream", "hurt_stream", "death_stream", "jump_stream", "dash_stream", "_entity")]
+script = ExtResource("2_xff1e")
+footstep_stream = NodePath("Footsteps")
+hurt_stream = NodePath("Hurt")
+death_stream = NodePath("Death")
+jump_stream = NodePath("Jump")
+dash_stream = NodePath("Jump")
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://60ewolyrdeju"
+
+[node name="Footsteps" type="AudioStreamPlayer" parent="HeroSfx" unique_id=522852468]
+stream = SubResource("AudioStreamRandomizer_78xu5")
+
+[node name="Jump" type="AudioStreamPlayer" parent="HeroSfx" unique_id=14669107]
+stream = ExtResource("3_ofcbm")
+
+[node name="Hurt" type="AudioStreamPlayer" parent="HeroSfx" unique_id=574617530]
+stream = SubResource("AudioStreamRandomizer_hu50j")
+
+[node name="Death" type="AudioStreamPlayer" parent="HeroSfx" unique_id=1370146650]
+stream = ExtResource("3_25vpj")
 
 [node name="Health" type="Node" parent="." unique_id=1107911229 node_paths=PackedStringArray("_entity")]
 script = ExtResource("2_m1uvq")
