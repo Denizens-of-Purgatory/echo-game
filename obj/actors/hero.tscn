@@ -30,7 +30,7 @@
 [ext_resource type="Script" uid="uid://dv5t3a5n8iuhd" path="res://src/component/melee_attack.gd" id="14_ytrcm"]
 [ext_resource type="Script" uid="uid://jmux6linguce" path="res://src/component/projectile_attack.gd" id="16_0grmx"]
 [ext_resource type="Script" uid="uid://842dtvcq7yaj" path="res://src/component/movement/movement_vector.gd" id="16_s4skh"]
-[ext_resource type="PackedScene" uid="uid://ccdjc7722gef5" path="res://obj/entities/projectile.tscn" id="17_bl86j"]
+[ext_resource type="PackedScene" uid="uid://ccdjc7722gef5" path="res://obj/entities/hero_projectile.tscn" id="17_bl86j"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_78xu5"]
 streams_count = 6

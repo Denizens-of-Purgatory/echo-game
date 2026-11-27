@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://dnfeubtjjv8w0" path="res://src/component/environment/level.gd" id="6_doww4"]
 [ext_resource type="PackedScene" uid="uid://dk78etxfuc3oe" path="res://obj/environment/next_level_portal.tscn" id="7_ta6hp"]
 [ext_resource type="PackedScene" uid="uid://hupn30wnxt51" path="res://obj/levels/level01.tscn" id="8_em65g"]
+[ext_resource type="Script" uid="uid://dotxd3ydru4qa" path="res://src/actor/actor.gd" id="9_ayf5q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wg718"]
 size = Vector2(1024, 64)
@@ -147,6 +148,10 @@ position = Vector2(176, 112)
 
 [node name="LevelPortal" parent="NextLevelPortal" index="2" unique_id=399445750]
 next_level_scene = ExtResource("8_em65g")
+
+[node name="Turret" type="RigidBody2D" parent="." unique_id=544969853]
+script = ExtResource("9_ayf5q")
+metadata/_custom_type_script = "uid://dotxd3ydru4qa"
 
 [editable path="TerrainAreas/Ladder"]
 [editable path="NextLevelPortal"]

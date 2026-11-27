@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cmki0aa0h4pu2"]
+
+[ext_resource type="Script" uid="uid://dotxd3ydru4qa" path="res://src/actor/actor.gd" id="1_vlj3n"]
+[ext_resource type="Script" uid="uid://jmux6linguce" path="res://src/component/projectile_attack.gd" id="2_qnt0h"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o3jbo"]
+radius = 8.0
+
+[node name="Turret" type="RigidBody2D" unique_id=721404364]
+script = ExtResource("1_vlj3n")
+metadata/_custom_type_script = "uid://dotxd3ydru4qa"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1464491921]
+shape = SubResource("CapsuleShape2D_o3jbo")
+
+[node name="ProjectileAttack" type="Node" parent="." unique_id=368585147]
+script = ExtResource("2_qnt0h")
+metadata/_custom_type_script = "uid://jmux6linguce"
