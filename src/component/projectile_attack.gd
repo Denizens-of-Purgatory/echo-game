@@ -5,6 +5,7 @@ extends Component
 @export var projectile_spawnpoint: Node2D = null
 @export var aim_to_movement: bool = true
 @export var aim_to_target: bool = false
+@export var auto_attack: bool = false
 @export var cooldown: float = 1
 
 var movement: MovementVector = null
@@ -34,6 +35,8 @@ func _physics_process(delta: float) -> void:
 		var dif := targeting.target.global_position - entity2d.global_position
 		dif.normalized()
 		aim = dif
+		if auto_attack:
+			_handle_auto_attack()
 	elif aim_to_movement:
 		if movement.movement_vector.x != 0:
 			aim.x = signf(movement.movement_vector.x)
@@ -41,6 +44,10 @@ func _physics_process(delta: float) -> void:
 		_wait -= delta
 		if _wait < 0:
 			_wait = 0
+
+func _handle_auto_attack() -> void:
+	if _wait > 0: return
+	attack()
 
 func attack() -> void:
 	if _wait > 0: return

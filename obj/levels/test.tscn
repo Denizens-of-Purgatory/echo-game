@@ -138,7 +138,7 @@ ignore_colliders = [NodePath("../../../Terrain/UpperFloor")]
 [node name="Camera" parent="." unique_id=1135763348 instance=ExtResource("4_em65g")]
 
 [node name="Crawler" parent="." unique_id=1410108048 instance=ExtResource("5_3i6cy")]
-position = Vector2(64, -112)
+position = Vector2(-168, 40)
 
 [node name="Hero" parent="." unique_id=1140576921 instance=ExtResource("1_wg718")]
 position = Vector2(-64, 64)
@@ -150,6 +150,7 @@ position = Vector2(176, 112)
 next_level_scene = ExtResource("8_em65g")
 
 [node name="Turret" parent="." unique_id=721404364 instance=ExtResource("9_ayf5q")]
+position = Vector2(-56, -120)
 
 [editable path="TerrainAreas/Ladder"]
 [editable path="NextLevelPortal"]

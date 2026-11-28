@@ -2,17 +2,65 @@
 
 [ext_resource type="Script" uid="uid://dotxd3ydru4qa" path="res://src/actor/actor.gd" id="1_vlj3n"]
 [ext_resource type="Script" uid="uid://jmux6linguce" path="res://src/component/projectile_attack.gd" id="2_qnt0h"]
+[ext_resource type="PackedScene" uid="uid://cpdh0sxshminh" path="res://obj/entities/turret_projectile.tscn" id="3_l2xea"]
+[ext_resource type="Script" uid="uid://bsn016c10ia1y" path="res://src/component/targeting.gd" id="4_6pb2p"]
+[ext_resource type="Script" uid="uid://bnkw38y6lklqh" path="res://src/testing/render_collision.gd" id="5_ckeak"]
+[ext_resource type="Script" uid="uid://e1fyl8sa5y8g" path="res://src/component/damage/damageable.gd" id="6_4w1b6"]
+[ext_resource type="Script" uid="uid://bld701r3fcq2d" path="res://src/component/damage/health.gd" id="7_s0l2a"]
+[ext_resource type="Script" uid="uid://7kmhc7hktvem" path="res://src/component/damage/death.gd" id="8_3d7dh"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o3jbo"]
 radius = 8.0
 
 [node name="Turret" type="RigidBody2D" unique_id=721404364]
 script = ExtResource("1_vlj3n")
+title = "Turret Enemy"
 metadata/_custom_type_script = "uid://dotxd3ydru4qa"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1464491921]
 shape = SubResource("CapsuleShape2D_o3jbo")
+debug_color = Color(0.94016016, 0.0068014525, 0.61543477, 0.41960785)
 
-[node name="ProjectileAttack" type="Node" parent="." unique_id=368585147]
+[node name="RenderCollision" type="Node" parent="." unique_id=2012242853]
+script = ExtResource("5_ckeak")
+fill_color = Color(1, 0, 0.13333334, 1)
+metadata/_custom_type_script = "uid://bnkw38y6lklqh"
+
+[node name="Targeting" type="Node" parent="." unique_id=2128492796 node_paths=PackedStringArray("_entity")]
+script = ExtResource("4_6pb2p")
+target_hero = true
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://bsn016c10ia1y"
+
+[node name="ProjectileAttack" type="Node" parent="." unique_id=368585147 node_paths=PackedStringArray("projectile", "projectile_spawnpoint", "_entity")]
 script = ExtResource("2_qnt0h")
+projectile = NodePath("Projectile")
+projectile_spawnpoint = NodePath("..")
+aim_to_movement = false
+aim_to_target = true
+auto_attack = true
+cooldown = 3.0
+_entity = NodePath("..")
 metadata/_custom_type_script = "uid://jmux6linguce"
+
+[node name="Projectile" parent="ProjectileAttack" unique_id=1335915349 instance=ExtResource("3_l2xea")]
+
+[node name="Damageable" type="Node" parent="." unique_id=885095564 node_paths=PackedStringArray("_entity")]
+script = ExtResource("6_4w1b6")
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://e1fyl8sa5y8g"
+
+[node name="Health" type="Node" parent="." unique_id=1547536678 node_paths=PackedStringArray("_entity")]
+script = ExtResource("7_s0l2a")
+max_health = 1.0
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://bld701r3fcq2d"
+
+[node name="Death" type="Node" parent="." unique_id=153748381 node_paths=PackedStringArray("_entity")]
+script = ExtResource("8_3d7dh")
+destroy_on_death = true
+_entity = NodePath("..")
+metadata/_custom_type_script = "uid://7kmhc7hktvem"
+
+[connection signal="on_damaged" from="Damageable" to="Health" method="_on_damage_recieved"]
+[connection signal="on_health_depleted" from="Health" to="Death" method="die"]
